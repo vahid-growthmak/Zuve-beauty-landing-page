@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="soft" data-shade="sand" data-page="product">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#E8D6C9" />
+  <meta name="description" content="Sand — Light tan. Sun-warmed, sea-adjacent. The Soft Muse, by ZUVE Beauty. 10-free formula, 72-hour wear." />
+  <title>Sand &mdash; The Soft Muse | ZUVE Beauty</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <link rel="stylesheet" href="../assets/css/pdp.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Announcement Bar -->
+  <div class="announcement" role="region" aria-label="Promotional announcement">
+    <div class="announcement__track">
+      <span>First Drop is Live &mdash; Reserve Your Set</span>
+      <span class="announcement__dot" aria-hidden="true">&#9670;</span>
+      <span>Complimentary Delivery on Orders Above &#8377;999</span>
+      <span class="announcement__dot" aria-hidden="true">&#9670;</span>
+      <span>The Evening Collection &mdash; Closes in <span id="announceCountdown">48:00:00</span></span>
+      <span class="announcement__dot" aria-hidden="true">&#9670;</span>
+      <span>First Drop is Live &mdash; Reserve Your Set</span>
+      <span class="announcement__dot" aria-hidden="true">&#9670;</span>
+      <span>Complimentary Delivery on Orders Above &#8377;999</span>
+      <span class="announcement__dot" aria-hidden="true">&#9670;</span>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <button class="nav__menu" id="navToggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav__links" aria-label="Primary">
+        <a href="../index.html#soft-muse">Collections</a>
+        <a href="../index.html#ritual">Rituals</a>
+        <a href="../index.html#story">About</a>
+        <a href="../index.html#journal">Journal</a>
+      </nav>
+
+      <a href="../index.html" class="nav__logo" aria-label="ZUVE Beauty home">
+        <svg class="logo-svg" viewBox="0 0 200 240" fill="currentColor" aria-hidden="true" style="width: auto; height: 56px;">
+          <polygon points="97,16 103,10 103,150 97,144" />
+          <rect x="40" y="40" width="120" height="6" />
+          <rect x="40" y="40" width="6" height="40" />
+          <polygon points="120,40 160,40 80,140 40,140" />
+          <rect x="40" y="134" width="120" height="6" />
+          <text x="104" y="195" font-family="'Cormorant Garamond', serif" font-size="44" font-weight="400" letter-spacing="0.1em" text-anchor="middle">ZUVĒ</text>
+          <text x="106" y="220" font-family="'Inter', sans-serif" font-size="14" font-weight="400" letter-spacing="0.3em" text-anchor="middle">BEAUTY</text>
+        </svg>
+      </a>
+
+      <div class="nav__icons">
+        <button class="icon-btn" aria-label="Search">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+          </svg>
+        </button>
+        <button class="icon-btn" aria-label="Account">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6"></path>
+          </svg>
+        </button>
+        <button class="icon-btn icon-btn--bag" aria-label="Bag, 0 items">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+            <path d="M5 8h14l-1.2 12.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 8z"></path>
+            <path d="M9 8V6a3 3 0 0 1 6 0v2"></path>
+          </svg>
+          <span class="icon-btn__count" aria-hidden="true">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <div class="mobile-menu__bg" aria-hidden="true"></div>
+    <button class="mobile-menu__close" id="navClose" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.4">
+        <line x1="5" y1="5" x2="19" y2="19"></line>
+        <line x1="19" y1="5" x2="5" y2="19"></line>
+      </svg>
+    </button>
+    <nav class="mobile-menu__nav" aria-label="Mobile primary">
+      <a href="../index.html#soft-muse">Collections</a>
+      <a href="../index.html#ritual">Rituals</a>
+      <a href="../index.html#story">About</a>
+      <a href="../index.html#journal">Journal</a>
+    </nav>
+    <p class="mobile-menu__tag">Beauty is a ritual, not a routine.</p>
+  </div>
+
+  <main id="main" class="product" data-product>
+
+    <!-- Breadcrumb -->
+    <nav class="product__crumbs" aria-label="Breadcrumb">
+      <div class="product__crumbs-inner">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html#soft-muse" data-product-collection-link>The Soft Muse</a></li>
+          <li aria-current="page" data-product-name>Veil</li>
+        </ol>
+        <span class="pdp__mode-badge pill" data-mode-badge>Soft Muse Edit</span>
+      </div>
+    </nav>
+
+    <!-- ============================================================
+         SECTION 1 — PRODUCT GALLERY + DETAILS
+         ============================================================ -->
+    <section class="pdp" aria-labelledby="pdpLabel">
+
+      <div class="pdp__gallery">
+        <figure class="pdp__hero">
+          <span class="pdp__hero-shade" data-product-shade aria-hidden="true"></span>
+          <img class="pdp__hero-img" src="" alt="" data-product-image />
+          <span class="pdp__hero-tag" data-product-tag hidden></span>
+          <figcaption class="pdp__hero-cap">
+            <span data-product-number>No. 01</span>
+            <span data-product-finish>Glazed</span>
+          </figcaption>
+        </figure>
+
+        <div class="pdp__thumbs" role="tablist" aria-label="Product views">
+          <button class="pdp__thumb is-active" role="tab" aria-selected="true" data-thumb="hero">
+            <span class="pdp__thumb-swatch" data-product-shade aria-hidden="true"></span>
+          </button>
+          <button class="pdp__thumb" role="tab" aria-selected="false" data-thumb="macro">
+            <span class="pdp__thumb-macro" data-product-shade aria-hidden="true"></span>
+          </button>
+          <button class="pdp__thumb" role="tab" aria-selected="false" data-thumb="hand">
+            <span class="pdp__thumb-hand"></span>
+          </button>
+          <button class="pdp__thumb" role="tab" aria-selected="false" data-thumb="bottle">
+            <span class="pdp__thumb-bottle"></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="pdp__details">
+        <span class="eyebrow" data-product-collection>I &mdash; Soft Muse <span aria-hidden="true">·</span> <span data-product-number>No. 01</span></span>
+
+        <h1 id="pdpLabel" class="pdp__title display-1" data-product-name>Veil</h1>
+        <p class="pdp__sub-label"><span data-product-number>No. 01</span> &mdash; <span data-product-finish>Glazed</span> Finish</p>
+
+        <a href="#reviews" class="pdp__stars" aria-label="4.8 out of 5 stars, 124 reviews">
+          <span aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9734;</span> 4.8 (124 reviews)
+        </a>
+        <p class="pdp__reserved" data-product-reserved><em>240 sets reserved this week</em></p>
+
+        <p class="pdp__tagline" data-product-tagline>A second-skin nude. The hand, unbothered.</p>
+
+        <div class="pdp__shade-selector">
+          <div class="pdp__shade-selector-head">
+            <span class="pdp__shade-count">11 Shades in this Collection</span>
+          </div>
+          <div class="pdp__swatch-grid" role="radiogroup" aria-label="Select a shade" data-swatch-grid>
+            <!-- Generated by JS -->
+          </div>
+          <p class="pdp__shade-active-name">Currently selected: <strong data-product-name>Veil</strong></p>
+        </div>
+
+        <div class="pdp__specs-row">
+          <dl class="pdp__specs">
+            <div>
+              <dt>Finish</dt>
+              <dd data-product-finish>Glazed</dd>
+            </div>
+            <div>
+              <dt>Undertone</dt>
+              <dd data-product-undertone>Warm</dd>
+            </div>
+            <div>
+              <dt>Wear</dt>
+              <dd data-product-wear>72 hours</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="pdp__divider" aria-hidden="true"></div>
+
+        <div class="pdp__buy">
+          <div class="pdp__price-block">
+            <span class="pdp__price-label">From</span>
+            <span class="pdp__price">&#8377;<span data-product-price>1,200</span></span>
+            <span class="pdp__price-size">15ml / 0.5 fl oz</span>
+          </div>
+          <div class="pdp__qty" role="group" aria-label="Quantity">
+            <button class="pdp__qty-btn" data-qty="-1" aria-label="Decrease quantity">&minus;</button>
+            <span class="pdp__qty-num" id="pdpQty" aria-live="polite">1</span>
+            <button class="pdp__qty-btn" data-qty="+1" aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+
+        <button class="btn btn--filled btn--brown pdp__cta" type="button" data-product-cta>
+          <span>Reserve Your Set</span>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <polyline points="14 6 20 12 14 18"></polyline>
+          </svg>
+        </button>
+
+        <p class="pdp__inventory" data-product-inventory>
+          <span class="pdp__inventory-dot" aria-hidden="true"></span>
+          In stock &mdash; ships in 24 hours
+        </p>
+
+        <ul class="pdp__trust-row" aria-label="Trust Signals">
+          <li>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            10-Free Formula
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M8 12l2.5 2.5L16 9"></path>
+            </svg>
+            Never Tested
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            72-Hour Wear
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <rect x="3" y="6" width="13" height="11" rx="1"></rect>
+              <path d="M16 9h3l2 3v5h-5z"></path>
+              <circle cx="7" cy="18" r="1.5"></circle>
+              <circle cx="18" cy="18" r="1.5"></circle>
+            </svg>
+            Free above &#8377;999
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         ZONE 4 — THE FORMULA STORY
+         ============================================================ -->
+    <section class="pdp-formula" aria-labelledby="formulaLabel">
+      <div class="pdp-formula__inner">
+        <div class="pdp-formula__col-left">
+          <h2 id="formulaLabel" class="display-2 pdp-formula__title">
+            The Formula Behind the Ritual
+          </h2>
+          <p class="pdp-formula__copy">
+            Every ZUVE shade begins with a question: what does this colour feel like on skin? The answer is always the same &mdash; effortless, safe, and built to last.
+          </p>
+          <a href="/pages/formula" class="btn btn--ghost link-arrow">Read the Full Formula Story</a>
+        </div>
+        <div class="pdp-formula__col-right">
+          <div class="pdp-formula__cards">
+            <article class="ingredient-card">
+              <h3 class="ingredient-card__name">Biotin Complex</h3>
+              <p class="ingredient-card__role">Strengthens nail bed</p>
+              <p class="ingredient-card__benefit">Prevents brittleness over time</p>
+            </article>
+            <article class="ingredient-card">
+              <h3 class="ingredient-card__name">Vitamin E</h3>
+              <p class="ingredient-card__role">Deep hydration</p>
+              <p class="ingredient-card__benefit">Protects cuticles from drying</p>
+            </article>
+            <article class="ingredient-card">
+              <h3 class="ingredient-card__name">Micro-Silica</h3>
+              <p class="ingredient-card__role">Self-leveling finish</p>
+              <p class="ingredient-card__benefit">Fills ridges for glass-like shine</p>
+            </article>
+          </div>
+          <div class="pdp-formula__badges">
+            <ul class="badge-row">
+              <li class="pill">No Formaldehyde</li>
+              <li class="pill">No Toluene</li>
+              <li class="pill">No DBP</li>
+              <li class="pill">No Camphor</li>
+              <li class="pill">No Resin</li>
+              <li class="pill">No Xylene</li>
+              <li class="pill">No Parabens</li>
+              <li class="pill">No Animal Ingredients</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         ZONE 5 — THE APPLICATION RITUAL
+         ============================================================ -->
+    <section class="pdp-ritual" aria-labelledby="ritualLabel">
+      <header class="pdp-ritual__head">
+        <h2 id="ritualLabel" class="display-2">The Application Ritual</h2>
+      </header>
+
+      <div class="pdp-ritual__content">
+        <ol class="pdp-ritual__stepper">
+          <li class="pdp-ritual__step">
+            <span class="pdp-ritual__num">01</span>
+            <div class="pdp-ritual__step-icon">
+              <!-- SVG Nail File -->
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            </div>
+            <h3 class="pdp-ritual__title">Prepare the Canvas</h3>
+            <p class="pdp-ritual__copy">clean, buff, base coat.</p>
+          </li>
+          <li class="pdp-ritual__step">
+            <span class="pdp-ritual__num">02</span>
+            <div class="pdp-ritual__step-icon">
+              <!-- SVG Brush -->
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20"></path><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            </div>
+            <h3 class="pdp-ritual__title">Lay the First Coat</h3>
+            <p class="pdp-ritual__copy">thin stroke, 60 seconds.</p>
+          </li>
+          <li class="pdp-ritual__step">
+            <span class="pdp-ritual__num">03</span>
+            <div class="pdp-ritual__step-icon">
+              <!-- SVG Sparkle -->
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            </div>
+            <h3 class="pdp-ritual__title">Set the Ritual</h3>
+            <p class="pdp-ritual__copy">second coat + top coat, 90 seconds.</p>
+          </li>
+        </ol>
+
+        <div class="pdp-ritual__tip">
+          <blockquote>
+            <em>&ldquo;Two thin coats outlast one thick one. Every time.&rdquo;</em>
+          </blockquote>
+          <button class="btn btn--ghost link-arrow" aria-haspopup="dialog">Watch the Full Ritual</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         ZONE 6 — COMPLETE THE RITUAL (Cross-sell)
+         ============================================================ -->
+    <section class="pdp-pair" aria-labelledby="pairLabel">
+      <header class="pdp-pair__head">
+        <h2 id="pairLabel" class="display-2 pdp-pair__title">Complete the Ritual</h2>
+      </header>
+
+      <div class="pdp-pair__grid" data-product-pair-grid>
+        <!-- Cards rendered by JS -->
+      </div>
+    </section>
+
+    <!-- ============================================================
+         ZONE 7 — SHADE IN THE WILD (UGC)
+         ============================================================ -->
+    <section class="pdp-ugc" aria-labelledby="ugcLabel">
+      <header class="pdp-ugc__head">
+        <span class="eyebrow">THIS SHADE IN THE WILD</span>
+        <h2 id="ugcLabel" class="display-2 pdp-ugc__title">Real Nails. Real Rituals.</h2>
+      </header>
+      <div class="pdp-ugc__grid">
+        <div class="pdp-ugc__item"><div class="pdp-ugc__placeholder"></div><div class="pdp-ugc__hover"><span class="pdp-ugc__handle">@zuvebeauty</span><button class="btn btn--ghost-light">Shop This Shade</button></div></div>
+        <div class="pdp-ugc__item"><div class="pdp-ugc__placeholder"></div><div class="pdp-ugc__hover"><span class="pdp-ugc__handle">@zuvebeauty</span><button class="btn btn--ghost-light">Shop This Shade</button></div></div>
+        <div class="pdp-ugc__item"><div class="pdp-ugc__placeholder"></div><div class="pdp-ugc__hover"><span class="pdp-ugc__handle">@zuvebeauty</span><button class="btn btn--ghost-light">Shop This Shade</button></div></div>
+        <div class="pdp-ugc__item"><div class="pdp-ugc__placeholder"></div><div class="pdp-ugc__hover"><span class="pdp-ugc__handle">@zuvebeauty</span><button class="btn btn--ghost-light">Shop This Shade</button></div></div>
+        <div class="pdp-ugc__item"><div class="pdp-ugc__placeholder"></div><div class="pdp-ugc__hover"><span class="pdp-ugc__handle">@zuvebeauty</span><button class="btn btn--ghost-light">Shop This Shade</button></div></div>
+      </div>
+      <p class="pdp-ugc__cta">Tag us @zuvebeauty for a chance to be featured</p>
+    </section>
+
+    <!-- ============================================================
+         ZONE 8 — THE RITUAL VERDICT (Reviews)
+         ============================================================ -->
+    <section class="pdp-reviews" aria-labelledby="reviewsLabel" id="reviews">
+      <header class="pdp-reviews__head">
+        <h2 id="reviewsLabel" class="display-2">The Ritual Verdict</h2>
+      </header>
+
+      <div class="pdp-reviews__summary">
+        <div class="pdp-reviews__rating">
+          <span class="pdp-reviews__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+          <span class="pdp-reviews__score">4.8</span>
+        </div>
+        <div class="pdp-reviews__filters">
+          <button class="pill is-active">Most Recent</button>
+          <button class="pill">Most Helpful</button>
+          <button class="pill">Verified</button>
+          <button class="pill">With Photos</button>
+        </div>
+      </div>
+
+      <div class="pdp-reviews__list">
+        <article class="pdp-review-card">
+          <div class="pdp-review-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <h3 class="pdp-review-card__title">The kind of nude that doesn't feel like wearing nothing.</h3>
+          <p class="pdp-review-card__body">I bought it for a wedding and ended up wearing it for three weeks. It became part of how I wanted to dress.</p>
+          <div class="pdp-review-card__meta">
+            <span class="pdp-review-card__author">Anaya, Bangalore</span>
+            <span class="pdp-review-card__badge">Verified</span>
+            <span class="pdp-review-card__date">1 month ago</span>
+          </div>
+        </article>
+        <article class="pdp-review-card">
+          <div class="pdp-review-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <h3 class="pdp-review-card__title">Three coats, no streaks.</h3>
+          <p class="pdp-review-card__body">I've stopped buying anything else. Survived a week of typing without chipping. I'm sold.</p>
+          <div class="pdp-review-card__meta">
+            <span class="pdp-review-card__author">Tara K., Pune</span>
+            <span class="pdp-review-card__badge">Verified</span>
+            <span class="pdp-review-card__date">2 months ago</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="pdp-reviews__actions">
+        <button class="btn btn--ghost link-arrow">Load More Reviews</button>
+        <button class="btn btn--ghost link-arrow">Share Your Ritual</button>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         ZONE 9 — RITUAL CLUB CAPTURE
+         ============================================================ -->
+    <section class="pdp-ritual-club">
+      <div class="pdp-ritual-club__inner">
+        <h2 class="display-2 pdp-ritual-club__title">Be First for the Next Drop</h2>
+        <p class="pdp-ritual-club__copy">Join the Ritual Club for early access, exclusive shades, and complimentary samples.</p>
+        <form class="pdp-ritual-club__form">
+          <input type="email" placeholder="Your email address" aria-label="Email address" required>
+          <button type="submit" class="btn btn--filled btn--brown">Begin the Ritual</button>
+        </form>
+        <p class="pdp-ritual-club__privacy">We never share your ritual.</p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         ZONE 10 — CONTEXTUAL DISCOVERY ROW
+         ============================================================ -->
+    <section class="pdp-more" aria-labelledby="moreLabel">
+      <header class="pdp-more__head">
+        <h2 id="moreLabel" class="display-2 pdp-more__title">Others in This Ritual</h2>
+      </header>
+
+      <div class="pdp-more__grid" data-product-more-grid>
+        <!-- Cards rendered by JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer__top">
+      <a href="../index.html" class="footer__logo" aria-label="ZUVE Beauty home">
+        <svg class="logo-svg" viewBox="0 0 200 240" fill="currentColor" aria-hidden="true" style="width: auto; height: 80px;">
+          <polygon points="97,16 103,10 103,150 97,144" />
+          <rect x="40" y="40" width="120" height="6" />
+          <rect x="40" y="40" width="6" height="40" />
+          <polygon points="120,40 160,40 80,140 40,140" />
+          <rect x="40" y="134" width="120" height="6" />
+          <text x="104" y="195" font-family="'Cormorant Garamond', serif" font-size="44" font-weight="400" letter-spacing="0.1em" text-anchor="middle">ZUVĒ</text>
+          <text x="106" y="220" font-family="'Inter', sans-serif" font-size="14" font-weight="400" letter-spacing="0.3em" text-anchor="middle">BEAUTY</text>
+        </svg>
+      </a>
+      <p class="footer__statement">
+        <em>Your nails. Your ritual. Your story.</em>
+      </p>
+    </div>
+
+    <div class="footer__cols">
+      <div>
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="../index.html#soft-muse">The Soft Muse</a></li>
+          <li><a href="../index.html#dark-siren">The Dark Siren</a></li>
+          <li><a href="#">New Drops</a></li>
+          <li><a href="#">Gift Sets</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Rituals</h4>
+        <ul>
+          <li><a href="#">Shade Finder</a></li>
+          <li><a href="#">Application Guide</a></li>
+          <li><a href="#">Ritual Club</a></li>
+          <li><a href="#">The Journal</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">Our Story</a></li>
+          <li><a href="#">Sustainability</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Shipping</a></li>
+          <li><a href="#">Returns</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__social" aria-label="Social media">
+      <a href="#" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+          <circle cx="12" cy="12" r="4"></circle>
+          <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"></circle>
+        </svg>
+      </a>
+      <a href="#" aria-label="Pinterest">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4">
+          <circle cx="12" cy="12" r="9"></circle>
+          <path d="M11 7c3 0 5 1.6 5 4.3 0 2.7-1.6 4.5-3.7 4.5-1.1 0-2-.6-2.3-1.3l-.6 2.3c-.2.8-.9 1.8-1.4 2.4"></path>
+          <line x1="10.5" y1="14.5" x2="12.5" y2="7.5"></line>
+        </svg>
+      </a>
+      <a href="#" aria-label="YouTube">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="2" y="6" width="20" height="12" rx="3"></rect>
+          <polygon points="10 9 15 12 10 15" fill="currentColor"></polygon>
+        </svg>
+      </a>
+      <a href="#" aria-label="TikTok">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4">
+          <path d="M14 4v9.5a3.5 3.5 0 1 1-3.5-3.5"></path>
+          <path d="M14 4c.5 2.5 2 4 4.5 4"></path>
+        </svg>
+      </a>
+    </div>
+
+    <div class="footer__legal">
+      <p>&copy; 2026 ZUVE Beauty. Crafted in India.</p>
+      <ul>
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms</a></li>
+        <li><a href="#">Refund Policy</a></li>
+        <li><a href="#">Accessibility</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Sticky add-to-cart bar -->
+  <div class="pdp-sticky" id="pdpSticky" aria-hidden="true">
+    <div class="pdp-sticky__inner">
+      <div class="pdp-sticky__info">
+        <span class="pdp-sticky__shade" data-product-shade aria-hidden="true"></span>
+        <div class="pdp-sticky__text">
+          <strong data-product-name>Veil</strong>
+          <span class="pdp-sticky__sub">
+            <span data-product-finish>Glazed</span> <span aria-hidden="true">·</span> &#8377;<span data-product-price>1,200</span>
+          </span>
+        </div>
+      </div>
+      <button class="btn btn--filled btn--brown btn--sm" type="button" data-product-cta>
+        <span>Reserve Your Set</span>
+      </button>
+    </div>
+  </div>
+
+  <script src="../assets/js/script.js"></script>
+  <script src="../assets/js/product.js"></script>
+</body>
+</html>
