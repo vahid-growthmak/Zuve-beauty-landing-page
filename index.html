@@ -168,9 +168,9 @@
     <div class="transition-wrap" id="gradientWrap">
 
       <!-- ============================================================
-           SECTION 3 — FEATURED DROP
+           SECTION 3 — FEATURED DROP (Editorial Spread)
            ============================================================ -->
-      <section class="drop" aria-labelledby="dropLabel">
+      <section class="drop drop--editorial" aria-labelledby="dropLabel">
         <div class="drop__media">
           <img src="assets/images/drop_evening.png" alt="The Evening Collection" class="drop__img" />
           <div class="drop__swatch" aria-hidden="true">
@@ -186,29 +186,43 @@
             <span class="drop__badge-dot"></span>
             Limited Drop &middot; Closes in <span id="dropCountdown">47:59:42</span>
           </span>
+          <span class="drop__caption" aria-hidden="true">Shot No. 07 &mdash; <em>Velvet, on velvet.</em></span>
         </div>
 
         <div class="drop__content">
+          <aside class="drop__rail" aria-hidden="true">
+            <span class="drop__rail-num">II</span>
+            <span class="drop__rail-text">Edition Two &middot; Evening</span>
+          </aside>
+
           <span class="eyebrow">The Latest Drop</span>
           <h2 id="dropLabel" class="display-2">The Evening<br /><em>Collection</em></h2>
           <p class="lede">
             Seven shades, one story. From the moment the sun dips &mdash; to the ritual that begins.
           </p>
 
-          <ul class="drop__shades" aria-label="Featured shades">
-            <li><span style="background:#8A0E17"></span>Reign</li>
-            <li><span style="background:#5B1421"></span>Vampire</li>
-            <li><span style="background:#3A0F1A"></span>Midnight</li>
-            <li><span style="background:#6B0F1F"></span>Velvet</li>
-            <li><span style="background:#2A0810"></span>Obsession</li>
-          </ul>
+          <div class="drop__palette">
+            <span class="drop__palette-label">The Palette</span>
+            <ul class="drop__shades" aria-label="Featured shades">
+              <li><span style="background:#8A0E17"></span><em>Reign</em></li>
+              <li><span style="background:#5B1421"></span><em>Vampire</em></li>
+              <li><span style="background:#3A0F1A"></span><em>Midnight</em></li>
+              <li><span style="background:#6B0F1F"></span><em>Velvet</em></li>
+              <li><span style="background:#2A0810"></span><em>Obsession</em></li>
+            </ul>
+          </div>
 
-          <div class="drop__actions">
-            <div class="drop__countdown-badge" style="margin-bottom: 16px; font-family: var(--font-display); font-style: italic; font-size: 16px; color: var(--color-accent-red);">Closes in <span id="dropCountdown2">48:00:00</span></div>
-            <a href="#dark-siren" class="btn btn--filled btn--brown">
-              <span>Reserve Your Set</span>
-            </a>
-            <a href="#dark-siren" class="link-arrow">View All Seven Shades</a>
+          <div class="drop__cta">
+            <div class="drop__cta-meta">
+              <span class="drop__cta-tag">Closes in</span>
+              <span class="drop__cta-timer" id="dropCountdown2">48:00:00</span>
+            </div>
+            <div class="drop__actions">
+              <a href="#dark-siren" class="btn btn--filled btn--brown drop__btn">
+                <span>Reserve Your Set</span>
+              </a>
+              <a href="#dark-siren" class="link-arrow">View All Seven Shades</a>
+            </div>
           </div>
 
           <p class="drop__proof">
@@ -779,16 +793,7 @@
     </div>
   </footer>
 
-  <!-- Sticky CTA bar (appears on scroll) -->
-  <div class="sticky-cta" id="stickyCta" aria-hidden="true">
-    <div class="sticky-cta__inner">
-      <span class="sticky-cta__label">
-        <span class="sticky-cta__dot"></span>
-        The Evening Collection &mdash; <em>Limited Drop</em>
-      </span>
-      <a href="#dark-siren" class="btn btn--filled btn--red btn--sm">Reserve Your Set</a>
-    </div>
-  </div>
+
 
   <script src="assets/js/script.js"></script>
 </body>

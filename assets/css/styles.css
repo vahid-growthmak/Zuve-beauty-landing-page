@@ -1473,11 +1473,11 @@ body.is-dark-pdp .nav.is-scrolled {
 .card__quick {
   position: absolute;
   left: 50%;
-  bottom: 40px;
+  bottom: 72px;
   transform: translate(-50%, 14px);
   background: var(--color-text-primary);
   color: var(--color-canvas-beige);
-  padding: 12px 22px;
+  padding: 14px 24px;
   font-size: 11px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -4722,7 +4722,7 @@ button:focus-visible {
   .card__quick {
     opacity: 0.95;
     transform: translate(-50%, 0);
-    bottom: 14px;
+    bottom: 28px;
   }
 }
 
@@ -4802,4 +4802,517 @@ button:focus-visible {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* =================================================================
+   DROP — EDITORIAL SPREAD LAYOUT
+   Magazine-style asymmetric layout with a vertical edition rail,
+   palette display, and refined CTA stack. Overrides the base .drop
+   styles when .drop--editorial is present.
+   ================================================================= */
+.drop--editorial {
+  grid-template-columns: minmax(0, 1.18fr) minmax(0, 1fr);
+  gap: clamp(48px, 7vw, 132px);
+  align-items: stretch;
+}
+
+.drop--editorial .drop__media {
+  aspect-ratio: 1 / 1;
+  border-radius: 2px;
+  box-shadow: 0 40px 80px -40px rgba(10, 4, 8, 0.55);
+}
+
+.drop--editorial .drop__caption {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(10, 4, 8, 0.55);
+  color: var(--color-canvas-beige);
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.drop--editorial .drop__caption em {
+  font-family: var(--font-display);
+  font-style: italic;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  margin-left: 8px;
+  opacity: 0.92;
+}
+
+/* Editorial content column — give it a vertical rule + edition rail */
+.drop--editorial .drop__content {
+  position: relative;
+  padding-left: clamp(28px, 4vw, 56px);
+  gap: 24px;
+}
+
+.drop--editorial .drop__content::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 0;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(138, 14, 23, 0.45) 12%,
+    rgba(138, 14, 23, 0.45) 88%,
+    transparent 100%
+  );
+}
+
+/* Vertical edition rail — sits on the rule, rotated label + Roman numeral */
+.drop__rail {
+  position: absolute;
+  left: -10px;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  pointer-events: none;
+}
+
+.drop__rail-num {
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--color-canvas-beige, #efe1d3);
+  border: 1px solid rgba(138, 14, 23, 0.45);
+  color: var(--color-accent-red);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.drop__rail-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  opacity: 0.55;
+}
+
+/* Tighten the heading rhythm in editorial mode */
+.drop--editorial .display-2 {
+  margin: 4px 0 0;
+}
+
+.drop--editorial .lede {
+  max-width: 38ch;
+  opacity: 0.78;
+}
+
+/* Palette block — replaces inline shade chips with a labeled row */
+.drop__palette {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(58, 15, 26, 0.16);
+}
+
+.drop__palette-label {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--color-accent-red);
+  letter-spacing: 0.02em;
+}
+
+.drop--editorial .drop__shades {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+}
+
+.drop--editorial .drop__shades li {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.drop--editorial .drop__shades li span {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(10, 4, 8, 0.18);
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.06),
+    0 6px 14px -8px rgba(10, 4, 8, 0.5);
+  transition: transform 280ms var(--ease-luxe, cubic-bezier(0.22, 1, 0.36, 1));
+}
+
+.drop--editorial .drop__shades li:hover span {
+  transform: translateY(-2px) scale(1.08);
+}
+
+.drop--editorial .drop__shades li em {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  opacity: 0.78;
+  letter-spacing: 0.01em;
+}
+
+/* CTA stack — countdown becomes a refined inline meta line */
+.drop__cta {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(58, 15, 26, 0.16);
+}
+
+.drop__cta-meta {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.drop__cta-tag {
+  font-size: 10.5px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  opacity: 0.55;
+}
+
+.drop__cta-timer {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--color-accent-red);
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.drop--editorial .drop__actions {
+  gap: 22px;
+  align-items: center;
+}
+
+.drop--editorial .drop__btn {
+  padding-top: 18px;
+  padding-bottom: 18px;
+  min-width: 220px;
+}
+
+.drop--editorial .drop__proof {
+  margin-top: 6px;
+  opacity: 0.6;
+}
+
+/* —— Responsive: collapse rail / palette grid on smaller screens —— */
+@media (max-width: 1024px) {
+  .drop--editorial {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .drop--editorial .drop__content {
+    padding-left: 28px;
+  }
+
+  .drop--editorial .drop__shades {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .drop--editorial .drop__content {
+    padding-left: 22px;
+  }
+
+  .drop--editorial .drop__content::before {
+    left: 0;
+  }
+
+  .drop__rail { left: -11px; gap: 10px; }
+  .drop__rail-num { width: 20px; height: 20px; font-size: 11px; }
+  .drop__rail-text { font-size: 9px; letter-spacing: 0.28em; }
+
+  .drop--editorial .drop__shades {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .drop--editorial .drop__shades li { gap: 8px; }
+  .drop--editorial .drop__shades li span { width: 22px; height: 22px; }
+  .drop--editorial .drop__shades li em { font-size: 11px; }
+
+  .drop--editorial .drop__caption { display: none; }
+
+  .drop__cta-timer { font-size: 18px; }
+  .drop--editorial .drop__btn { width: 100%; min-width: 0; justify-content: center; }
+}
+
+/* =================================================================
+   CARD — EDITORIAL REDESIGN
+   Replaces the floating quick-add button with a full-width CTA bar
+   that slides up from the bottom of the card image on hover. Trims
+   the simultaneous hover animations down to a single focused gesture
+   so the eye lands on one place: the call to action.
+
+   Composition layers (z-index):
+     1  image
+     2  swatch tint + ZUVĒ watermark
+     3  tag chip
+     4  CTA bar (.card__quick) — full width, slides from bottom
+   ================================================================= */
+
+/* —— Card frame: soft corners + refined hover lift —————————— */
+.card { border-radius: 4px; }
+
+.card__media {
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 28px 60px rgba(74, 45, 35, 0.14),
+    0 8px 20px rgba(74, 45, 35, 0.07);
+}
+
+body.is-dark .card:hover,
+.collection--dark .card:hover {
+  box-shadow:
+    0 28px 60px rgba(0, 0, 0, 0.55),
+    0 8px 20px rgba(138, 14, 23, 0.22);
+}
+
+/* —— Repurpose .card__media::after as a gradient scrim that fades
+   in on hover. Replaces the old red-hairline draw + gives the
+   transparent CTA bar legibility against any photo background. */
+.card__media::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: auto;
+  width: auto;
+  height: 42%;
+  background: linear-gradient(
+    to top,
+    rgba(10, 4, 8, 0.68) 0%,
+    rgba(10, 4, 8, 0.32) 45%,
+    rgba(10, 4, 8, 0) 100%
+  );
+  opacity: 0;
+  transform: none;
+  transition: opacity 320ms var(--ease-out-quart);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.card:hover .card__media::after {
+  opacity: 1;
+  left: 0;
+  right: 0;
+}
+
+/* —— ZUVĒ watermark: move to top-right so it's still visible
+   when the CTA bar slides up from the bottom on hover. ——— */
+.card__media::before {
+  top: 12px;
+  right: 14px;
+  bottom: auto;
+  left: auto;
+  font-size: 10px;
+  letter-spacing: 0.36em;
+}
+
+/* —— Swatch tint on hover: softer, doesn't compete with photo —— */
+.card:hover .swatch { opacity: 0.14; }
+
+/* —— Tag chip: cleaner, more refined (Unified Style) ————— */
+.card__tag,
+.card__tag--featured,
+.card__tag--power,
+.card__tag--waitlist,
+.card__tag--waitlist-dark {
+  padding: 7px 12px;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  background: rgba(251, 247, 243, 0.94);
+  background-image: none;
+  border: 1px solid rgba(74, 45, 35, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--color-text-primary);
+  animation: tagSettle 600ms var(--ease-out-quart) 0.2s backwards;
+}
+
+/* —— THE NEW HOVER CTA: transparent full-width bar at bottom ——
+   No solid background — the bar sits over a soft gradient scrim
+   (added below) so the text reads cleanly against any photo. */
+.card__quick {
+  /* Override floating-pill positioning -> full-width bar at bottom */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: auto;
+  transform: translate(0, 100%);
+  width: 100%;
+  padding: 18px 24px;
+  background: transparent;
+  color: #fff;
+  font-size: 11.5px;
+  letter-spacing: 0.24em;
+  text-align: center;
+  white-space: nowrap;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition:
+    opacity 280ms var(--ease-out-quart),
+    transform 460ms var(--ease-out-expo);
+}
+
+/* Dark-variant CTA bar: transparent too, but keeps white text */
+.card__quick--dark {
+  background: transparent;
+  color: #fff;
+}
+
+/* —— Card meta + note: inset padding so text isn't flush to the
+   card edge. The card was reading "raw" because the photo had
+   visual padding but the text below didn't. ————————————————— */
+.card__meta,
+.card__note {
+  padding-left: 18px;
+  padding-right: 18px;
+}
+
+.card__meta { margin-top: 20px; }
+.card__note { margin-top: 8px; padding-bottom: 4px; }
+
+/* Chevron after the CTA text — drawn in CSS so we don't need new HTML */
+.card__quick::after {
+  content: "";
+  width: 16px;
+  height: 1px;
+  background: currentColor;
+  position: relative;
+  transition: width 320ms var(--ease-out-expo);
+}
+
+.card__quick::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 22px;
+  width: 7px;
+  height: 7px;
+  border-top: 1px solid currentColor;
+  border-right: 1px solid currentColor;
+  transform: translateY(-50%) rotate(45deg);
+  opacity: 0;
+  transition: opacity 320ms var(--ease-out-quart) 80ms,
+              right 360ms var(--ease-out-expo);
+}
+
+.card:hover .card__quick {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+.card:hover .card__quick::after { width: 22px; }
+.card:hover .card__quick::before { opacity: 1; right: 18px; }
+
+/* —— Image scale on hover stays subtle —————————————————— */
+.card:hover .card__img {
+  transform: scale(1.04);
+  filter: saturate(1.06);
+}
+
+/* —— Hide the legacy shade-strip dots: they competed with the new
+   CTA bar in the same bottom region and added visual noise. JS
+   still injects the DOM node but it's now invisible. —————— */
+.card__shade-strip { display: none !important; }
+
+/* —— Card name: subtle underline draws in on hover (light cards) —— */
+.card__name {
+  position: relative;
+  display: inline-block;
+}
+
+.card__name:not(.card__name--dark)::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.45;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 460ms var(--ease-luxe);
+}
+
+.card:hover .card__name:not(.card__name--dark)::after {
+  transform: scaleX(1);
+}
+
+/* —— Meta lift is already in place; refine its motion —————— */
+.card:hover .card__meta { transform: translateY(-1px); }
+
+/* —— Touch / no-hover devices: persistent CTA bar + scrim so mobile
+   users still get a clear, legible CTA without needing hover. ——— */
+@media (hover: none) and (pointer: coarse) {
+  .card__quick {
+    opacity: 1;
+    transform: translate(0, 0);
+    padding: 16px 22px;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+  }
+
+  .card__quick::before { opacity: 1; }
+
+  /* Scrim is persistent on touch so the transparent CTA stays readable */
+  .card__media::after { opacity: 1; }
+
+  /* Mobile devices don't need the swatch tint that's keyed to hover */
+  .card:hover .swatch { opacity: 0; }
+}
+
+/* —— Small screens: tighten the CTA bar —————————————————— */
+@media (max-width: 600px) {
+  .card__quick {
+    padding: 14px 18px;
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+  }
+  .card__quick::before { right: 14px; width: 6px; height: 6px; }
+  .card__tag { padding: 6px 10px; font-size: 9.5px; }
 }

@@ -18,7 +18,6 @@
     const y = window.scrollY || window.pageYOffset;
     if (nav) nav.classList.toggle('is-scrolled', y > 40);
     handleColorTransition(y);
-    handleStickyCta(y);
     handleScrollProgress(y);
     handleHeroParallax(y);
     lastY = y;
@@ -147,22 +146,7 @@
     }
   }
 
-  // ----------------------------------------------------------
-  // 4. STICKY CTA — appears after hero, hides near footer
-  // ----------------------------------------------------------
-  const stickyCta = document.getElementById('stickyCta');
-  const footerEl = document.querySelector('.footer');
 
-  function handleStickyCta(y) {
-    if (!stickyCta || !heroEl) return;
-    const heroEnd = heroEl.offsetTop + heroEl.offsetHeight * 0.7;
-    const footerStart = footerEl
-      ? footerEl.offsetTop - window.innerHeight
-      : Number.POSITIVE_INFINITY;
-    const showing = y > heroEnd && y < footerStart;
-    stickyCta.classList.toggle('is-visible', showing);
-    stickyCta.setAttribute('aria-hidden', showing ? 'false' : 'true');
-  }
 
   // ----------------------------------------------------------
   // 5. COUNTDOWN TIMERS — 48 hr drop
@@ -204,32 +188,68 @@
   setInterval(tickCountdown, 1000);
 
   // ----------------------------------------------------------
-  // 6. STATS COUNTER — section 6, IntersectionObserver
+  // 6. STATS COUNTER — section 6, IntersectionObserver loop
   // ----------------------------------------------------------
   const statsRoot = document.getElementById('ritualStats');
+  const statsTimers = new Map();
 
-  // Resilient counter: HTML now ships with target values baked in so
-  // the page never shows raw zeros even if JS fails. On viewport entry
-  // we reset to 0 then count up, so the animation still plays.
-  function animateCounter(el) {
+  function startCounterLoop(el) {
+    const textNode = Array.from(el.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
+    if (!textNode) return;
+
     const target = Number(el.dataset.count || 0);
-    if (reduceMotion || target === 0) {
-      el.firstChild && (el.firstChild.nodeValue = String(target));
+    if (reduceMotion) {
+      textNode.nodeValue = String(target);
       return;
     }
-    // Reset to 0 right before animating up — keeps the visual reveal
-    // intentional while guaranteeing target value as the fallback.
-    el.firstChild && (el.firstChild.nodeValue = '0');
+
+    const isZero = target === 0;
+    const startVal = isZero ? 100 : 0;
     const duration = 1500;
-    const start = performance.now();
-    const tick = (now) => {
-      const t = Math.min(1, (now - start) / duration);
+
+    let start = null;
+    let rafId = null;
+    let timeoutId = null;
+
+    const run = (now) => {
+      if (!start) start = now;
+      const elapsed = now - start;
+      const t = Math.min(1, elapsed / duration);
       const eased = 1 - Math.pow(1 - t, 3); // easeOut cubic
-      const value = Math.round(target * eased);
-      el.firstChild && (el.firstChild.nodeValue = String(value));
-      if (t < 1) requestAnimationFrame(tick);
+      
+      const value = isZero 
+        ? Math.round(startVal - (startVal * eased)) 
+        : Math.round(target * eased);
+
+      textNode.nodeValue = String(value);
+
+      if (t < 1) {
+        rafId = requestAnimationFrame(run);
+      } else {
+        timeoutId = setTimeout(() => {
+          start = null;
+          rafId = requestAnimationFrame(run);
+        }, 3500); // Wait 3.5s before repeating the animation
+      }
     };
-    requestAnimationFrame(tick);
+
+    rafId = requestAnimationFrame(run);
+
+    statsTimers.set(el, {
+      stop: () => {
+        if (rafId) cancelAnimationFrame(rafId);
+        if (timeoutId) clearTimeout(timeoutId);
+        textNode.nodeValue = String(target);
+      }
+    });
+  }
+
+  function stopCounterLoop(el) {
+    const timer = statsTimers.get(el);
+    if (timer) {
+      timer.stop();
+      statsTimers.delete(el);
+    }
   }
 
   if (statsRoot && 'IntersectionObserver' in window) {
@@ -237,8 +257,9 @@
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.querySelectorAll('.ritual__num').forEach(animateCounter);
-            io.unobserve(entry.target);
+            entry.target.querySelectorAll('.ritual__num').forEach(startCounterLoop);
+          } else {
+            entry.target.querySelectorAll('.ritual__num').forEach(stopCounterLoop);
           }
         });
       },
