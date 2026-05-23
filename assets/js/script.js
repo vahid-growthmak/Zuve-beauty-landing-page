@@ -20,6 +20,26 @@
     handleColorTransition(y);
     handleScrollProgress(y);
     handleHeroParallax(y);
+
+    // Fallback: Force reveal footer elements when scrolled near the bottom
+    const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    if (max - y < 60) {
+      const footerTop = document.querySelector('.footer__top');
+      if (footerTop && !footerTop.classList.contains('is-revealed')) {
+        footerTop.classList.add('is-revealed');
+        const logo = footerTop.querySelector('.footer__logo');
+        const statement = footerTop.querySelector('.footer__statement');
+        if (logo) {
+          logo.style.opacity = '1';
+          logo.style.transform = 'translateY(0)';
+        }
+        if (statement) {
+          statement.style.opacity = '1';
+          statement.style.transform = 'translateY(0)';
+        }
+      }
+    }
+
     lastY = y;
   };
 

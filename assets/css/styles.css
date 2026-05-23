@@ -5316,3 +5316,10 @@ body.is-dark .card:hover,
   .card__quick::before { right: 14px; width: 6px; height: 6px; }
   .card__tag { padding: 6px 10px; font-size: 9.5px; }
 }
+
+/* —— Invert logo in dark theme header and footer ————————— */
+body.is-dark .nav__logo img,
+body.is-dark-pdp .nav__logo img,
+.footer__logo img {
+  filter: invert(1) brightness(0.95);
+}
