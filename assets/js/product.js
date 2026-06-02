@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    ZUVE BEAUTY — PRODUCT PAGE (PDP)
    Single template, query-string driven. ?shade=<slug>.
    ============================================================ */
@@ -24,7 +24,7 @@
       pairWith: 'Linen sheets, slow espresso, an unread book',
       review:
         '“I bought it for a wedding and ended up wearing it for three weeks. It became part of how I wanted to dress.”',
-      image: 'assets/images/soft_veil.png',
+      image: 'assets/images/soft_veil.jpg',
       pairs: ['whisper', 'linen', 'bare']
     },
     whisper: {
@@ -40,7 +40,7 @@
       pairWith: 'Late lunches, listening more than speaking, the right wine',
       review:
         '“It looks like nothing in the bottle and like everything once it dries.”',
-      image: 'assets/images/soft_whisper.png',
+      image: 'assets/images/soft_whisper.jpg',
       pairs: ['veil', 'petal', 'linen']
     },
     linen: {
@@ -56,7 +56,7 @@
       pairWith: 'Cashmere socks, a paperback, a window seat',
       review:
         '“I wear Linen the way some women wear their grandmother’s ring.”',
-      image: 'assets/images/soft_linen.png',
+      image: 'assets/images/soft_linen.jpg',
       pairs: ['veil', 'sand', 'bare']
     },
     bare: {
@@ -72,7 +72,7 @@
       pairWith: 'A black dress, low candles, the second martini',
       review:
         '“The color of someone who has decided what she wants and isn’t going to explain it.”',
-      image: 'assets/images/soft_bare.png',
+      image: 'assets/images/soft_bare.jpg',
       pairs: ['linen', 'petal', 'whisper']
     },
     petal: {
@@ -88,7 +88,7 @@
       pairWith: 'A letter you weren’t expecting, an honest answer, summer',
       review:
         '“It does what blush does for the face. Petal does it for the hand.”',
-      image: 'assets/images/soft_petal.png',
+      image: 'assets/images/soft_petal.jpg',
       pairs: ['whisper', 'veil', 'bare']
     },
     sand: {
@@ -104,7 +104,7 @@
       pairWith: 'Coastal towns, linen shirts, the slow drink that follows',
       review:
         '“I took it on holiday and brought back a bottle’s worth of evidence.”',
-      image: 'assets/images/soft_sand.png',
+      image: 'assets/images/soft_sand.jpg',
       pairs: ['linen', 'veil', 'petal']
     },
 
@@ -122,7 +122,7 @@
       pairWith: 'A tailored coat, an unread room, the last word',
       review:
         '“Reign is the shade I put on when I need to stop second-guessing.”',
-      image: 'assets/images/dark_reign.png',
+      image: 'assets/images/dark_reign.jpg',
       pairs: ['vampire', 'velvet', 'midnight']
     },
     vampire: {
@@ -138,7 +138,7 @@
       pairWith: 'A heavier perfume, a slow restaurant, the second bottle',
       review:
         '“The darkest red I’ve owned that still looked like a red.”',
-      image: 'assets/images/dark_vampire.png',
+      image: 'assets/images/dark_vampire.jpg',
       pairs: ['reign', 'midnight', 'obsession']
     },
     midnight: {
@@ -154,7 +154,7 @@
       pairWith: 'A leather jacket, the cab home, an honest 1 a.m.',
       review:
         '“It looks like one color in the bottle and three on the hand.”',
-      image: 'assets/images/dark_midnight.png',
+      image: 'assets/images/dark_midnight.jpg',
       pairs: ['vampire', 'obsession', 'velvet']
     },
     velvet: {
@@ -170,7 +170,7 @@
       pairWith: 'A long table, a strong opinion, an even temper',
       review:
         '“I wore Velvet to a negotiation. It read for me.”',
-      image: 'assets/images/dark_velvet.png',
+      image: 'assets/images/dark_velvet.jpg',
       pairs: ['reign', 'midnight', 'vampire']
     },
     obsession: {
@@ -186,7 +186,7 @@
       pairWith: 'A repeated playlist, a familiar perfume, a habit you keep',
       review:
         '“I bought one, ran out, bought three.”',
-      image: 'assets/images/dark_obsession.png',
+      image: 'assets/images/dark_obsession.jpg',
       pairs: ['midnight', 'vampire', 'reign']
     }
   };

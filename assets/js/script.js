@@ -225,7 +225,10 @@
 
     const isZero = target === 0;
     const startVal = isZero ? 100 : 0;
-    const duration = 1500;
+    // Real-time loop pacing: faster count-up, brief hold at target,
+    // then quick reset so the numbers feel like a live ticker.
+    const duration = 1100;
+    const holdMs = 900;
 
     let start = null;
     let rafId = null;
@@ -236,9 +239,9 @@
       const elapsed = now - start;
       const t = Math.min(1, elapsed / duration);
       const eased = 1 - Math.pow(1 - t, 3); // easeOut cubic
-      
-      const value = isZero 
-        ? Math.round(startVal - (startVal * eased)) 
+
+      const value = isZero
+        ? Math.round(startVal - (startVal * eased))
         : Math.round(target * eased);
 
       textNode.nodeValue = String(value);
@@ -249,7 +252,7 @@
         timeoutId = setTimeout(() => {
           start = null;
           rafId = requestAnimationFrame(run);
-        }, 3500); // Wait 3.5s before repeating the animation
+        }, holdMs);
       }
     };
 
@@ -532,8 +535,12 @@
   });
 
   // ----------------------------------------------------------
-  // 8. FILTER PILLS — visual state only (no real filtering since
-  //    these are demo cards, but click feedback feels alive)
+  // 8. FILTER PILLS
+  //    Generic visual-state toggle for any [role="tab"] group, plus
+  //    real UGC filtering — All / #ZuveSoftMuse / #ZuveDarkSiren.
+  //    Tiles are tagged with data-collection="soft|dark"; pills with
+  //    data-filter="all|soft|dark". Non-matching tiles get .is-hidden
+  //    (CSS animates opacity + scale, then sets display:none).
   // ----------------------------------------------------------
   document.querySelectorAll('[role="tab"], .ugc__filters .pill').forEach((pill) => {
     pill.addEventListener('click', () => {
@@ -542,11 +549,29 @@
       group.querySelectorAll('.pill').forEach((p) => {
         p.classList.remove('is-active');
         p.setAttribute('aria-selected', 'false');
+        if (p.hasAttribute('aria-pressed')) p.setAttribute('aria-pressed', 'false');
       });
       pill.classList.add('is-active');
       pill.setAttribute('aria-selected', 'true');
+      if (pill.hasAttribute('aria-pressed')) pill.setAttribute('aria-pressed', 'true');
     });
   });
+
+  const ugcBar = document.querySelector('[data-ugc-filter-bar]');
+  const ugcGrid = document.querySelector('.ugc__grid');
+  if (ugcBar && ugcGrid) {
+    const tiles = Array.from(ugcGrid.querySelectorAll('.ugc__tile'));
+    ugcBar.querySelectorAll('.pill[data-filter]').forEach((pill) => {
+      pill.addEventListener('click', () => {
+        const filter = pill.getAttribute('data-filter') || 'all';
+        tiles.forEach((tile) => {
+          const coll = tile.getAttribute('data-collection');
+          const show = filter === 'all' || filter === coll;
+          tile.classList.toggle('is-hidden', !show);
+        });
+      });
+    });
+  }
 
   // ----------------------------------------------------------
   // 9. RITUAL CLUB FORM — light client-side validation, branded msg

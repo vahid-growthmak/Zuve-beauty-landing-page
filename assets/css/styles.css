@@ -93,6 +93,8 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -1864,6 +1866,11 @@ body.is-dark-pdp .nav.is-scrolled {
 
 .ugc__tile:active { transform: scale(0.99); }
 
+/* Filter-hidden tiles: pulled out of the grid so the remaining tiles reflow
+   into a clean composition. display:none is necessary in grid context —
+   visibility/opacity alone leaves an empty cell behind. */
+.ugc__tile.is-hidden { display: none !important; }
+
 /* Reset class-based spans — drive layout from nth-child for predictability. */
 .ugc__tile--tall, .ugc__tile--wide {
   grid-row: auto;
@@ -2072,37 +2079,159 @@ body.is-dark-pdp .nav.is-scrolled {
   opacity: 0.9;
 }
 
+/* ============================================================
+   CLUB FORM — Editorial glass pill
+   A single rounded container that unifies the email input and
+   submit button into one component. Hairline tan border on dark
+   wine; the button is an inline chip that lives INSIDE the pill,
+   not beside it. Eyebrow caption appears above when there's
+   surrounding space — purely decorative via a ::before mark.
+   ============================================================ */
 .club__form {
   position: relative;
-  max-width: 540px;
+  max-width: 560px;
   margin: 0 auto;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 0;
-  border-bottom: 1px solid rgba(232, 214, 201, 0.4);
-  padding-bottom: 6px;
+  padding: 6px 6px 6px 26px;
+  background: rgba(232, 214, 201, 0.04);
+  border: 1px solid rgba(232, 214, 201, 0.22);
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition:
+    border-color 320ms var(--ease-out-quart),
+    background-color 320ms var(--ease-out-quart),
+    box-shadow 320ms var(--ease-out-quart),
+    transform 320ms var(--ease-out-quart);
+}
+
+.club__form::before {
+  /* Tiny envelope/seal mark — purely decorative, sits left of the input. */
+  content: "";
+  align-self: center;
+  width: 18px;
+  height: 12px;
+  margin-right: 14px;
+  flex: 0 0 18px;
+  background: currentColor;
+  color: var(--color-accent-tan);
+  opacity: 0.55;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 16' fill='none' stroke='black' stroke-width='1.4'><rect x='1' y='1' width='22' height='14' rx='1.5'/><polyline points='1.5 2 12 9 22.5 2'/></svg>") center / contain no-repeat;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 16' fill='none' stroke='black' stroke-width='1.4'><rect x='1' y='1' width='22' height='14' rx='1.5'/><polyline points='1.5 2 12 9 22.5 2'/></svg>") center / contain no-repeat;
+  transition: opacity 320ms var(--ease-out-quart), color 320ms var(--ease-out-quart);
 }
 
 .club__form input {
   flex: 1;
+  min-width: 0;
   font-family: var(--font-body);
-  font-size: 16px;
+  font-size: 15px;
   color: var(--color-canvas-beige);
   background: transparent;
   border: none;
-  padding: 16px 0;
-  letter-spacing: 0.04em;
+  padding: 14px 8px 14px 0;
+  letter-spacing: 0.02em;
 }
 
 .club__form input::placeholder {
-  color: rgba(232, 214, 201, 0.5);
+  color: rgba(232, 214, 201, 0.55);
   font-style: italic;
   font-family: var(--font-display);
+  font-size: 16px;
+  letter-spacing: 0.01em;
 }
 
 .club__form input:focus { outline: none; }
 
-.club__form .btn { flex-shrink: 0; }
+/* Focus state: tan border + subtle ring, envelope brightens. */
+.club__form:focus-within {
+  border-color: var(--color-accent-tan);
+  background: rgba(232, 214, 201, 0.07);
+  box-shadow: 0 0 0 4px rgba(217, 184, 163, 0.08);
+}
+.club__form:focus-within::before { opacity: 0.95; }
+
+/* Inline submit chip — overrides the outer .btn--filled.btn--red shape so
+   the button shrinks into the pill instead of dominating beside it. */
+.club__form .btn {
+  flex: 0 0 auto;
+  align-self: stretch;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 24px;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  font-weight: 500;
+  text-transform: uppercase;
+  background: var(--color-accent-red);
+  color: var(--color-canvas-beige);
+  border: 1px solid var(--color-accent-red);
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+  transition:
+    background-color 280ms var(--ease-out-quart),
+    border-color 280ms var(--ease-out-quart),
+    transform 280ms var(--ease-out-quart),
+    box-shadow 280ms var(--ease-out-quart);
+}
+
+/* Arrow glyph rendered after the button label, slides right on hover. */
+.club__form .btn span {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.club__form .btn span::after {
+  content: "→";
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-style: italic;
+  line-height: 1;
+  transition: transform 280ms var(--ease-out-quart);
+}
+.club__form .btn:hover {
+  background: #b51820;
+  border-color: #b51820;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px -10px rgba(0, 0, 0, 0.55);
+}
+.club__form .btn:hover span::after { transform: translateX(4px); }
+.club__form .btn:active { transform: translateY(0); }
+.club__form .btn:focus-visible {
+  outline: 2px solid var(--color-accent-tan);
+  outline-offset: 3px;
+}
+
+/* Responsive: stack on narrow viewports for thumb-reach + readability. */
+@media (max-width: 520px) {
+  .club__form {
+    flex-direction: column;
+    align-items: stretch;
+    border-radius: 22px;
+    padding: 18px 18px 14px;
+    gap: 14px;
+  }
+  .club__form::before {
+    align-self: flex-start;
+    margin: 0 0 -8px;
+    opacity: 0.7;
+  }
+  .club__form input {
+    padding: 6px 0;
+    text-align: left;
+  }
+  .club__form .btn {
+    align-self: stretch;
+    justify-content: center;
+    padding: 14px 24px;
+  }
+}
 
 .club__message {
   margin-top: 16px;
@@ -2390,15 +2519,10 @@ body.is-dark-pdp .nav.is-scrolled {
   /* —— Trust —— */
   .trust__grid { grid-template-columns: 1fr; }
 
-  /* —— Club —— */
+  /* —— Club ——
+     Pill design (defined below) handles its own stacking at ≤520px.
+     Above 520px we let the pill ride at full width up to its 560px cap. */
   .club__benefits { grid-template-columns: 1fr; }
-  .club__form { flex-direction: column; border-bottom: none; gap: 16px; }
-  .club__form input {
-    border-bottom: 1px solid rgba(232, 214, 201, 0.4);
-    width: 100%;
-    text-align: center;
-  }
-  .club__form .btn { width: 100%; justify-content: center; }
 
   /* —— Footer —— */
   .footer__cols { grid-template-columns: repeat(2, 1fr); }
@@ -2667,26 +2791,10 @@ body.is-dark-pdp .nav.is-scrolled {
 }
 
 
-/* —— E. CLUB FORM FOCUS POLISH —————————————————————————————
-   The single-line border under the email input grows from the
-   center on focus. Emil's "focus state should look intentional". */
-.club__form { position: relative; }
-.club__form::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  right: 50%;
-  bottom: 5px;
-  height: 1px;
-  background: var(--color-accent-red);
-  transition: left 360ms var(--ease-out-expo),
-              right 360ms var(--ease-out-expo);
-  pointer-events: none;
-}
-.club__form:focus-within::after {
-  left: 0;
-  right: 0;
-}
+/* —— E. CLUB FORM FOCUS POLISH ——
+   The old underline-from-center effect is now handled by the
+   .club__form:focus-within border + ring above. This block
+   intentionally left thin to preserve numbering. */
 
 
 /* —— F. FOOTER ENTRANCE ————————————————————————————————————
@@ -5317,9 +5425,1806 @@ body.is-dark .card:hover,
   .card__tag { padding: 6px 10px; font-size: 9.5px; }
 }
 
+
+/* =================================================================
+   CONTENT PAGES — shared system
+   Used by: About, Contact, FAQ, Journal, Policies, Guides.
+   Built on top of the existing design tokens (colors, type, spacing).
+   ================================================================= */
+
+/* —— Page hero block: large title + lede + optional eyebrow —— */
+.page-hero {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: clamp(80px, 10vw, 160px) var(--gutter) clamp(48px, 6vw, 88px);
+  text-align: center;
+}
+
+.page-hero__crumbs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 18px;
+}
+
+.page-hero__crumbs a {
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 200ms var(--ease-out-quart);
+}
+.page-hero__crumbs a:hover { opacity: 1; }
+.page-hero__crumbs span[aria-hidden] { opacity: 0.4; }
+
+.page-hero__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(48px, 8vw, 96px);
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  margin: 12px 0 0;
+}
+
+.page-hero__title em {
+  font-style: italic;
+  color: var(--color-accent-red);
+}
+
+.page-hero__lede {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(18px, 2vw, 24px);
+  line-height: 1.5;
+  margin: 22px auto 0;
+  max-width: 56ch;
+  color: var(--color-text-muted);
+}
+
+/* —— Generic content article (Policy / Guide / Long-form) —— */
+.article {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 var(--gutter) clamp(96px, 12vw, 160px);
+  color: var(--color-text-primary);
+}
+
+.article__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--color-line);
+  margin-bottom: 36px;
+}
+
+.article h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(24px, 3vw, 32px);
+  line-height: 1.2;
+  margin: 48px 0 16px;
+}
+
+.article h2:first-child { margin-top: 0; }
+
+.article h3 {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 32px 0 12px;
+  color: var(--color-text-primary);
+}
+
+.article p,
+.article li {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--color-text-primary);
+  opacity: 0.86;
+}
+
+.article p { margin: 0 0 18px; }
+
+.article ul,
+.article ol {
+  margin: 0 0 22px;
+  padding-left: 22px;
+}
+
+.article li { margin-bottom: 8px; }
+
+.article strong {
+  font-weight: 500;
+  color: var(--color-text-primary);
+  opacity: 1;
+}
+
+.article a {
+  color: var(--color-accent-red);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.article hr {
+  border: 0;
+  border-top: 1px solid var(--color-line);
+  margin: 48px 0;
+}
+
+.article blockquote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(20px, 2.4vw, 26px);
+  line-height: 1.5;
+  margin: 32px 0;
+  padding: 0 0 0 28px;
+  border-left: 2px solid var(--color-accent-red);
+  color: var(--color-text-primary);
+}
+
+/* —— FAQ accordion ——————————————————————————————————————— */
+.faq {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 var(--gutter) clamp(96px, 12vw, 160px);
+}
+
+.faq__group {
+  margin-bottom: 64px;
+}
+
+.faq__group-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(22px, 2.4vw, 30px);
+  color: var(--color-accent-red);
+  margin: 0 0 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.faq__item {
+  border-bottom: 1px solid var(--color-line);
+}
+
+.faq__q {
+  width: 100%;
+  background: none;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+  padding: 22px 56px 22px 0;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  color: var(--color-text-primary);
+  position: relative;
+  display: block;
+  transition: color 200ms var(--ease-out-quart);
+}
+
+.faq__q:hover { color: var(--color-accent-red); }
+
+.faq__q::after {
+  content: "";
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: translateY(-70%) rotate(45deg);
+  transition: transform 320ms var(--ease-out-quart);
+}
+
+.faq__item[open] .faq__q::after {
+  transform: translateY(-30%) rotate(-135deg);
+}
+
+.faq__a {
+  padding: 0 0 24px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--color-text-primary);
+  opacity: 0.82;
+  max-width: 64ch;
+}
+
+/* Hide native disclosure arrow on details/summary */
+.faq__q::-webkit-details-marker { display: none; }
+summary.faq__q { list-style: none; }
+
+/* —— Contact form & info layout ————————————————————————— */
+.contact {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter) clamp(96px, 12vw, 160px);
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: clamp(48px, 7vw, 96px);
+  align-items: start;
+}
+
+.contact__info { padding-top: 8px; }
+
+.contact__info-title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(26px, 3vw, 36px);
+  margin: 0 0 28px;
+  color: var(--color-accent-red);
+}
+
+.contact__detail {
+  margin-bottom: 32px;
+}
+
+.contact__detail-label {
+  display: block;
+  font-size: 10.5px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+
+.contact__detail-value {
+  font-family: var(--font-display);
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+}
+
+.contact__detail-value a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-line);
+  transition: border-color 200ms var(--ease-out-quart);
+}
+.contact__detail-value a:hover { border-bottom-color: var(--color-accent-red); }
+
+.contact__form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: clamp(28px, 4vw, 48px);
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--color-line);
+  border-radius: 4px;
+}
+
+.contact__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contact__field label {
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.contact__field input,
+.contact__field textarea,
+.contact__field select {
+  width: 100%;
+  padding: 14px 0;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--color-line);
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--color-text-primary);
+  outline: none;
+  transition: border-color 200ms var(--ease-out-quart);
+}
+
+.contact__field textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.contact__field input:focus,
+.contact__field textarea:focus,
+.contact__field select:focus {
+  border-bottom-color: var(--color-accent-red);
+}
+
+.contact__form .btn { align-self: flex-start; margin-top: 8px; }
+
+@media (max-width: 820px) {
+  .contact { grid-template-columns: 1fr; }
+}
+
+/* —— Steps / how-to layout ————————————————————————————— */
+.steps {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter) clamp(96px, 12vw, 160px);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(28px, 4vw, 56px);
+}
+
+.steps__item {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.steps__num {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 1;
+  color: var(--color-accent-red);
+}
+
+.steps__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(22px, 2.4vw, 28px);
+  margin: 0;
+}
+
+.steps__copy {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--color-text-primary);
+  opacity: 0.8;
+}
+
+@media (max-width: 920px) {
+  .steps { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 520px) {
+  .steps { grid-template-columns: 1fr; }
+}
+
+/* —— Comparison table (Press-on vs Extensions) ——————————— */
+.compare {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 var(--gutter) clamp(96px, 12vw, 160px);
+}
+
+.compare__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+}
+
+.compare__table th,
+.compare__table td {
+  padding: 22px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-line);
+  vertical-align: top;
+}
+
+.compare__table th {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.compare__table th.is-zuve {
+  color: var(--color-accent-red);
+}
+
+.compare__table td {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--color-text-primary);
+}
+
+.compare__table td:first-child {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--color-text-muted);
+  width: 28%;
+}
+
+.compare__table td.is-zuve {
+  background: rgba(217, 184, 163, 0.18);
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+@media (max-width: 720px) {
+  .compare__table th,
+  .compare__table td { padding: 16px 10px; font-size: 13.5px; }
+  .compare__table td:first-child { font-size: 15px; }
+}
+
+/* —— Journal index grid ————————————————————————————————— */
+.journal-grid {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter) clamp(96px, 12vw, 160px);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(28px, 3.5vw, 56px);
+}
+
+.journal-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 320ms var(--ease-out-quart);
+}
+
+.journal-card:hover { transform: translateY(-4px); }
+
+.journal-card__media {
+  aspect-ratio: 4 / 5;
+  background: var(--color-canvas-beige);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.journal-card__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    var(--color-accent-pink) 0%,
+    var(--color-accent-tan) 50%,
+    var(--color-canvas-beige) 100%
+  );
+  opacity: 0.7;
+}
+
+.journal-card__cat {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-accent-red);
+}
+
+.journal-card__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(22px, 2vw, 28px);
+  line-height: 1.2;
+  margin: 0;
+}
+
+.journal-card__excerpt {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.journal-card__date {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-top: 4px;
+}
+
+@media (max-width: 920px) {
+  .journal-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .journal-grid { grid-template-columns: 1fr; }
+}
+
+/* —— Story / About page sections ————————————————————————— */
+.story-block {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter) clamp(64px, 8vw, 120px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 6vw, 100px);
+  align-items: center;
+}
+
+.story-block--reverse { direction: rtl; }
+.story-block--reverse > * { direction: ltr; }
+
+.story-block__media {
+  aspect-ratio: 4 / 5;
+  background: linear-gradient(
+    155deg,
+    var(--color-accent-pink) 0%,
+    var(--color-canvas-beige) 60%,
+    var(--color-accent-tan) 100%
+  );
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.story-block__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 20%, rgba(255,255,255,0.3), transparent 60%),
+    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(74,45,35,0.18), transparent 60%);
+}
+
+.story-block__eyebrow {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-accent-red);
+  margin-bottom: 18px;
+}
+
+.story-block__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(34px, 4.5vw, 52px);
+  line-height: 1.1;
+  margin: 0 0 22px;
+}
+
+.story-block__title em { font-style: italic; color: var(--color-accent-red); }
+
+.story-block__copy {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--color-text-primary);
+  opacity: 0.85;
+  margin: 0 0 16px;
+}
+
+@media (max-width: 820px) {
+  .story-block { grid-template-columns: 1fr; }
+}
+
+/* —— Track Order form ————————————————————————————————————— */
+.track {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 var(--gutter) clamp(96px, 12vw, 160px);
+}
+
+.track__form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: clamp(28px, 4vw, 48px);
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--color-line);
+  border-radius: 4px;
+}
+
+.track__form .btn { align-self: stretch; justify-content: center; }
+
+/* —— Size guide table ————————————————————————————————————— */
+.size-table-wrap {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 var(--gutter) clamp(96px, 12vw, 160px);
+}
+
+.size-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+  border: 1px solid var(--color-line);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.size-table th,
+.size-table td {
+  padding: 18px 16px;
+  text-align: center;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.size-table thead {
+  background: rgba(217, 184, 163, 0.2);
+}
+
+.size-table th {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.size-table td {
+  font-size: 14.5px;
+  color: var(--color-text-primary);
+}
+
+.size-table td:first-child {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--color-accent-red);
+}
+
+.size-table tr:last-child td { border-bottom: 0; }
+
+/* =================================================================
+   SITEMAP PAGE — Journey-staged grid
+   ================================================================= */
+.sitemap {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter) clamp(96px, 12vw, 160px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(40px, 5vw, 64px) clamp(32px, 4vw, 56px);
+}
+
+.sitemap__col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 28px;
+  border-top: 1px solid var(--color-line);
+}
+
+.sitemap__num {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--color-accent-red);
+  letter-spacing: 0.04em;
+}
+
+.sitemap__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(28px, 3.5vw, 40px);
+  line-height: 1.05;
+  margin: 0;
+}
+
+.sitemap__lede {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--color-text-muted);
+  margin: 0 0 8px;
+}
+
+.sitemap__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.sitemap__list li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sitemap__list a {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--color-text-primary);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  position: relative;
+  display: inline-block;
+  align-self: flex-start;
+  transition: color 200ms var(--ease-out-quart);
+}
+
+.sitemap__list a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1px;
+  background: var(--color-accent-red);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 320ms var(--ease-luxe);
+}
+
+.sitemap__list a:hover {
+  color: var(--color-accent-red);
+}
+
+.sitemap__list a:hover::after {
+  transform: scaleX(1);
+}
+
+.sitemap__list li > span {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+  opacity: 0.85;
+}
+
+.sitemap__sublist .sitemap__sublist-label {
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  opacity: 0.65;
+}
+
+.sitemap__sublinks {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--color-text-muted);
+  margin-top: 4px;
+}
+
+.sitemap__sublinks a {
+  color: var(--color-text-primary);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 200ms var(--ease-out-quart), color 200ms var(--ease-out-quart);
+}
+
+.sitemap__sublinks a:hover {
+  color: var(--color-accent-red);
+  border-bottom-color: var(--color-accent-red);
+}
+
+@media (max-width: 767px) {
+  .sitemap {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-bottom: 80px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  .sitemap__col { padding-top: 22px; gap: 12px; }
+  .sitemap__title { font-size: clamp(24px, 6vw, 30px); }
+  .sitemap__lede { font-size: 14.5px; }
+  .sitemap__list { gap: 16px; }
+  .sitemap__list a { font-size: 14.5px; }
+  .sitemap__list li > span { font-size: 12.5px; }
+}
+
+@media (max-width: 600px) {
+  .sitemap { padding-left: 20px; padding-right: 20px; }
+}
+
+@media (max-width: 380px) {
+  .sitemap { padding-left: 16px; padding-right: 16px; }
+  .sitemap__title { font-size: 22px; }
+}
+
 /* —— Invert logo in dark theme header and footer ————————— */
 body.is-dark .nav__logo img,
 body.is-dark-pdp .nav__logo img,
 .footer__logo img {
   filter: invert(1) brightness(0.95);
+}
+
+
+/* =================================================================
+   MOBILE RESPONSIVE OVERHAUL
+   Mobile-first hardening for landing + product + content pages.
+   Targets: zero horizontal scroll, viewport containment, readable
+   typography from 320px upward, proper stacking on tablet, and
+   full-width CTAs where appropriate. Does NOT change desktop layout.
+
+   Breakpoints used:
+     320–359  iPhone SE 1 / Galaxy Fold cover (very small)
+     360–430  standard mobile
+     431–767  large mobile / phablet
+     768–1023 tablet
+     1024+    desktop (untouched)
+   ================================================================= */
+
+/* —— GLOBAL OVERFLOW + LAYOUT SAFETY ———————————————————————
+   These rules apply at every viewport. They are defensive — most
+   take effect only when something downstream would otherwise blow
+   out of the viewport. ————————————————————————————————————— */
+html, body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+/* Make every flex/grid child shrinkable so long content (URLs,
+   product names, prices, tag chips) never forces a wider track. */
+.nav__inner > *,
+.footer__cols > *,
+.footer__top > *,
+.grid--soft > *,
+.grid--dark > *,
+.collection__head > *,
+.club__inner > *,
+.ritual__inner > *,
+.ritual__stats > *,
+.drop > *,
+.hero__content > *,
+.compare > *,
+.contact > *,
+.steps > *,
+.journal-grid > *,
+.story-block > *,
+.pdp > *,
+.pdp-story > *,
+.pdp-ritual__steps > *,
+.pdp-pair__grid > *,
+.pdp-more__grid > *,
+.pdp-diary__reviews > *,
+.pdp-formula__list > *,
+.card,
+.card__meta,
+.card__media,
+.pdp-card,
+.ugc__tile,
+.journal-card,
+.trust__item {
+  min-width: 0;
+}
+
+/* Long content safety: break words gracefully */
+.card__name,
+.card__note,
+.card__price,
+.pdp__title,
+.pdp__tagline,
+.pdp-card__name,
+.page-hero__title,
+.page-hero__lede,
+.journal-card__title,
+.journal-card__excerpt,
+.story-block__title,
+.story-block__copy,
+.compare__table td,
+.compare__table th,
+.faq__q,
+.faq__a,
+.article p,
+.article li,
+.article h2,
+.article h3,
+.btn,
+.link-arrow,
+.contact__detail-value {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+
+/* =================================================================
+   ≤ 1023px  TABLET + MOBILE — common containment rules
+   ================================================================= */
+@media (max-width: 1023px) {
+  /* Container max-widths shouldn't push past viewport */
+  .page-hero,
+  .article,
+  .faq,
+  .contact,
+  .steps,
+  .compare,
+  .journal-grid,
+  .story-block,
+  .track,
+  .size-table-wrap {
+    max-width: 100%;
+  }
+
+  /* All multi-column content-page grids stack on tablet */
+  .contact { grid-template-columns: 1fr; gap: 40px; }
+  .story-block { grid-template-columns: 1fr; gap: 32px; }
+  .story-block--reverse { direction: ltr; }
+  .story-block__media { aspect-ratio: 16 / 10; max-height: 320px; }
+
+  /* Steps: 4 → 2 columns on tablet */
+  .steps { grid-template-columns: repeat(2, 1fr); gap: 36px; }
+
+  /* Journal: 3 → 2 columns on tablet */
+  .journal-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+
+  /* Comparison table horizontal scroll wrap on smaller screens */
+  .compare { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .compare__table { min-width: 540px; }
+}
+
+
+/* =================================================================
+   ≤ 767px  PHABLET / LARGE MOBILE
+   The gap between the existing 600px rule and the 1024px desktop.
+   ================================================================= */
+@media (max-width: 767px) {
+  /* Container side padding — premium feel without being cramped */
+  .page-hero { padding-left: 24px; padding-right: 24px; padding-top: 64px; padding-bottom: 40px; }
+  .article,
+  .faq,
+  .contact,
+  .steps,
+  .compare,
+  .journal-grid,
+  .story-block,
+  .track,
+  .size-table-wrap {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  /* Content-page typography scales properly on smaller screens.
+     The original clamp() minimums (48px / 34px etc.) were too large
+     for sub-400px viewports — re-cap them here. */
+  .page-hero__title {
+    font-size: clamp(34px, 8.5vw, 56px);
+    line-height: 1.05;
+  }
+  .page-hero__lede {
+    font-size: clamp(15px, 3.8vw, 18px);
+    margin-top: 16px;
+  }
+
+  /* Article typography */
+  .article h2 { font-size: clamp(22px, 5.5vw, 28px); margin-top: 36px; }
+  .article h3 { font-size: 13px; margin-top: 24px; }
+  .article p,
+  .article li { font-size: 15px; line-height: 1.7; }
+  .article blockquote { font-size: clamp(18px, 4.8vw, 22px); padding-left: 18px; }
+
+  /* FAQ */
+  .faq__group { margin-bottom: 44px; }
+  .faq__group-title { font-size: clamp(20px, 5vw, 24px); }
+  .faq__q { font-size: 15px; padding-right: 40px; padding-top: 18px; padding-bottom: 18px; }
+  .faq__q::after { right: 4px; width: 10px; height: 10px; }
+  .faq__a { font-size: 14.5px; line-height: 1.65; padding-bottom: 20px; }
+
+  /* Contact */
+  .contact__info-title { font-size: clamp(22px, 5.5vw, 28px); }
+  .contact__detail { margin-bottom: 24px; }
+  .contact__detail-value { font-size: 16px; }
+  .contact__form {
+    padding: 24px;
+    border-radius: 6px;
+  }
+  .contact__form .btn { width: 100%; justify-content: center; align-self: stretch; }
+
+  /* Steps */
+  .steps { grid-template-columns: 1fr; gap: 28px; padding-bottom: 80px; }
+  .steps__num { font-size: clamp(36px, 9vw, 48px); }
+  .steps__title { font-size: clamp(20px, 5vw, 24px); }
+  .steps__copy { font-size: 14px; }
+
+  /* Journal */
+  .journal-grid { grid-template-columns: 1fr; gap: 32px; padding-bottom: 80px; }
+  .journal-card__media { aspect-ratio: 4 / 3; }
+  .journal-card__title { font-size: clamp(20px, 5vw, 24px); }
+  .journal-card__excerpt { font-size: 15px; }
+
+  /* Story (About page) */
+  .story-block__title { font-size: clamp(26px, 6.5vw, 36px); }
+  .story-block__copy { font-size: 15px; line-height: 1.65; }
+
+  /* Comparison table: tighter cells, scrollable */
+  .compare { padding-bottom: 80px; }
+  .compare__table th,
+  .compare__table td { padding: 14px 10px; font-size: 13px; }
+  .compare__table td:first-child { font-size: 14px; }
+
+  /* Size guide table */
+  .size-table-wrap { padding-bottom: 80px; }
+  .size-table { font-size: 13px; }
+  .size-table th,
+  .size-table td { padding: 14px 8px; }
+  .size-table td:first-child { font-size: 15px; }
+
+  /* Track order */
+  .track__form { padding: 24px; }
+  .track__form .btn { width: 100%; }
+
+  /* Breadcrumbs wrap cleanly */
+  .page-hero__crumbs {
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+  }
+}
+
+
+/* =================================================================
+   ≤ 600px  STANDARD MOBILE — additional polish
+   Existing rules at 600px handle a lot; supplementing only the
+   newer content-page styles that weren't covered before.
+   ================================================================= */
+@media (max-width: 600px) {
+  /* Tighten the page hero further on standard phones */
+  .page-hero {
+    padding-top: 48px;
+    padding-bottom: 32px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .page-hero__title { font-size: clamp(30px, 9vw, 44px); }
+  .page-hero__lede { font-size: 14.5px; max-width: 100%; }
+
+  /* Content page bodies at standard mobile */
+  .article,
+  .faq,
+  .contact,
+  .steps,
+  .compare,
+  .journal-grid,
+  .story-block,
+  .track,
+  .size-table-wrap {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  /* Compact form padding */
+  .contact__form,
+  .track__form { padding: 20px; }
+
+  /* Contact field labels readable */
+  .contact__field label { font-size: 10px; }
+  .contact__field input,
+  .contact__field textarea,
+  .contact__field select { font-size: 16px; /* prevent iOS zoom on focus */ }
+
+  /* Story block media — softer footprint */
+  .story-block__media { aspect-ratio: 16 / 11; max-height: 280px; }
+
+  /* Comparison table further compress */
+  .compare__table th,
+  .compare__table td { padding: 12px 8px; font-size: 12.5px; }
+  .compare__table { min-width: 480px; }
+}
+
+
+/* =================================================================
+   ≤ 430px  STANDARD MOBILE — supplements the existing 430 block
+   ================================================================= */
+@media (max-width: 430px) {
+  /* Hero shouldn't be off-screen tall */
+  .hero { min-height: auto; }
+  .hero__panel { min-height: 54vh; padding: 28px 20px 48px; }
+
+  /* Section paddings now reach 20px (per spec) */
+  .page-hero { padding-left: 20px; padding-right: 20px; }
+
+  /* Content page tightening */
+  .article p, .article li { font-size: 14.5px; }
+  .faq__q { font-size: 14.5px; }
+  .faq__a { font-size: 14px; }
+
+  /* Cards: ensure 2-col grid items can shrink and never overflow */
+  .grid--soft,
+  .grid--dark {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .grid--dark .card--hero {
+    grid-column: span 2;
+  }
+
+  /* Card meta inset matches card content */
+  .card__meta,
+  .card__note { padding-left: 14px; padding-right: 14px; }
+  .card__meta { margin-top: 16px; }
+
+  /* Drop section: prevent the editorial palette from blowing the row.
+     Force shades to wrap cleanly when 5-col would overflow. */
+  .drop--editorial .drop__shades {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .drop--editorial .drop__shades li span { width: 20px; height: 20px; }
+  .drop--editorial .drop__shades li em { font-size: 10px; letter-spacing: 0.01em; }
+  .drop--editorial .drop__cta-timer { font-size: 18px; }
+  .drop__rail { display: none; } /* the side rail competes with content at this size */
+  .drop--editorial .drop__content { padding-left: 0; }
+  .drop--editorial .drop__content::before { display: none; }
+
+  /* PDP image area shouldn't be taller than the screen */
+  .pdp__hero { aspect-ratio: 4 / 5; max-height: 70vh; }
+
+  /* Tag chips: never overflow */
+  .card__tag,
+  .pdp__hero-tag {
+    max-width: calc(100% - 32px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+
+/* =================================================================
+   ≤ 380px  SUB-iPhone-SE territory
+   Priority screen size for finer typography control.
+   ================================================================= */
+@media (max-width: 380px) {
+  /* Page hero on tiny screens */
+  .page-hero { padding-top: 40px; padding-bottom: 24px; padding-left: 16px; padding-right: 16px; }
+  .page-hero__title { font-size: clamp(26px, 9vw, 36px); line-height: 1.08; }
+  .page-hero__lede { font-size: 14px; line-height: 1.55; }
+  .page-hero__crumbs { font-size: 9.5px; letter-spacing: 0.16em; gap: 6px; }
+
+  /* All content-page side padding to 16px */
+  .article,
+  .faq,
+  .contact,
+  .steps,
+  .compare,
+  .journal-grid,
+  .story-block,
+  .track,
+  .size-table-wrap {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  /* Article typography reads cleanly at 320–375 */
+  .article h2 { font-size: clamp(20px, 6vw, 24px); margin-top: 32px; margin-bottom: 12px; }
+  .article p, .article li { font-size: 14px; line-height: 1.65; }
+
+  /* FAQ tighter */
+  .faq__group { margin-bottom: 36px; }
+  .faq__group-title { font-size: 19px; margin-bottom: 18px; padding-bottom: 12px; }
+  .faq__q { font-size: 14px; padding: 16px 36px 16px 0; }
+  .faq__a { font-size: 13.5px; padding-bottom: 16px; }
+
+  /* Forms at SE width */
+  .contact__form,
+  .track__form { padding: 18px; gap: 18px; }
+  .contact__form .btn,
+  .track__form .btn { padding: 14px 18px; font-size: 11px; }
+
+  /* Story */
+  .story-block { gap: 24px; }
+  .story-block__title { font-size: clamp(22px, 7vw, 28px); }
+  .story-block__copy { font-size: 14px; }
+  .story-block__media { aspect-ratio: 16 / 10; max-height: 220px; }
+
+  /* Steps */
+  .steps__num { font-size: 34px; }
+  .steps__title { font-size: 19px; }
+  .steps__copy { font-size: 13.5px; }
+
+  /* Journal */
+  .journal-card__title { font-size: 19px; }
+  .journal-card__excerpt { font-size: 14px; }
+  .journal-card__cat { font-size: 10px; letter-spacing: 0.18em; }
+  .journal-card__date { font-size: 10px; letter-spacing: 0.14em; }
+
+  /* Contact info */
+  .contact__info-title { font-size: 22px; margin-bottom: 22px; }
+  .contact__detail-label { font-size: 9.5px; letter-spacing: 0.2em; }
+  .contact__detail-value { font-size: 14.5px; }
+
+  /* Comparison & size table — make them clearly scrollable */
+  .compare__table { min-width: 420px; }
+  .compare__table th, .compare__table td { font-size: 11.5px; padding: 11px 7px; }
+  .size-table th, .size-table td { font-size: 12px; padding: 11px 6px; }
+  .size-table td:first-child { font-size: 13.5px; }
+
+  /* Footer: 1-col layout reads cleanest at SE */
+  .footer__cols { grid-template-columns: 1fr; gap: 24px; }
+
+  /* Drop editorial: hide the photo caption chip on very small screens */
+  .drop--editorial .drop__caption { display: none; }
+
+  /* CTAs full-width by default in form contexts already; ensure btns
+     inside articles don't push past the viewport */
+  .article .btn { width: 100%; justify-content: center; }
+}
+
+
+/* =================================================================
+   ≤ 359px  iPhone SE 1 / Galaxy Fold cover (320px priority)
+   Final safety net — anything that survived above gets pinned.
+   ================================================================= */
+@media (max-width: 359px) {
+  /* Final padding floor: 14px (matches existing root override) */
+  .page-hero,
+  .article,
+  .faq,
+  .contact,
+  .steps,
+  .compare,
+  .journal-grid,
+  .story-block,
+  .track,
+  .size-table-wrap {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  /* Headline ceiling at 320 */
+  .page-hero__title { font-size: 26px; line-height: 1.1; }
+  .page-hero__lede { font-size: 13.5px; }
+
+  /* Article */
+  .article h2 { font-size: 19px; }
+  .article p, .article li { font-size: 13.5px; line-height: 1.6; }
+
+  /* Forms */
+  .contact__form,
+  .track__form { padding: 16px; gap: 16px; }
+
+  /* Cards: 1-col on tiny screens for clean reading rhythm */
+  .grid--soft { grid-template-columns: 1fr; }
+  .grid--soft > .card { margin-top: 0 !important; margin-bottom: 0 !important; }
+
+  /* PDP perks list tightens */
+  .pdp__perks li { font-size: 10.5px; }
+
+  /* Comparison table can hold its min-width but cap font */
+  .compare__table { min-width: 380px; }
+  .compare__table th, .compare__table td { font-size: 11px; padding: 10px 6px; }
+
+  /* Story block media stays small */
+  .story-block__media { max-height: 200px; }
+
+  /* Footer logo + statement */
+  .footer__logo img { height: 64px !important; }
+  .footer__statement { font-size: 14px; }
+}
+
+
+/* =================================================================
+   GLOBAL DEFENSIVE FIXES — apply at all widths but only kick in
+   when an element would otherwise overflow.
+   ================================================================= */
+
+/* Sticky CTA bar never wider than viewport with internal padding */
+.sticky-cta,
+.pdp-sticky {
+  max-width: calc(100vw - 24px);
+  box-sizing: border-box;
+}
+
+/* Announcement bar safety */
+.announcement,
+.announcement__track {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Hero panels never exceed viewport */
+.hero__panel { max-width: 100%; box-sizing: border-box; }
+
+/* Container shells */
+.collection,
+.trust,
+.ugc,
+.club,
+.ritual,
+.pdp,
+.pdp-story,
+.pdp-ritual,
+.pdp-formula,
+.pdp-pair,
+.pdp-diary,
+.pdp-more,
+.footer {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Buttons never burst */
+.btn { max-width: 100%; box-sizing: border-box; }
+
+/* Form controls never burst */
+input, textarea, select { max-width: 100%; box-sizing: border-box; }
+
+/* Tables never burst silently — they scroll inside their wrapper */
+.compare,
+.size-table-wrap { box-sizing: border-box; }
+
+
+/* =================================================================
+   MOBILE HARDENING LAYER — applies AFTER everything above
+   Five-tier breakpoint stack matching the responsive spec:
+     320–359  iPhone SE 1, Galaxy Fold cover (very small)
+     360–430  standard mobile (iPhone 12 mini through Pixel 8)
+     431–767  large mobile / phablet
+     768–1023 tablet
+     1024+    desktop (untouched)
+
+   Goal: zero horizontal scroll, viewport-bounded sections, readable
+   type at every size, and consistent stacking for every grid the
+   landing + product pages use.
+   ================================================================= */
+
+/* ---- FOUNDATIONS — universal, no media query ----------------------
+   Defense in depth on top of html/body overflow-x:clip already set
+   at the top of the file. */
+*, *::before, *::after { box-sizing: border-box; }
+
+main, section, header, footer, article, aside, nav { max-width: 100%; }
+
+/* Replace any width:100vw → width:100% pattern at the element layer.
+   100vw includes the scrollbar on some platforms and is the #1 cause
+   of a 1–17px horizontal scroll. We can't rewrite every author's
+   width:100vw, but we can pin the element using the parent width. */
+.hero, .drop, .collection, .trust, .ugc, .ritual, .club, .footer,
+.pdp, .pdp-story, .pdp-ritual, .pdp-formula, .pdp-pair, .pdp-diary,
+.pdp-more, .pdp-ugc, .pdp-reviews, .pdp-ritual-club,
+.page-hero, .article, .faq, .contact, .steps, .compare,
+.journal-grid, .story-block, .track, .size-table-wrap, .sitemap {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Every flex/grid child must be allowed to shrink past content
+   width — repeats the universal selector with !important so a
+   late-loading author rule can't accidentally re-introduce overflow. */
+.nav__inner > *, .hero__content > *, .hero__panel > *,
+.collection__head > *, .grid--soft > *, .grid--dark > *,
+.drop > *, .drop__content > *, .drop__media > *,
+.ritual__inner > *, .ritual__stats > *, .ritual__stats li > *,
+.trust__grid > *, .ugc__grid > *, .ugc__filters > *, .filter-bar > *,
+.club__inner > *, .club__benefits > *, .club__form > *,
+.footer__cols > *, .footer__top > *, .footer__legal > *,
+.pdp > *, .pdp__gallery > *, .pdp__details > *,
+.pdp-story > *, .pdp-ritual__stepper > *, .pdp-formula__inner > *,
+.pdp-formula__cards > *, .pdp-formula__list > *,
+.pdp-pair__grid > *, .pdp-more__grid > *,
+.pdp-diary__reviews > *, .pdp-ugc__grid > *,
+.pdp-reviews__list > *, .pdp__trust-row > *, .pdp__specs > *,
+.compare > *, .compare__table > *, .size-table-wrap > *,
+.journal-grid > *, .story-block > *, .article > *,
+.contact > *, .steps > *, .page-hero > *, .sitemap > * {
+  min-width: 0;
+}
+
+/* Long-string safety — beats hyphenation in a tight column */
+.card__name, .card__note, .card__price, .card__tag,
+.pdp__title, .pdp__tagline, .pdp-card__name,
+.page-hero__title, .page-hero__lede,
+.journal-card__title, .journal-card__excerpt,
+.story-block__title, .story-block__copy,
+.compare__table td, .compare__table th,
+.size-table td, .size-table th,
+.faq__q, .faq__a,
+.article p, .article li, .article h2, .article h3,
+.contact__detail-value,
+.pdp-story__body, .pdp-story__title,
+.pdp-formula__title, .pdp-formula__copy,
+.pdp-ritual__title, .pdp-ritual__copy,
+.pdp-diary__quote blockquote,
+.club__form input::placeholder,
+.btn, .link-arrow {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+
+/* =================================================================
+   ≤ 1023px — TABLET (768–1023 covered) + carries down
+   ================================================================= */
+@media (max-width: 1023px) {
+  /* Hero two-panel → stacked even at large tablet. The existing 820px
+     rule handles this, but on portrait 9.7" iPad we want the same. */
+  .hero {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    height: auto;
+  }
+  .hero__panel { min-height: 64vh; }
+
+  /* Soft Muse grid: at tablet, 2 columns reads cleaner than 3 */
+  .grid--soft { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  /* Dark Siren: hero card spans both, others go 2×2 */
+  .grid--dark {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      "hero hero"
+      "a b"
+      "c d";
+  }
+
+  /* PDP two-column gallery + details stacks */
+  .pdp {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .pdp__gallery {
+    position: relative;
+    top: 0;
+    max-width: 640px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* PDP formula side-by-side → stacked */
+  .pdp-formula__inner { grid-template-columns: 1fr; gap: 32px; }
+  .pdp-formula__col-left { position: relative; top: 0; }
+  .pdp-formula__cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  /* Footer 4-col → 2-col */
+  .footer__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 24px; }
+
+  /* Trust 4-col → 2-col */
+  .trust__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+
+/* =================================================================
+   ≤ 767px — LARGE MOBILE / PHABLET (431–767 covered)
+   This is the "mobile starts here" tier.
+   ================================================================= */
+@media (max-width: 767px) {
+  :root {
+    --gutter: 24px;
+    --space-xl: 56px;
+    --space-2xl: 80px;
+  }
+
+  /* Nav hamburger active */
+  .nav__links { display: none; }
+  .nav__menu { display: flex; }
+  .nav__inner { grid-template-columns: auto 1fr auto; }
+  .nav__logo { justify-self: center; }
+
+  /* Drop stacks media above content */
+  .drop { grid-template-columns: 1fr; gap: 40px; }
+  .drop__media { margin-left: 0; }
+
+  /* UGC: 4-col → 2-col */
+  .ugc__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: clamp(180px, 38vw, 260px);
+  }
+  .ugc__grid > .ugc__tile:nth-child(n) { grid-row: auto; grid-column: auto; }
+  .ugc__grid > .ugc__tile:nth-child(4) { grid-column: span 2; }
+
+  /* Trust 2 → 1 */
+  .trust__grid { grid-template-columns: 1fr; }
+
+  /* Ritual stats: 3 → 1 with dividers */
+  .ritual__stats { grid-template-columns: 1fr; gap: 0; }
+  .ritual__stats li {
+    padding: 22px 0;
+    border-bottom: 1px solid rgba(232, 214, 201, 0.12);
+  }
+  .ritual__stats li:last-child { border-bottom: none; }
+
+  /* PDP formula cards: 2 → 1 */
+  .pdp-formula__cards { grid-template-columns: 1fr; }
+
+  /* PDP ritual steps: 3 → 1 */
+  .pdp-ritual__stepper { grid-template-columns: 1fr; gap: 48px; }
+  .pdp-ritual__stepper::before { display: none; }
+
+  /* PDP reviews list: 2 → 1 (override the min-width:769 grid) */
+  .pdp-reviews__list { display: block; }
+  .pdp-reviews__list > * + * { margin-top: 18px; }
+
+  /* Footer 2 → 1 stays at 1 wider */
+  .footer__top { flex-direction: column; align-items: center; text-align: center; gap: 18px; }
+}
+
+
+/* =================================================================
+   ≤ 430px — STANDARD MOBILE (360–430 covered)
+   This is the iPhone 12 mini / 13 mini / 14 / 15 / Pixel band.
+   ================================================================= */
+@media (max-width: 430px) {
+  :root { --gutter: 20px; }
+
+  /* Container side padding standard 20px */
+  .nav { padding-left: 16px; padding-right: 16px; }
+
+  /* Hero panels: tighter, never taller than ~60vh on small phones */
+  .hero__panel { min-height: 56vh; padding: 32px 20px 48px; }
+
+  /* Grids stay 2-col with safe minmax(0) */
+  .grid--soft,
+  .grid--dark {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 14px;
+  }
+  .grid--dark { grid-template-areas: "hero hero" "a b" "c d"; }
+  .grid--dark .card--hero { grid-column: span 2; grid-area: hero; }
+
+  /* PDP gallery shouldn't exceed 70vh on phones */
+  .pdp__hero { aspect-ratio: 4 / 5; max-height: 70vh; }
+
+  /* PDP details typography tightens */
+  .pdp__title { font-size: clamp(36px, 11vw, 52px); }
+  .pdp__tagline { font-size: 15px; }
+
+  /* PDP buy area stacks vertically */
+  .pdp__buy { flex-direction: column; align-items: stretch; gap: 14px; }
+  .pdp__qty { align-self: flex-start; }
+  .pdp__buy .btn { width: 100%; justify-content: center; }
+
+  /* PDP specs: 3 columns wraps cleanly */
+  .pdp__specs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px 10px;
+  }
+  .pdp__specs dt { font-size: 9.5px; letter-spacing: 0.16em; }
+  .pdp__specs dd { font-size: 15px; }
+
+  /* PDP pair / more / diary all stack 1-col */
+  .pdp-pair__grid,
+  .pdp-more__grid,
+  .pdp-diary__reviews { grid-template-columns: 1fr; gap: 22px; }
+
+  /* PDP UGC grid */
+  .pdp-ugc__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: clamp(140px, 42vw, 200px);
+  }
+
+  /* Footer 2-col stays */
+  .footer__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 18px; }
+  .footer__legal { flex-direction: column; align-items: center; gap: 12px; text-align: center; }
+  .footer__legal ul { flex-wrap: wrap; justify-content: center; gap: 8px 14px; }
+
+  /* CTAs full-width inside content blocks (announcement bar excluded) */
+  .pdp__buy .btn,
+  .drop__btn,
+  .contact__form .btn,
+  .track__form .btn,
+  .ritual__inner .btn,
+  .article .btn { width: 100%; justify-content: center; }
+
+  /* Tag chips never bust */
+  .card__tag,
+  .pdp__hero-tag,
+  .pdp__pills li {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+
+/* =================================================================
+   ≤ 390px — squeeze (iPhone 12/13/14, Pixel 6/7, S22 portrait)
+   ================================================================= */
+@media (max-width: 390px) {
+  :root { --gutter: 18px; }
+
+  /* Type-scale tighten one notch */
+  .hero__title { font-size: clamp(42px, 13vw, 56px); }
+  .display-1 { font-size: clamp(38px, 11vw, 50px); }
+  .display-2 { font-size: clamp(28px, 9vw, 38px); }
+
+  /* Card name sized for narrow column */
+  .card__name { font-size: 16px; }
+  .card__note { font-size: 12.5px; }
+  .card__price { font-size: 11px; }
+
+  /* PDP specs: 2 columns reads better than 3 here */
+  .pdp__specs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 16px; }
+}
+
+
+/* =================================================================
+   ≤ 375px — iPhone SE 2/3, 12/13 mini
+   ================================================================= */
+@media (max-width: 375px) {
+  :root { --gutter: 16px; }
+
+  .nav { padding-left: 14px; padding-right: 14px; }
+
+  /* Headlines */
+  .hero__title { font-size: 40px; line-height: 1.0; }
+  .display-1 { font-size: 36px; }
+  .display-2 { font-size: 28px; }
+
+  /* Body */
+  body { font-size: 14.5px; }
+
+  /* Grid still 2-col but with tight gaps */
+  .grid--soft,
+  .grid--dark { gap: 18px 12px; }
+
+  /* Footer collapses to 1 col at SE width */
+  .footer__cols { grid-template-columns: 1fr; gap: 24px; }
+}
+
+
+/* =================================================================
+   ≤ 359px — iPhone SE 1, Galaxy Fold cover, 320px priority
+   ================================================================= */
+@media (max-width: 359px) {
+  :root { --gutter: 14px; }
+
+  /* Nav drops search icon, keeps account + bag */
+  .nav__icons > button:first-child { display: none; }
+  .nav__icons { gap: 8px; }
+  .icon-btn { width: 36px; height: 36px; }
+  .nav { padding-left: 12px; padding-right: 12px; }
+
+  /* Hero ultra-compact */
+  .hero__panel { min-height: 52vh; padding: 24px 14px 40px; }
+  .hero__title { font-size: 36px; line-height: 0.98; }
+  .hero__sub { font-size: 13px; }
+
+  /* Headlines */
+  .display-1 { font-size: 30px; }
+  .display-2 { font-size: 24px; }
+
+  /* Grids: 1-col for breathing room */
+  .grid--soft,
+  .grid--dark { grid-template-columns: 1fr; gap: 20px; }
+  .grid--dark { grid-template-areas: "hero" "a" "b" "c" "d"; }
+
+  /* PDP: title and gallery
+     Gallery is constrained by aspect-ratio 4/5 and max-height 70vh — fine. */
+  .pdp__title { font-size: 32px; }
+  .pdp__specs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 14px; }
+  .pdp__price { font-size: 24px; }
+
+  /* PDP UGC tiles: smaller row */
+  .pdp-ugc__grid { grid-auto-rows: 130px; gap: 8px; }
+
+  /* Announcement bar tightest legible */
+  .announcement__track {
+    gap: 22px;
+    padding: 8px 12px;
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+  }
+
+  /* Footer */
+  .footer__logo img { height: 60px !important; }
+  .footer__statement { font-size: 13.5px; }
+
+  /* Buttons */
+  .btn { font-size: 11px; padding: 14px 18px; letter-spacing: 0.1em; }
+}
+
+
+/* =================================================================
+   STICKY CTA — viewport-safe positioning at every size
+   The old max-width:calc(100vw - 24px) can include the scrollbar on
+   some browsers. Use insets + box-sizing instead (position:fixed with
+   left/right both set sizes the element to that bounded region).
+   ================================================================= */
+@media (max-width: 767px) {
+  .sticky-cta,
+  .pdp-sticky {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    width: auto;
+    max-width: none;
+  }
+}
+@media (max-width: 430px) {
+  .sticky-cta,
+  .pdp-sticky {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+  }
+}
+@media (max-width: 359px) {
+  .sticky-cta,
+  .pdp-sticky {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+  }
+}
+
+
+/* =================================================================
+   FORM INPUTS — prevent iOS zoom-on-focus by keeping 16px minimum
+   font-size on text-type inputs across the site.
+   ================================================================= */
+@media (max-width: 767px) {
+  input[type="email"],
+  input[type="text"],
+  input[type="tel"],
+  input[type="search"],
+  input[type="password"],
+  input[type="number"],
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+
+/* =================================================================
+   DECORATIVE ABSOLUTE ELEMENTS — clip to parent so the orb / num
+   marks never push the page wide. The orbs already live inside
+   .hero__panel { overflow: hidden } which is correct; this is a
+   safety net for the smaller decorative tags.
+   ================================================================= */
+@media (max-width: 767px) {
+  /* PDP story number mark — was top:-24px right:-24px in absolute
+     positioning. On mobile, pull it inward so it never escapes. */
+  .pdp-story__num {
+    top: -12px;
+    right: -8px;
+    font-size: 18px;
+  }
+
+  /* Drop rail decoration — hidden on small phones already at 430,
+     hide on the broader phone band too for consistency. */
+  .drop__rail { display: none; }
+
+  /* Story block media never goes past content frame */
+  .story-block__media { max-width: 100%; }
+}
+
+
+/* =================================================================
+   TABLE / SCROLL-WRAPPER POLISH — make horizontal-scroll behavior
+   visually clear so users know to swipe (NOT page-level scroll).
+   ================================================================= */
+@media (max-width: 767px) {
+  .compare,
+  .size-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    /* Soft right-edge fade hint so users see "more →" */
+    mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent 100%);
+  }
+}
+
+
+/* =================================================================
+   ANNOUNCEMENT BAR — ensure marquee track never bleeds page width.
+   ================================================================= */
+.announcement {
+  overflow: hidden;
+  max-width: 100%;
+}
+.announcement__track { will-change: transform; }
+
+
+/* =================================================================
+   PRINT — no horizontal layout artifacts when sharing as PDF
+   ================================================================= */
+@media print {
+  .announcement,
+  .nav,
+  .sticky-cta,
+  .pdp-sticky,
+  .mobile-menu { display: none !important; }
+  body { background: white; color: black; }
 }

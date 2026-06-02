@@ -192,6 +192,21 @@ body.is-dark-pdp .ingredient-card__benefit { color: var(--color-accent-tan); opa
   font-size: 11px;
 }
 
+/* Dark PDP: free-from pills were rendering brown-on-wine — invisible.
+   Use light text + light border so the chips read on the dark canvas. */
+body.is-dark-pdp .badge-row .pill,
+[data-theme="dark"] .badge-row .pill {
+  color: var(--color-accent-tan);
+  border-color: rgba(232, 214, 201, 0.28);
+  background: rgba(232, 214, 201, 0.04);
+}
+
+body.is-dark-pdp .badge-row .pill:hover,
+[data-theme="dark"] .badge-row .pill:hover {
+  border-color: var(--color-accent-tan);
+  color: var(--color-text-contrast);
+}
+
 /* ------------------------------------------------------------
    ZONE 5 — THE APPLICATION RITUAL
 ------------------------------------------------------------ */
@@ -1056,4 +1071,249 @@ body.is-dark-pdp .footer__top {
   position: absolute;
   inset: 0;
   border-radius: inherit;
+}
+
+
+/* =================================================================
+   PDP — MOBILE RESPONSIVE SUPPLEMENTS
+   Fills gaps between existing pdp.css media queries (768, 430).
+   ================================================================= */
+
+/* Defensive min-width on every PDP grid/flex child */
+.pdp > *,
+.pdp__gallery > *,
+.pdp__info > *,
+.pdp__specs > *,
+.pdp__pills > *,
+.pdp__perks > *,
+.pdp-story > *,
+.pdp-ritual__steps > *,
+.pdp-ritual__stepper > *,
+.pdp-formula__inner > *,
+.pdp-formula__cards > *,
+.pdp-formula__list > *,
+.pdp-pair__grid > *,
+.pdp-more__grid > *,
+.pdp-diary__reviews > *,
+.pdp-reviews__list > *,
+.pdp-ugc__grid > *,
+.pdp__trust-row > *,
+.pdp-sticky__inner > * {
+  min-width: 0;
+}
+
+/* ≤ 1023px — tablet stacking for PDP grids that the existing
+   768 rule already handles plus a few unhandled ones. */
+@media (max-width: 1023px) {
+  .pdp { grid-template-columns: 1fr; gap: 32px; }
+  .pdp-pair__grid,
+  .pdp-more__grid { grid-template-columns: 1fr; gap: 28px; }
+  .pdp-reviews__list { grid-template-columns: 1fr; }
+}
+
+/* ≤ 767px — phablet / large mobile typography & spacing */
+@media (max-width: 767px) {
+  .pdp__hero { max-height: 78vh; }
+  .pdp__gallery { gap: 12px; }
+  .pdp__thumbs { grid-template-columns: repeat(auto-fit, minmax(48px, 1fr)); }
+
+  .pdp-formula__cards { grid-template-columns: 1fr; gap: 16px; }
+  .pdp-ritual__stepper { grid-template-columns: 1fr; gap: 36px; }
+  .pdp-ugc__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pdp__trust-row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 14px; }
+
+  /* Prevent PDP CTA row from forcing horizontal scroll */
+  .pdp__buy { flex-wrap: wrap; gap: 14px; }
+  .pdp__buy .btn { flex: 1 1 100%; }
+}
+
+/* ≤ 380px — iPhone SE / small Android typography pinning */
+@media (max-width: 380px) {
+  .pdp__hero-cap { font-size: 10.5px; padding: 5px 8px; gap: 8px; letter-spacing: 0.12em; }
+  .pdp__hero-tag { font-size: 9px; padding: 5px 8px; }
+  .pdp__specs { grid-template-columns: 1fr 1fr; gap: 12px 16px; }
+  .pdp__pills { gap: 5px; }
+  .pdp__pills li { padding: 6px 9px; font-size: 9.5px; letter-spacing: 0.1em; }
+  .pdp__trust-row { grid-template-columns: 1fr; }
+  .pdp-ugc__grid { grid-template-columns: 1fr; }
+}
+
+/* ≤ 359px — final 320px safety net */
+@media (max-width: 359px) {
+  .pdp__thumbs { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .pdp__price { font-size: 24px; }
+  .pdp__qty-btn { width: 32px; height: 36px; }
+  .pdp__qty-num { min-width: 28px; font-size: 14px; }
+}
+
+
+/* =================================================================
+   PDP MOBILE — FINAL HARDENING LAYER
+   Belt-and-braces fixes for the product page specifically. Addresses
+   the spec's promise that NO card, image, button, or section block
+   can ever exceed screen width from 320px upward.
+   ================================================================= */
+
+/* Universal min-width:0 on every PDP descendant container — last-line
+   defense against a wide inline element forcing horizontal scroll. */
+.pdp, .pdp *,
+.pdp-story, .pdp-story *,
+.pdp-ritual, .pdp-ritual *,
+.pdp-formula, .pdp-formula *,
+.pdp-pair, .pdp-pair *,
+.pdp-diary, .pdp-diary *,
+.pdp-more, .pdp-more *,
+.pdp-ugc, .pdp-ugc *,
+.pdp-reviews, .pdp-reviews *,
+.pdp-ritual-club, .pdp-ritual-club * {
+  max-width: 100%;
+}
+
+/* Images inside PDP — fluid + correct aspect handling */
+.pdp__hero-img,
+.pdp__thumb-img,
+.pdp-formula__media img,
+.pdp-pair__card img,
+.pdp-more__card img,
+.pdp-ugc__img,
+.ingredient-card img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* PDP hero image stays inside the gallery container */
+.pdp__hero {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* ≤ 767px — tablet & large mobile PDP polish */
+@media (max-width: 767px) {
+  /* Breadcrumb wraps cleanly on narrow widths */
+  .product__crumbs-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .product__crumbs ol {
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    font-size: 10px;
+  }
+
+  /* Formula title shrinks one more notch for narrow widths */
+  .pdp-formula__title {
+    font-size: clamp(28px, 7vw, 44px);
+    max-width: 100%;
+  }
+
+  /* Formula copy + cards full-width */
+  .pdp-formula__copy { max-width: 100%; }
+
+  /* Trust row: stack icon over text more compactly */
+  .pdp__trust-row li {
+    flex: 1 1 calc(50% - 14px);
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  /* Shade selector — 6 swatches on 1 row could be too tight at 360.
+     auto-fit + cap to 44px each, justify-content:start. */
+  .pdp__swatch-grid {
+    grid-template-columns: repeat(auto-fit, 44px);
+    gap: 12px;
+  }
+  .pdp__swatch { width: 44px; height: 44px; }
+
+  /* Ritual club form sits inside the dark plum section — stack on mobile */
+  .pdp-ritual-club__form {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .pdp-ritual-club__form input,
+  .pdp-ritual-club__form .btn {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Specs definition list — never blow out */
+  .pdp__specs dt,
+  .pdp__specs dd {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* ≤ 430px — standard mobile, tighter PDP rhythm */
+@media (max-width: 430px) {
+  /* Hero cap (number + finish) wraps cleanly */
+  .pdp__hero-cap {
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    font-size: 11px;
+    padding: 5px 9px;
+    bottom: 12px;
+    left: 12px;
+  }
+
+  /* Tag badge top-right — clip if shade name is long */
+  .pdp__hero-tag {
+    max-width: calc(100% - 24px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    top: 12px;
+    right: 12px;
+  }
+
+  /* Eyebrow above PDP title */
+  .eyebrow { font-size: 10px; letter-spacing: 0.18em; }
+
+  /* PDP reviews score + bars */
+  .pdp-reviews__rating {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .pdp-reviews__bars { width: 100%; }
+}
+
+/* ≤ 380px — iPhone SE pinning */
+@media (max-width: 380px) {
+  /* Swatch grid narrow */
+  .pdp__swatch-grid {
+    grid-template-columns: repeat(auto-fit, 40px);
+    gap: 10px;
+  }
+  .pdp__swatch { width: 40px; height: 40px; }
+
+  /* Quantity selector compacts */
+  .pdp__qty { gap: 2px; }
+  .pdp__qty-btn { width: 36px; height: 38px; font-size: 16px; }
+
+  /* Sticky CTA shade dot smaller so the label has room */
+  .pdp-sticky__shade { width: 22px; height: 22px; }
+}
+
+/* ≤ 359px — final 320px floor */
+@media (max-width: 359px) {
+  /* Gallery thumbs go 4 across with even narrower cells */
+  .pdp__thumbs { gap: 6px; }
+
+  /* Formula title doesn't go wider than a clean 2-line wrap */
+  .pdp-formula__title { font-size: 26px; line-height: 1.08; }
+
+  /* Specs definition list — single column for breathing room */
+  .pdp__specs { grid-template-columns: 1fr; gap: 10px; }
+
+  /* PDP perks list tightens further */
+  .pdp__perks li { font-size: 11px; gap: 8px; padding: 8px 0; }
+
+  /* Ritual stepper number circles smaller */
+  .pdp-ritual__num { width: 52px; height: 52px; font-size: 18px; }
+  .pdp-ritual__title { font-size: 18px; }
+  .pdp-ritual__copy { font-size: 13px; }
 }
