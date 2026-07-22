@@ -38,13 +38,26 @@ if (fs.existsSync(ENV_FILE) && typeof process.loadEnvFile === 'function') {
   for (const [k, v] of Object.entries(shell)) if (v) process.env[k] = v;
 }
 
-const STORE = process.env.SHOPIFY_STORE;
-const TOKEN = process.env.SHOPIFY_ADMIN_ACCESS_TOKEN;
+// Admin URLs are built as https://${STORE}/admin/... so STORE must be the bare
+// domain. Copying it out of the browser bar gets you a scheme and a trailing
+// slash, which silently produces https://https://…//admin — normalise instead.
+const STORE = (process.env.SHOPIFY_STORE || '').trim().replace(/^https?:\/\//, '').replace(/\/+$/, '');
+const TOKEN = (process.env.SHOPIFY_ADMIN_ACCESS_TOKEN || '').trim();
 const DRY_RUN = process.argv.includes('--dry-run');
 const ONLY = (process.argv.find((a) => a.startsWith('--only=')) || '').replace('--only=', '').split(',').filter(Boolean);
 
 if (!DRY_RUN && (!STORE || !TOKEN)) {
   console.error('Set SHOPIFY_STORE and SHOPIFY_ADMIN_ACCESS_TOKEN in .env (copy .env.example), or export them.');
+  process.exit(1);
+}
+
+if (STORE === 'your-store.myshopify.com') {
+  console.error('SHOPIFY_STORE is still the placeholder from .env.example — set your real <store>.myshopify.com domain.');
+  process.exit(1);
+}
+
+if (STORE && !/^[a-z0-9][a-z0-9-]*\.myshopify\.com$/.test(STORE)) {
+  console.error(`SHOPIFY_STORE resolved to "${STORE}" — it must be the <store>.myshopify.com admin domain, not a custom domain.`);
   process.exit(1);
 }
 
@@ -641,6 +654,9 @@ async function seedMenus() {
 // ----------------------------------------------------------------
 async function main() {
   if (DRY_RUN) log('DRY RUN — no writes will be made.\n');
+  // Always say which store is about to be written to. Seeding the wrong one
+  // creates 11 products, 12 pages and 5 menus that have to be undone by hand.
+  else log(`Seeding ${STORE}\n`);
 
   await preflight();
 
