@@ -28,13 +28,28 @@ const DATA = path.join(ROOT, 'data');
 const IMAGES = path.join(ROOT, 'assets');
 const API_VERSION = '2024-10';
 
+// Load .env if it's there, so `node scripts/seed-shopify.js` just works. No
+// dependency — process.loadEnvFile is built in from Node 20.12. Anything
+// already exported in the shell is restored afterwards so it still wins.
+const ENV_FILE = path.join(ROOT, '.env');
+if (fs.existsSync(ENV_FILE) && typeof process.loadEnvFile === 'function') {
+  const shell = { SHOPIFY_STORE: process.env.SHOPIFY_STORE, SHOPIFY_ADMIN_ACCESS_TOKEN: process.env.SHOPIFY_ADMIN_ACCESS_TOKEN };
+  process.loadEnvFile(ENV_FILE);
+  for (const [k, v] of Object.entries(shell)) if (v) process.env[k] = v;
+}
+
 const STORE = process.env.SHOPIFY_STORE;
 const TOKEN = process.env.SHOPIFY_ADMIN_ACCESS_TOKEN;
 const DRY_RUN = process.argv.includes('--dry-run');
 const ONLY = (process.argv.find((a) => a.startsWith('--only=')) || '').replace('--only=', '').split(',').filter(Boolean);
 
 if (!DRY_RUN && (!STORE || !TOKEN)) {
-  console.error('Set SHOPIFY_STORE and SHOPIFY_ADMIN_ACCESS_TOKEN (a shpat_… Admin API token).');
+  console.error('Set SHOPIFY_STORE and SHOPIFY_ADMIN_ACCESS_TOKEN in .env (copy .env.example), or export them.');
+  process.exit(1);
+}
+
+if (!DRY_RUN && TOKEN && !TOKEN.startsWith('shpat_')) {
+  console.error(`Token starts with "${TOKEN.split('_')[0]}_" — only a shpat_ Admin API token can write products.`);
   process.exit(1);
 }
 

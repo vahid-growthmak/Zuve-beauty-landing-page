@@ -79,6 +79,11 @@ node scripts/seed-shopify.js --dry-run
 node scripts/seed-shopify.js
 ```
 
+The seeder loads `.env` itself via `process.loadEnvFile` (Node 20.12+), so there
+is no dependency and no `npm install`. Variables already exported in your shell
+take precedence over the file. It refuses to run if the token isn't a `shpat_`
+one — `shptka_` theme-access and app-automation tokens cannot write products.
+
 The seeder is idempotent and step-scoped:
 
 ```bash
