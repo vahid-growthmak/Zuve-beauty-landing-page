@@ -1,0 +1,11 @@
+# The theme lives at the repo root; everything below is tooling and source
+# material that must never be pushed to the store.
+data/
+scripts/
+Web Product images/
+.claude/
+node_modules/
+*.md
+*.png
+!assets/*.png
+.env.example

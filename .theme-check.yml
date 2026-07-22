@@ -1,0 +1,8 @@
+# The theme is the repo root, so exclude the seeding tooling and source material
+# that sits alongside it.
+ignore:
+  - data/**
+  - scripts/**
+  - Web Product images/**
+  - .claude/**
+  - node_modules/**

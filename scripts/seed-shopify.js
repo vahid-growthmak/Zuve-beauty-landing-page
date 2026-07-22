@@ -25,7 +25,7 @@ const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
 const DATA = path.join(ROOT, 'data');
-const IMAGES = path.join(ROOT, 'assets', 'images');
+const IMAGES = path.join(ROOT, 'assets');
 const API_VERSION = '2024-10';
 
 const STORE = process.env.SHOPIFY_STORE;
