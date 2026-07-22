@@ -1,0 +1,69 @@
+{%- comment -%}
+  Cross-sell row. Source order:
+    metafield     → product.metafields.custom.pairs (list.product_reference)
+    collection    → the rest of the product's shade family
+    recommendations → Shopify's product recommendations API (progressive)
+{%- endcomment -%}
+{%- liquid
+  assign source = section.settings.source
+  assign limit = section.settings.products_to_show
+  assign items = null
+
+  if source == 'metafield'
+    assign items = product.metafields.custom.pairs.value
+  endif
+
+  if items == blank or items == null
+    assign family = section.settings.collection
+    if family == blank or family.products.size == 0
+      assign family = product.collections | first
+    endif
+    assign items = family.products
+  endif
+-%}
+
+{%- if items != blank -%}
+  <section class="{{ section.settings.style }}" aria-labelledby="relatedLabel-{{ section.id }}">
+    <header class="{{ section.settings.style }}__head">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      {%- endif -%}
+      <h2 id="relatedLabel-{{ section.id }}" class="display-2 {{ section.settings.style }}__title">{{ section.settings.heading }}</h2>
+    </header>
+
+    <div class="{{ section.settings.style }}__grid">
+      {%- assign shown = 0 -%}
+      {%- for p in items -%}
+        {%- if p.id != product.id and shown < limit -%}
+          {% render 'pdp-card', product: p, variant: section.settings.card_variant %}
+          {%- assign shown = shown | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "PDP related products",
+  "settings": [
+    { "type": "select", "id": "source", "label": "Source", "options": [
+      { "value": "metafield", "label": "\"Pairs with\" metafield" },
+      { "value": "collection", "label": "Shade family collection" }
+    ], "default": "metafield" },
+    { "type": "collection", "id": "collection", "label": "Fallback collection" },
+    { "type": "select", "id": "style", "label": "Layout", "options": [
+      { "value": "pdp-pair", "label": "Complete the Ritual (3-up)" },
+      { "value": "pdp-more", "label": "Others in This Ritual (4-up)" }
+    ], "default": "pdp-pair" },
+    { "type": "select", "id": "card_variant", "label": "Card variant", "options": [
+      { "value": "pair", "label": "Pair" },
+      { "value": "more", "label": "More" }
+    ], "default": "pair" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Complete the Ritual" },
+    { "type": "range", "id": "products_to_show", "label": "Products to show", "min": 2, "max": 8, "step": 1, "default": 3 }
+  ],
+  "presets": [{ "name": "PDP related products" }]
+}
+{% endschema %}

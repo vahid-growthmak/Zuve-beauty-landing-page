@@ -1,0 +1,144 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "t1": { "type": "trust", "settings": { "icon": "shield-sm", "label": "10-Free Formula" } },
+        "t2": { "type": "trust", "settings": { "icon": "check-circle", "label": "Never Tested" } },
+        "t3": { "type": "trust", "settings": { "icon": "clock-sm", "label": "72-Hour Wear" } },
+        "t4": { "type": "trust", "settings": { "icon": "truck", "label": "Free above ₹999" } }
+      },
+      "block_order": ["t1", "t2", "t3", "t4"],
+      "settings": {
+        "cta_label": "Reserve Your Set",
+        "size_label": "15ml / 0.5 fl oz",
+        "reserved_line": "240 sets reserved this week",
+        "in_stock_note": "In stock — ships in 24 hours"
+      }
+    },
+
+    "formula": {
+      "type": "pdp-formula",
+      "blocks": {
+        "i1": { "type": "ingredient", "settings": { "name": "Biotin Complex", "role": "Strengthens nail bed", "benefit": "Prevents brittleness over time" } },
+        "i2": { "type": "ingredient", "settings": { "name": "Vitamin E", "role": "Deep hydration", "benefit": "Protects cuticles from drying" } },
+        "i3": { "type": "ingredient", "settings": { "name": "Micro-Silica", "role": "Self-leveling finish", "benefit": "Fills ridges for glass-like shine" } }
+      },
+      "block_order": ["i1", "i2", "i3"],
+      "settings": {
+        "heading": "The Formula Behind the Ritual",
+        "copy": "Every ZUVE shade begins with a question: what does this colour feel like on skin? The answer is always the same — effortless, safe, and built to last.",
+        "cta_label": "Read the Full Formula Story",
+        "cta_url": "shopify://pages/about",
+        "free_from": "No Formaldehyde, No Toluene, No DBP, No Camphor, No Resin, No Xylene, No Parabens, No Animal Ingredients"
+      }
+    },
+
+    "apply": {
+      "type": "pdp-ritual-steps",
+      "blocks": {
+        "s1": { "type": "step", "settings": { "icon": "file", "title": "Prepare the Canvas", "copy": "clean, buff, base coat." } },
+        "s2": { "type": "step", "settings": { "icon": "brush", "title": "Lay the First Coat", "copy": "thin stroke, 60 seconds." } },
+        "s3": { "type": "step", "settings": { "icon": "sparkle", "title": "Set the Ritual", "copy": "second coat + top coat, 90 seconds." } }
+      },
+      "block_order": ["s1", "s2", "s3"],
+      "settings": {
+        "heading": "The Application Ritual",
+        "tip": "“Two thin coats outlast one thick one. Every time.”",
+        "cta_label": "Watch the Full Ritual",
+        "cta_url": "shopify://pages/how-to-apply"
+      }
+    },
+
+    "pair": {
+      "type": "pdp-related",
+      "settings": {
+        "source": "metafield",
+        "style": "pdp-pair",
+        "card_variant": "pair",
+        "heading": "Complete the Ritual",
+        "products_to_show": 3
+      }
+    },
+
+    "ugc": {
+      "type": "pdp-ugc",
+      "blocks": {
+        "u1": { "type": "tile", "settings": {} },
+        "u2": { "type": "tile", "settings": {} },
+        "u3": { "type": "tile", "settings": {} },
+        "u4": { "type": "tile", "settings": {} },
+        "u5": { "type": "tile", "settings": {} }
+      },
+      "block_order": ["u1", "u2", "u3", "u4", "u5"],
+      "settings": {
+        "eyebrow": "THIS SHADE IN THE WILD",
+        "heading": "Real Nails. Real Rituals.",
+        "handle": "@zuvebeauty",
+        "cta": "Tag us @zuvebeauty for a chance to be featured"
+      }
+    },
+
+    "reviews": {
+      "type": "pdp-reviews",
+      "blocks": {
+        "r1": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "The kind of nude that doesn't feel like wearing nothing.",
+            "body": "I bought it for a wedding and ended up wearing it for three weeks. It became part of how I wanted to dress.",
+            "author": "Anaya, Bangalore",
+            "date": "1 month ago"
+          }
+        },
+        "r2": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Three coats, no streaks.",
+            "body": "I've stopped buying anything else. Survived a week of typing without chipping. I'm sold.",
+            "author": "Tara K., Pune",
+            "date": "2 months ago"
+          }
+        }
+      },
+      "block_order": ["r1", "r2"],
+      "settings": {
+        "heading": "The Ritual Verdict",
+        "show_filters": true,
+        "reviews_to_show": 6,
+        "cta_label": "Share Your Ritual",
+        "cta_url": "shopify://pages/contact"
+      }
+    },
+
+    "club": {
+      "type": "ritual-club",
+      "blocks": {
+        "b1": { "type": "benefit", "settings": { "title": "Early Drop Access", "copy": "48 hours before public release." } },
+        "b2": { "type": "benefit", "settings": { "title": "Complimentary Samples", "copy": "Two shades with every order." } },
+        "b3": { "type": "benefit", "settings": { "title": "Ritual Rewards", "copy": "Earn toward a complimentary set." } }
+      },
+      "block_order": ["b1", "b2", "b3"],
+      "settings": {
+        "heading": "Be First for the Next Drop",
+        "lede": "Join the Ritual Club for early access, exclusive shades, and complimentary samples.",
+        "cta_label": "Begin the Ritual",
+        "legal": "We never share your ritual."
+      }
+    },
+
+    "more": {
+      "type": "pdp-related",
+      "settings": {
+        "source": "collection",
+        "style": "pdp-more",
+        "card_variant": "more",
+        "heading": "Others in This Ritual",
+        "products_to_show": 4
+      }
+    }
+  },
+  "order": ["main", "formula", "apply", "pair", "ugc", "reviews", "club", "more"]
+}

@@ -1,0 +1,45 @@
+{% render 'page-hero', title: 'Search', crumb: 'Search' %}
+
+<section class="search-page">
+  <form action="{{ routes.search_url }}" method="get" role="search" class="search-page__form">
+    <input type="hidden" name="type" value="product">
+    <label for="searchInput" class="sr-only">{{ 'general.search.search' | t }}</label>
+    <input
+      id="searchInput"
+      type="search"
+      name="q"
+      value="{{ search.terms | escape }}"
+      placeholder="{{ 'general.search.placeholder' | t }}"
+      autocomplete="off">
+    <button type="submit" class="btn btn--filled btn--brown"><span>{{ 'general.search.search' | t }}</span></button>
+  </form>
+
+  {%- if search.performed -%}
+    <p class="search-page__count">{{ 'general.search.results_count' | t: count: search.results_count, terms: search.terms }}</p>
+
+    {%- paginate search.results by 12 -%}
+      <div class="grid grid--soft" data-product-grid>
+        {%- for item in search.results -%}
+          {%- if item.object_type == 'product' -%}
+            {% render 'product-card', product: item %}
+          {%- else -%}
+            <a class="search-result" href="{{ item.url }}">
+              <h3 class="card__name">{{ item.title }}</h3>
+              <p class="card__note">{{ item.content | strip_html | truncatewords: 24 }}</p>
+            </a>
+          {%- endif -%}
+        {%- else -%}
+          <p class="collection__lede">{{ 'general.search.no_results' | t: terms: search.terms }}</p>
+        {%- endfor -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        <nav class="pagination" aria-label="{{ 'general.pagination.label' | t }}">{{ paginate | default_pagination }}</nav>
+      {%- endif -%}
+    {%- endpaginate -%}
+  {%- endif -%}
+</section>
+
+{% schema %}
+{ "name": "Search" }
+{% endschema %}

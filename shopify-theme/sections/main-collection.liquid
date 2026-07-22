@@ -1,0 +1,126 @@
+{%- liquid
+  assign mode = collection.metafields.custom.palette.value | default: 'soft'
+  assign is_dark = false
+  if mode == 'dark'
+    assign is_dark = true
+  endif
+
+  assign shade_list = ''
+  for p in collection.products
+    assign hex = p.metafields.custom.shade_hex.value
+    if hex != blank
+      assign shade_list = shade_list | append: hex | append: ','
+    endif
+  endfor
+  assign shades = shade_list | split: ','
+-%}
+
+<section class="collection collection--{{ mode }}" aria-labelledby="collectionLabel">
+  <header class="collection__head{% if is_dark %} collection__head--dark{% endif %}">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="eyebrow{% if is_dark %} eyebrow--dark{% endif %}">{{ section.settings.eyebrow }}</span>
+    {%- endif -%}
+    <h1 id="collectionLabel" class="display-2{% if is_dark %} display-2--light{% endif %}">{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}
+      <div class="collection__lede{% if is_dark %} collection__lede--dark{% endif %}">{{ collection.description }}</div>
+    {%- endif -%}
+
+    {%- if section.settings.show_filters and collection.filters.size > 0 -%}
+      <form class="filter-bar filter-bar--facets" data-facet-form>
+        {%- for filter in collection.filters -%}
+          {%- case filter.type -%}
+            {%- when 'list' -%}
+              <details class="facet" data-facet>
+                <summary class="pill">{{ filter.label }}</summary>
+                <div class="facet__panel">
+                  {%- for value in filter.values -%}
+                    <label class="facet__option{% if value.count == 0 and value.active == false %} is-disabled{% endif %}">
+                      <input
+                        type="checkbox"
+                        name="{{ value.param_name }}"
+                        value="{{ value.value }}"
+                        {% if value.active %}checked{% endif %}
+                        {% if value.count == 0 and value.active == false %}disabled{% endif %}>
+                      <span>{{ value.label }} ({{ value.count }})</span>
+                    </label>
+                  {%- endfor -%}
+                </div>
+              </details>
+            {%- when 'price_range' -%}
+              <details class="facet" data-facet>
+                <summary class="pill">{{ filter.label }}</summary>
+                <div class="facet__panel facet__panel--price">
+                  <label>
+                    <span class="sr-only">{{ 'sections.collection.price_from' | t }}</span>
+                    <input type="number" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value }}" placeholder="{{ 0 | money_without_currency }}" min="0" max="{{ filter.range_max | money_without_currency | replace: ',', '' }}">
+                  </label>
+                  <label>
+                    <span class="sr-only">{{ 'sections.collection.price_to' | t }}</span>
+                    <input type="number" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value }}" placeholder="{{ filter.range_max | money_without_currency }}" min="0" max="{{ filter.range_max | money_without_currency | replace: ',', '' }}">
+                  </label>
+                </div>
+              </details>
+          {%- endcase -%}
+        {%- endfor -%}
+
+        <label class="facet facet--sort">
+          <span class="sr-only">{{ 'sections.collection.sort_by' | t }}</span>
+          <select name="sort_by" class="pill">
+            {%- assign current_sort = collection.sort_by | default: collection.default_sort_by -%}
+            {%- for option in collection.sort_options -%}
+              <option value="{{ option.value }}"{% if option.value == current_sort %} selected{% endif %}>{{ option.name }}</option>
+            {%- endfor -%}
+          </select>
+        </label>
+
+        <noscript><button type="submit" class="pill">{{ 'sections.collection.apply' | t }}</button></noscript>
+      </form>
+    {%- endif -%}
+  </header>
+
+  {%- paginate collection.products by section.settings.products_per_page -%}
+    <div class="grid grid--{{ mode }}" data-product-grid>
+      {%- for product in collection.products -%}
+        {%- liquid
+          assign featured = false
+          assign hero = false
+          if section.settings.feature_first and forloop.first and paginate.current_page == 1
+            if is_dark
+              assign hero = true
+            else
+              assign featured = true
+            endif
+          endif
+        -%}
+        {% render 'product-card',
+          product: product,
+          mode: mode,
+          featured: featured,
+          hero: hero,
+          shades: shades,
+          quick_label: section.settings.quick_add_label %}
+      {%- else -%}
+        <p class="collection__lede">{{ 'sections.collection.empty' | t }}</p>
+      {%- endfor -%}
+    </div>
+
+    {%- if paginate.pages > 1 -%}
+      <nav class="pagination" aria-label="{{ 'general.pagination.label' | t }}">
+        {{ paginate | default_pagination }}
+      </nav>
+    {%- endif -%}
+  {%- endpaginate -%}
+</section>
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Edit" },
+    { "type": "range", "id": "products_per_page", "label": "Products per page", "min": 6, "max": 36, "step": 2, "default": 12 },
+    { "type": "checkbox", "id": "show_filters", "label": "Show storefront filters", "info": "Facets are configured in Apps → Search & Discovery → Filters.", "default": true },
+    { "type": "checkbox", "id": "feature_first", "label": "Feature the first card", "default": true },
+    { "type": "text", "id": "quick_add_label", "label": "Quick-add label", "default": "Reserve Your Set" }
+  ]
+}
+{% endschema %}

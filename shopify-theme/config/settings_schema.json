@@ -1,0 +1,45 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "ZUVE Beauty",
+    "theme_version": "1.0.0",
+    "theme_author": "ZUVE Beauty",
+    "theme_documentation_url": "https://zuvebeauty.com",
+    "theme_support_url": "https://zuvebeauty.com/pages/contact"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      { "type": "image_picker", "id": "favicon", "label": "Favicon" },
+      { "type": "image_picker", "id": "social_share_image", "label": "Social sharing image" },
+      { "type": "range", "id": "container_width", "label": "Max content width", "min": 1200, "max": 1800, "step": 40, "unit": "px", "default": 1440 }
+    ]
+  },
+  {
+    "name": "Colours — Soft Muse",
+    "settings": [
+      { "type": "color", "id": "color_canvas_soft", "label": "Canvas (warm white)", "default": "#fbf7f3" },
+      { "type": "color", "id": "color_canvas_beige", "label": "Canvas beige", "default": "#e8d6c9" },
+      { "type": "color", "id": "color_accent_tan", "label": "Accent tan", "default": "#d9b8a3" },
+      { "type": "color", "id": "color_accent_pink", "label": "Accent pink", "default": "#c9a5a2" },
+      { "type": "color", "id": "color_text_primary", "label": "Primary text", "default": "#4a2d23" },
+      { "type": "color", "id": "color_text_muted", "label": "Muted text", "default": "#7a564a" }
+    ]
+  },
+  {
+    "name": "Colours — Dark Siren",
+    "settings": [
+      { "type": "color", "id": "color_canvas_black", "label": "Off-black (plum tinted)", "default": "#0a0408" },
+      { "type": "color", "id": "color_canvas_plum", "label": "Plum", "default": "#3a0f1a" },
+      { "type": "color", "id": "color_accent_red", "label": "Accent red", "default": "#8a0e17" },
+      { "type": "color", "id": "color_accent_wine", "label": "Accent wine", "default": "#5b1421" },
+      { "type": "color", "id": "color_text_contrast", "label": "Contrast text", "default": "#e8d6c9" }
+    ]
+  },
+  {
+    "name": "Social",
+    "settings": [
+      { "type": "text", "id": "social_handle", "label": "Social handle", "default": "@zuvebeauty" }
+    ]
+  }
+]

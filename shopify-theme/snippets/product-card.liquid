@@ -1,0 +1,87 @@
+{%- comment -%}
+  Product card.
+  Params:
+    product   (required)  product object
+    mode      'soft' | 'dark' — palette. Defaults to the product's own metafield.
+    featured  boolean — larger hero treatment in the grid
+    shades    array of hex strings for the hover "more shades" strip
+    show_note boolean — render the tagline under the card (default true)
+{%- endcomment -%}
+{%- liquid
+  assign card_mode = mode | default: product.metafields.custom.palette.value | default: 'soft'
+  assign is_dark = false
+  if card_mode == 'dark'
+    assign is_dark = true
+  endif
+  assign shade = product.metafields.custom.shade_hex | default: '#E8D6C9'
+  assign badge = product.metafields.custom.badge
+  assign number = product.metafields.custom.shade_number
+  assign finish = product.metafields.custom.finish
+  assign tagline = product.metafields.custom.tagline
+  assign variant = product.selected_or_first_available_variant
+  assign media_alt = product.featured_media.alt | default: product.title
+-%}
+
+<a
+  href="{{ product.url }}"
+  class="card{% if is_dark %} card--dark{% endif %}{% if featured %} card--featured{% endif %}{% if hero %} card--hero{% endif %}"
+  data-tags="{{ product.tags | join: ',' | downcase | escape }}">
+  <div class="card__media{% if is_dark %} card__media--dark{% endif %}">
+    {%- if product.featured_media -%}
+      {{
+        product.featured_media
+        | image_url: width: 900
+        | image_tag:
+          class: 'card__img',
+          alt: media_alt,
+          loading: 'lazy',
+          widths: '300,450,600,900',
+          sizes: '(min-width: 1100px) 30vw, (min-width: 700px) 45vw, 90vw'
+      }}
+    {%- endif -%}
+
+    <div class="swatch{% if hero %} swatch--lg{% endif %}" style="--shade:{{ shade }}"></div>
+
+    {%- if variant.available -%}
+      <button
+        type="button"
+        class="card__quick{% if is_dark %} card__quick--dark{% endif %}"
+        data-quick-add
+        data-variant-id="{{ variant.id }}"
+        aria-label="{{ 'products.product.add_to_bag_named' | t: name: product.title }}">
+        {%- if quick_label != blank -%}{{ quick_label }}{%- else -%}{{ 'products.product.quick_add' | t }}{%- endif -%}
+      </button>
+    {%- else -%}
+      <span class="card__quick{% if is_dark %} card__quick--dark{% endif %}">{{ 'products.product.waitlist' | t }}</span>
+    {%- endif -%}
+
+    {%- if badge != blank -%}
+      <span class="card__tag {% if is_dark %}card__tag--power{% else %}card__tag--featured{% endif %}">{{ badge }}</span>
+    {%- elsif variant.available == false -%}
+      <span class="card__tag card__tag--waitlist{% if is_dark %} card__tag--waitlist-dark{% endif %}">{{ 'products.product.sold_out' | t }}</span>
+    {%- elsif number != blank -%}
+      <span class="card__tag">{{ number }}{% if finish != blank %} &middot; {{ finish }}{% endif %}</span>
+    {%- endif -%}
+
+    {%- if shades and shades.size > 1 -%}
+      <div class="card__shade-strip" aria-hidden="true">
+        {%- for hex in shades limit: 4 -%}
+          <span class="card__shade-dot" style="background:{{ hex }}"></span>
+        {%- endfor -%}
+        {%- assign extra = shades.size | minus: 4 -%}
+        {%- if extra > 0 -%}
+          <span class="card__shade-more">+{{ extra }} {{ 'products.product.more' | t }}</span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="card__meta{% if is_dark %} card__meta--dark{% endif %}">
+    <h3 class="card__name{% if is_dark %} card__name--dark{% endif %}">{{ product.title }}</h3>
+    <span class="card__price{% if is_dark %} card__price--dark{% endif %}">{{ product.price | money }}</span>
+  </div>
+
+  {%- if show_note != false and tagline != blank -%}
+    <p class="card__note{% if is_dark %} card__note--dark{% endif %}">{{ tagline }}</p>
+  {%- endif -%}
+</a>

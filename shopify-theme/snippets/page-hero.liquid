@@ -1,0 +1,18 @@
+{%- comment -%}
+  Page hero. Params: title (required), lede, crumb (current-page label), parent_title, parent_url
+{%- endcomment -%}
+<section class="page-hero">
+  <div class="page-hero__crumbs">
+    <a href="{{ routes.root_url }}">{{ 'general.breadcrumbs.home' | t }}</a>
+    {%- if parent_title != blank -%}
+      <span aria-hidden="true">/</span>
+      <a href="{{ parent_url }}">{{ parent_title }}</a>
+    {%- endif -%}
+    <span aria-hidden="true">/</span>
+    <span>{{ crumb | default: title }}</span>
+  </div>
+  <h1 class="page-hero__title">{{ title }}</h1>
+  {%- if lede != blank -%}
+    <p class="page-hero__lede">{{ lede }}</p>
+  {%- endif -%}
+</section>

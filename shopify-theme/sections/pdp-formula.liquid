@@ -1,0 +1,73 @@
+<section class="pdp-formula" aria-labelledby="formulaLabel-{{ section.id }}">
+  <div class="pdp-formula__inner">
+    <div class="pdp-formula__col-left">
+      <h2 id="formulaLabel-{{ section.id }}" class="display-2 pdp-formula__title">{{ section.settings.heading }}</h2>
+      {%- if section.settings.copy != blank -%}
+        <p class="pdp-formula__copy">{{ section.settings.copy }}</p>
+      {%- endif -%}
+      {%- if section.settings.cta_label != blank -%}
+        <a href="{{ section.settings.cta_url }}" class="btn btn--ghost link-arrow">{{ section.settings.cta_label }}</a>
+      {%- endif -%}
+    </div>
+
+    <div class="pdp-formula__col-right">
+      {%- assign ingredients = section.blocks | where: 'type', 'ingredient' -%}
+      {%- if ingredients.size > 0 -%}
+        <div class="pdp-formula__cards">
+          {%- for block in ingredients -%}
+            <article class="ingredient-card" {{ block.shopify_attributes }}>
+              <h3 class="ingredient-card__name">{{ block.settings.name }}</h3>
+              <p class="ingredient-card__role">{{ block.settings.role }}</p>
+              <p class="ingredient-card__benefit">{{ block.settings.benefit }}</p>
+            </article>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.free_from != blank -%}
+        <div class="pdp-formula__badges">
+          <ul class="badge-row">
+            {%- assign claims = section.settings.free_from | split: ',' -%}
+            {%- for claim in claims -%}
+              <li class="pill">{{ claim | strip }}</li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PDP formula",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The Formula Behind the Ritual" },
+    { "type": "textarea", "id": "copy", "label": "Copy", "default": "Every ZUVE shade begins with a question: what does this colour feel like on skin? The answer is always the same — effortless, safe, and built to last." },
+    { "type": "text", "id": "cta_label", "label": "Link label", "default": "Read the Full Formula Story" },
+    { "type": "url", "id": "cta_url", "label": "Link" },
+    { "type": "textarea", "id": "free_from", "label": "Free-from claims (comma separated)", "default": "No Formaldehyde, No Toluene, No DBP, No Camphor, No Resin, No Xylene, No Parabens, No Animal Ingredients" }
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingredient",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Name", "default": "Biotin Complex" },
+        { "type": "text", "id": "role", "label": "Role", "default": "Strengthens nail bed" },
+        { "type": "text", "id": "benefit", "label": "Benefit", "default": "Prevents brittleness over time" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP formula",
+      "blocks": [
+        { "type": "ingredient", "settings": { "name": "Biotin Complex", "role": "Strengthens nail bed", "benefit": "Prevents brittleness over time" } },
+        { "type": "ingredient", "settings": { "name": "Vitamin E", "role": "Deep hydration", "benefit": "Protects cuticles from drying" } },
+        { "type": "ingredient", "settings": { "name": "Micro-Silica", "role": "Self-leveling finish", "benefit": "Fills ridges for glass-like shine" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,79 @@
+<section class="ritual" id="{{ section.settings.anchor | default: 'ritual' }}" aria-labelledby="ritualLabel-{{ section.id }}">
+  <div class="ritual__bg" aria-hidden="true">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 2400 | image_tag: class: 'ritual__img', alt: '', loading: 'lazy', widths: '800,1200,1800,2400', sizes: '100vw' }}
+    {%- else -%}
+      <img src="{{ 'ritual_bg.png' | asset_url }}" alt="" class="ritual__img" width="2400" height="1400" loading="lazy">
+    {%- endif -%}
+    <div class="ritual__bg-gradient"></div>
+    <div class="ritual__bg-grain"></div>
+  </div>
+
+  <div class="ritual__inner">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="eyebrow eyebrow--dark">{{ section.settings.eyebrow }}</span>
+    {%- endif -%}
+    <h2 id="ritualLabel-{{ section.id }}" class="display-1">{{ section.settings.heading }}</h2>
+    {%- if section.settings.copy != blank -%}
+      <p class="ritual__copy">{{ section.settings.copy }}</p>
+    {%- endif -%}
+    {%- if section.settings.cta_label != blank -%}
+      <a href="{{ section.settings.cta_url }}" class="btn btn--ghost btn--ghost-light">
+        <span>{{ section.settings.cta_label }}</span>
+        {% render 'icon', name: 'arrow-right', size: 14 %}
+      </a>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="ritual__stats" id="ritualStats" aria-label="{{ section.settings.stats_label }}">
+        {%- for block in section.blocks -%}
+          <li {{ block.shopify_attributes }}>
+            <span class="ritual__num" data-count="{{ block.settings.value }}">
+              {{- block.settings.value -}}
+              {%- if block.settings.unit != blank -%}<span class="ritual__unit">{{ block.settings.unit }}</span>{%- endif -%}
+            </span>
+            <span class="ritual__label">{{ block.settings.label }}</span>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Ritual story",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Anchor id", "default": "ritual" },
+    { "type": "image_picker", "id": "image", "label": "Background image" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The ZUVE Story" },
+    { "type": "html", "id": "heading", "label": "Heading", "default": "Beauty is a <em>ritual,</em><br />not a routine." },
+    { "type": "html", "id": "copy", "label": "Copy", "default": "ZUVE was built for women who understand the difference.<br />Every shade, a ceremony. Every set, a story." },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Discover Our Story" },
+    { "type": "url", "id": "cta_url", "label": "Button link" },
+    { "type": "text", "id": "stats_label", "label": "Stats aria-label", "default": "ZUVE in numbers" }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        { "type": "text", "id": "value", "label": "Number", "default": "18" },
+        { "type": "text", "id": "unit", "label": "Unit suffix" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Shades, every undertone" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Ritual story",
+      "blocks": [
+        { "type": "stat", "settings": { "value": "18", "label": "Shades, every undertone" } },
+        { "type": "stat", "settings": { "value": "0", "label": "Toxic chemicals, ever" } },
+        { "type": "stat", "settings": { "value": "72", "unit": "hr", "label": "Wear that survives the real world" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

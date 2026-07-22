@@ -1,0 +1,304 @@
+{%- liquid
+  assign mf = product.metafields.custom
+  assign palette = mf.palette.value | default: 'soft'
+  assign is_dark = false
+  if palette == 'dark'
+    assign is_dark = true
+  endif
+
+  assign number = mf.shade_number.value
+  assign finish = mf.finish.value | default: 'Glazed'
+  assign undertone = mf.undertone.value | default: 'Warm'
+  assign wear = mf.wear.value | default: '72 hours'
+  assign badge = mf.badge.value
+  assign tagline = mf.tagline.value
+
+  # The shade family this product belongs to — drives the swatch selector.
+  # A `collection` setting resolves to a collection object, not a handle.
+  assign family = section.settings.family_collection
+  if family == blank or family.products.size == 0
+    assign family = product.collections | first
+  endif
+
+  assign rating = product.metafields.reviews.rating.value.rating | default: mf.rating.value
+  assign rating_count = product.metafields.reviews.rating_count.value | default: mf.rating_count.value | default: 0
+
+  assign variant = product.selected_or_first_available_variant
+
+  assign eyebrow_prefix = 'I — Soft Muse'
+  if is_dark
+    assign eyebrow_prefix = 'II — Dark Siren'
+  endif
+
+  assign cta_label = section.settings.cta_label
+  if cta_label == blank
+    assign cta_label = 'products.product.add_to_bag' | t
+  endif
+-%}
+
+<nav class="product__crumbs" aria-label="{{ 'general.breadcrumbs.title' | t }}">
+  <div class="product__crumbs-inner">
+    <ol>
+      <li><a href="{{ routes.root_url }}">{{ 'general.breadcrumbs.home' | t }}</a></li>
+      {%- if family != blank -%}
+        <li><a href="{{ family.url }}">{{ family.title }}</a></li>
+      {%- endif -%}
+      <li aria-current="page">{{ product.title }}</li>
+    </ol>
+    {%- if family != blank -%}
+      <span class="pdp__mode-badge pill">{{ family.title }}</span>
+    {%- endif -%}
+  </div>
+</nav>
+
+<section class="pdp" aria-labelledby="pdpLabel">
+  <div class="pdp__gallery">
+    <figure class="pdp__hero">
+      <span class="pdp__hero-shade" aria-hidden="true"></span>
+      {%- if product.featured_media -%}
+        <img
+          class="pdp__hero-img"
+          data-hero-img
+          src="{{ product.featured_media | image_url: width: 1200 }}"
+          srcset="{{ product.featured_media | image_url: width: 600 }} 600w,
+                  {{ product.featured_media | image_url: width: 900 }} 900w,
+                  {{ product.featured_media | image_url: width: 1200 }} 1200w"
+          sizes="(min-width: 900px) 50vw, 100vw"
+          width="{{ product.featured_media.width }}"
+          height="{{ product.featured_media.height }}"
+          alt="{{ product.featured_media.alt | default: product.title | escape }}"
+          loading="eager">
+      {%- endif -%}
+      {%- if badge != blank -%}
+        <span class="pdp__hero-tag">{{ badge }}</span>
+      {%- endif -%}
+      <figcaption class="pdp__hero-cap">
+        <span>{{ number }}</span>
+        <span>{{ finish }}</span>
+      </figcaption>
+    </figure>
+
+    {%- if product.media.size > 1 -%}
+      <div class="pdp__thumbs" role="tablist" aria-label="{{ 'products.product.media_views' | t }}">
+        {%- for media in product.media limit: 6 -%}
+          <button
+            class="pdp__thumb{% if forloop.first %} is-active{% endif %}"
+            role="tab"
+            type="button"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">
+            <img
+              class="pdp__thumb-img"
+              src="{{ media | image_url: width: 240 }}"
+              data-full="{{ media | image_url: width: 1200 }}"
+              width="240"
+              height="300"
+              alt="{{ media.alt | default: product.title | escape }}"
+              loading="lazy">
+          </button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="pdp__details">
+    <span class="eyebrow">{{ eyebrow_prefix }}{% if number != blank %} <span aria-hidden="true">&middot;</span> {{ number }}{% endif %}</span>
+
+    <h1 id="pdpLabel" class="pdp__title display-1">{{ product.title }}</h1>
+    {%- if number != blank -%}
+      <p class="pdp__sub-label">{{ number }} &mdash; {{ finish }} {{ 'products.product.finish' | t }}</p>
+    {%- endif -%}
+
+    {%- if rating != blank -%}
+      <a href="#reviews" class="pdp__stars" aria-label="{{ 'products.product.rating_aria' | t: rating: rating, count: rating_count }}">
+        <span aria-hidden="true">{% render 'star-rating', rating: rating %}</span>
+        {{ rating }} ({{ rating_count }} {{ 'products.product.reviews' | t }})
+      </a>
+    {%- endif -%}
+
+    {%- if section.settings.reserved_line != blank -%}
+      <p class="pdp__reserved"><em>{{ section.settings.reserved_line }}</em></p>
+    {%- endif -%}
+
+    {%- if tagline != blank -%}
+      <p class="pdp__tagline">{{ tagline }}</p>
+    {%- endif -%}
+
+    {%- if family != blank and family.products.size > 1 -%}
+      <div class="pdp__shade-selector">
+        <div class="pdp__shade-selector-head">
+          <span class="pdp__shade-count">{{ 'products.product.shades_in_collection' | t: count: family.products.size }}</span>
+        </div>
+        <div class="pdp__swatch-grid" role="radiogroup" aria-label="{{ 'products.product.select_shade' | t }}">
+          {%- for p in family.products -%}
+            {%- assign p_badge = p.metafields.custom.badge.value | default: '' -%}
+            <a
+              href="{{ p.url }}"
+              role="radio"
+              aria-checked="{% if p.id == product.id %}true{% else %}false{% endif %}"
+              class="pdp__swatch{% if p.id == product.id %} is-active{% endif %}"
+              aria-label="{{ p.title | escape }}"
+              title="{{ p.title | escape }}">
+              <span class="pdp__swatch-color" style="background: {{ p.metafields.custom.shade_hex.value | default: '#E8D6C9' }}"></span>
+              {%- unless p.available -%}<span class="pdp__swatch-slash" aria-hidden="true"></span>{%- endunless -%}
+              {%- if p_badge contains 'Limited' or p_badge contains 'New Drop' or p_badge contains 'Last' -%}
+                <span class="pdp__swatch-dot" aria-hidden="true" title="{{ p_badge | escape }}"></span>
+              {%- endif -%}
+            </a>
+          {%- endfor -%}
+        </div>
+        <p class="pdp__shade-active-name">{{ 'products.product.currently_selected' | t }} <strong>{{ product.title }}</strong></p>
+      </div>
+    {%- endif -%}
+
+    <div class="pdp__specs-row">
+      <dl class="pdp__specs">
+        <div><dt>{{ 'products.product.finish' | t }}</dt><dd>{{ finish }}</dd></div>
+        <div><dt>{{ 'products.product.undertone' | t }}</dt><dd>{{ undertone }}</dd></div>
+        <div><dt>{{ 'products.product.wear' | t }}</dt><dd>{{ wear }}</dd></div>
+      </dl>
+    </div>
+
+    <div class="pdp__divider" aria-hidden="true"></div>
+
+    {%- form 'product', product, id: 'pdpForm', class: 'pdp__form', novalidate: 'novalidate' -%}
+      {%- unless product.has_only_default_variant -%}
+        <div class="pdp__variants">
+          {%- for option in product.options_with_values -%}
+            <div class="pdp__variant-group">
+              <label class="pdp__variant-label" for="Option-{{ section.id }}-{{ forloop.index0 }}">{{ option.name }}</label>
+              <select
+                id="Option-{{ section.id }}-{{ forloop.index0 }}"
+                class="pdp__variant-select"
+                data-option-selector
+                data-option-index="{{ forloop.index0 }}">
+                {%- for value in option.values -%}
+                  <option value="{{ value | escape }}"{% if option.selected_value == value %} selected{% endif %}>{{ value }}</option>
+                {%- endfor -%}
+              </select>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        {% comment %} Variant lookup table for the client-side selector. {% endcomment %}
+        <script type="application/json" data-variant-json>
+          [
+            {%- for v in product.variants -%}
+              {
+                "id": {{ v.id }},
+                "options": {{ v.options | json }},
+                "available": {{ v.available }},
+                "price": {{ v.price | money | json }},
+                "title": {{ v.title | json }}
+              }{%- unless forloop.last -%},{%- endunless -%}
+            {%- endfor -%}
+          ]
+        </script>
+      {%- endunless -%}
+
+      <input type="hidden" name="id" value="{{ variant.id }}" data-variant-input>
+
+      <div class="pdp__buy">
+        <div class="pdp__price-block">
+          <span class="pdp__price-label">{{ 'products.product.from' | t }}</span>
+          <span class="pdp__price" data-price>{{ variant.price | money }}</span>
+          {%- if product.has_only_default_variant -%}
+            {%- if section.settings.size_label != blank -%}
+              <span class="pdp__price-size">{{ section.settings.size_label }}</span>
+            {%- endif -%}
+          {%- else -%}
+            <span class="pdp__price-size" data-variant-title>{{ variant.title }}</span>
+          {%- endif -%}
+        </div>
+
+        <div class="pdp__qty" role="group" aria-label="{{ 'products.product.quantity' | t }}">
+          <button class="pdp__qty-btn" type="button" data-qty="-1" aria-label="{{ 'products.product.quantity_decrease' | t }}">&minus;</button>
+          <input class="pdp__qty-num" id="pdpQty" name="quantity" type="number" min="1" step="1" value="1" inputmode="numeric">
+          <button class="pdp__qty-btn" type="button" data-qty="1" aria-label="{{ 'products.product.quantity_increase' | t }}">+</button>
+        </div>
+      </div>
+
+      <button
+        class="btn btn--filled btn--brown pdp__cta"
+        type="submit"
+        name="add"
+        data-add-to-cart
+        {% unless variant.available %}disabled{% endunless %}>
+        <span>{% if variant.available %}{{ cta_label }}{% else %}{{ 'products.product.sold_out' | t }}{% endif %}</span>
+        {% render 'icon', name: 'arrow-right', size: 14 %}
+      </button>
+    {%- endform -%}
+
+    <p class="pdp__inventory" data-inventory>
+      <span class="pdp__inventory-dot" aria-hidden="true"></span>
+      {%- if variant.available -%}
+        {{ section.settings.in_stock_note }}
+      {%- else -%}
+        {{ 'products.product.out_of_stock' | t }}
+      {%- endif -%}
+    </p>
+
+    {%- assign trust_blocks = section.blocks | where: 'type', 'trust' -%}
+    {%- if trust_blocks.size > 0 -%}
+      <ul class="pdp__trust-row" aria-label="{{ 'products.product.trust' | t }}">
+        {%- for block in trust_blocks -%}
+          <li {{ block.shopify_attributes }}>
+            {% render 'icon', name: block.settings.icon, size: 20 %}
+            {{ block.settings.label }}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+
+<div class="pdp-sticky" id="pdpSticky" aria-hidden="true">
+  <div class="pdp-sticky__inner">
+    <div class="pdp-sticky__info">
+      <span class="pdp-sticky__shade" aria-hidden="true"></span>
+      <div class="pdp-sticky__text">
+        <strong>{{ product.title }}</strong>
+        <span class="pdp-sticky__sub">{{ finish }} <span aria-hidden="true">&middot;</span> <span data-price>{{ variant.price | money }}</span></span>
+      </div>
+    </div>
+    <button
+      class="btn btn--filled btn--brown btn--sm"
+      type="submit"
+      form="pdpForm"
+      data-add-to-cart
+      {% unless variant.available %}disabled{% endunless %}>
+      <span>{% if variant.available %}{{ cta_label }}{% else %}{{ 'products.product.sold_out' | t }}{% endif %}</span>
+    </button>
+  </div>
+</div>
+
+<script type="application/ld+json">
+  {{ product | structured_data }}
+</script>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": [
+    { "type": "collection", "id": "family_collection", "label": "Shade family collection (falls back to the product's first collection)" },
+    { "type": "text", "id": "cta_label", "label": "Add to cart label", "default": "Reserve Your Set" },
+    { "type": "text", "id": "size_label", "label": "Size note", "default": "15ml / 0.5 fl oz" },
+    { "type": "text", "id": "reserved_line", "label": "Scarcity line", "default": "240 sets reserved this week" },
+    { "type": "text", "id": "in_stock_note", "label": "In-stock note", "default": "In stock — ships in 24 hours" }
+  ],
+  "blocks": [
+    {
+      "type": "trust",
+      "name": "Trust signal",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "options": [
+          { "value": "shield-sm", "label": "Shield" },
+          { "value": "check-circle", "label": "Check" },
+          { "value": "clock-sm", "label": "Clock" },
+          { "value": "truck", "label": "Delivery" }
+        ], "default": "shield-sm" },
+        { "type": "text", "id": "label", "label": "Label", "default": "10-Free Formula" }
+      ]
+    }
+  ]
+}
+{% endschema %}

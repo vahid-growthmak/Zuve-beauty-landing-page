@@ -1,0 +1,78 @@
+{% render 'page-hero', title: 'Your Bag', crumb: 'Bag' %}
+
+<section class="cart-page" data-cart-page>
+  {%- if cart.item_count == 0 -%}
+    <div class="cart-page__empty">
+      <p class="lede">{{ 'sections.cart.empty' | t }}</p>
+      <a href="{{ routes.all_products_collection_url }}" class="btn btn--filled btn--brown"><span>{{ 'sections.cart.continue' | t }}</span></a>
+    </div>
+  {%- else -%}
+    <form action="{{ routes.cart_url }}" method="post" novalidate class="cart-page__form" data-cart-form>
+      <ul class="cart-items">
+        {%- for item in cart.items -%}
+          <li class="cart-item" data-cart-item data-key="{{ item.key }}">
+            <a href="{{ item.url }}" class="cart-item__media">
+              {%- if item.image -%}
+                <img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.image.alt | escape }}" width="100" height="125" loading="lazy">
+              {%- endif -%}
+            </a>
+            <div class="cart-item__body">
+              <a href="{{ item.url }}" class="cart-item__name">{{ item.product.title }}</a>
+              {%- unless item.product.has_only_default_variant -%}
+                <span class="cart-item__variant">{{ item.variant.title }}</span>
+              {%- endunless -%}
+              {%- if item.selling_plan_allocation -%}
+                <span class="cart-item__variant">{{ item.selling_plan_allocation.selling_plan.name }}</span>
+              {%- endif -%}
+              <span class="cart-item__price">{{ item.final_price | money }}</span>
+            </div>
+            <div class="cart-item__actions">
+              <div class="pdp__qty" role="group" aria-label="{{ 'products.product.quantity' | t }}">
+                <button class="pdp__qty-btn" type="button" data-cart-qty="-1" aria-label="{{ 'products.product.quantity_decrease' | t }}">&minus;</button>
+                <input class="pdp__qty-num" type="number" name="updates[]" value="{{ item.quantity }}" min="0" data-cart-qty-input data-key="{{ item.key }}">
+                <button class="pdp__qty-btn" type="button" data-cart-qty="1" aria-label="{{ 'products.product.quantity_increase' | t }}">+</button>
+              </div>
+              <button type="button" class="cart-item__remove link-arrow" data-cart-remove data-key="{{ item.key }}">{{ 'sections.cart.remove' | t }}</button>
+              <span class="cart-item__line-price">{{ item.final_line_price | money }}</span>
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      <aside class="cart-summary">
+        <div class="cart-summary__row">
+          <span>{{ 'sections.cart.subtotal' | t }}</span>
+          <strong data-cart-subtotal>{{ cart.total_price | money }}</strong>
+        </div>
+        {%- if cart.cart_level_discount_applications.size > 0 -%}
+          {%- for discount in cart.cart_level_discount_applications -%}
+            <div class="cart-summary__row cart-summary__row--discount">
+              <span>{{ discount.title }}</span>
+              <span>-{{ discount.total_allocated_amount | money }}</span>
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+        <p class="cart-summary__note">{{ 'sections.cart.tax_note' | t }}</p>
+
+        {%- if section.settings.show_note -%}
+          <label for="cart-note" class="cart-summary__note-label">{{ 'sections.cart.note' | t }}</label>
+          <textarea id="cart-note" name="note" rows="3">{{ cart.note }}</textarea>
+        {%- endif -%}
+
+        <button type="submit" name="checkout" class="btn btn--filled btn--brown cart-summary__checkout">
+          <span>{{ 'sections.cart.checkout' | t }}</span>
+        </button>
+        <a href="{{ routes.all_products_collection_url }}" class="link-arrow">{{ 'sections.cart.continue' | t }}</a>
+      </aside>
+    </form>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": [
+    { "type": "checkbox", "id": "show_note", "label": "Show order note field", "default": true }
+  ]
+}
+{% endschema %}

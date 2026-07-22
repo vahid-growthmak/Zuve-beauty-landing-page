@@ -1,0 +1,43 @@
+{% render 'page-hero',
+  title: blog.title,
+  lede: section.settings.lede,
+  crumb: blog.title %}
+
+<section class="journal-grid">
+  {%- paginate blog.articles by section.settings.articles_per_page -%}
+    {%- for article in blog.articles -%}
+      <a href="{{ article.url }}" class="journal-card">
+        <div class="journal-card__media" aria-hidden="true">
+          {%- if article.image -%}
+            <img src="{{ article.image | image_url: width: 700 }}" alt="{{ article.image.alt | escape }}" width="700" height="450" loading="lazy">
+          {%- endif -%}
+        </div>
+        {%- if article.tags.size > 0 -%}
+          <span class="journal-card__cat">{{ article.tags | first }}</span>
+        {%- endif -%}
+        <h2 class="journal-card__title">{{ article.title }}</h2>
+        <p class="journal-card__excerpt">{{ article.excerpt_or_content | strip_html | truncatewords: 22 }}</p>
+        <span class="journal-card__date">
+          {{ article.published_at | date: '%B %-d, %Y' }}
+          {%- if article.metafields.custom.read_time.value != blank %} &middot; {{ article.metafields.custom.read_time.value }}{% endif -%}
+        </span>
+      </a>
+    {%- else -%}
+      <p class="collection__lede">{{ 'blogs.article.none' | t }}</p>
+    {%- endfor -%}
+
+    {%- if paginate.pages > 1 -%}
+      <nav class="pagination" aria-label="{{ 'general.pagination.label' | t }}">{{ paginate | default_pagination }}</nav>
+    {%- endif -%}
+  {%- endpaginate -%}
+</section>
+
+{% schema %}
+{
+  "name": "Blog",
+  "settings": [
+    { "type": "textarea", "id": "lede", "label": "Lede", "default": "Rituals, notes and the stories behind the shades." },
+    { "type": "range", "id": "articles_per_page", "label": "Articles per page", "min": 3, "max": 24, "step": 3, "default": 9 }
+  ]
+}
+{% endschema %}

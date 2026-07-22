@@ -1,0 +1,106 @@
+{%- comment -%}
+  Reviews. Entries are metaobjects referenced from product.metafields.custom.reviews
+  (a list.metaobject_reference). Liquid arrays expose .size — .count silently
+  returns nil, which is the classic "why are my reviews not showing" bug.
+{%- endcomment -%}
+{%- liquid
+  assign reviews = product.metafields.custom.reviews.value
+  assign rating = product.metafields.reviews.rating.value.rating | default: product.metafields.custom.rating.value
+  assign rating_count = product.metafields.reviews.rating_count.value | default: product.metafields.custom.rating_count.value
+-%}
+
+<section class="pdp-reviews" aria-labelledby="reviewsLabel-{{ section.id }}" id="reviews">
+  <header class="pdp-reviews__head">
+    <h2 id="reviewsLabel-{{ section.id }}" class="display-2">{{ section.settings.heading }}</h2>
+  </header>
+
+  <div class="pdp-reviews__summary">
+    <div class="pdp-reviews__rating">
+      <span class="pdp-reviews__stars" aria-hidden="true">{% render 'star-rating', rating: rating %}</span>
+      <span class="pdp-reviews__score">{{ rating | default: '—' }}</span>
+      {%- if rating_count != blank -%}
+        <span class="pdp-reviews__count">({{ rating_count }})</span>
+      {%- endif -%}
+    </div>
+    {%- if section.settings.show_filters -%}
+      <div class="pdp-reviews__filters">
+        <button class="pill is-active" type="button" data-review-sort="recent">{{ 'products.reviews.recent' | t }}</button>
+        <button class="pill" type="button" data-review-sort="helpful">{{ 'products.reviews.helpful' | t }}</button>
+        <button class="pill" type="button" data-review-sort="verified">{{ 'products.reviews.verified_only' | t }}</button>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="pdp-reviews__list" data-review-list>
+    {%- if reviews and reviews.size > 0 -%}
+      {%- for r in reviews limit: section.settings.reviews_to_show -%}
+        <article class="pdp-review-card" data-verified="{{ r.verified.value | default: false }}">
+          <div class="pdp-review-card__stars" aria-hidden="true">{% render 'star-rating', rating: r.rating.value %}</div>
+          {%- if r.title.value != blank -%}
+            <h3 class="pdp-review-card__title">{{ r.title.value }}</h3>
+          {%- endif -%}
+          <p class="pdp-review-card__body">{{ r.body.value }}</p>
+          <div class="pdp-review-card__meta">
+            <span class="pdp-review-card__author">
+              {{- r.author.value -}}
+              {%- if r.location.value != blank -%}, {{ r.location.value }}{%- endif -%}
+            </span>
+            {%- if r.verified.value -%}
+              <span class="pdp-review-card__badge">{{ 'products.reviews.verified' | t }}</span>
+            {%- endif -%}
+            {%- if r.published_at.value != blank -%}
+              <span class="pdp-review-card__date">{{ r.published_at.value | date: '%B %Y' }}</span>
+            {%- endif -%}
+          </div>
+        </article>
+      {%- endfor -%}
+    {%- else -%}
+      {%- comment -%} No metaobject reviews yet — fall back to editorial copy. {%- endcomment -%}
+      {%- for block in section.blocks -%}
+        <article class="pdp-review-card" {{ block.shopify_attributes }}>
+          <div class="pdp-review-card__stars" aria-hidden="true">{% render 'star-rating', rating: block.settings.rating %}</div>
+          <h3 class="pdp-review-card__title">{{ block.settings.title }}</h3>
+          <p class="pdp-review-card__body">{{ block.settings.body }}</p>
+          <div class="pdp-review-card__meta">
+            <span class="pdp-review-card__author">{{ block.settings.author }}</span>
+            <span class="pdp-review-card__badge">{{ 'products.reviews.verified' | t }}</span>
+            <span class="pdp-review-card__date">{{ block.settings.date }}</span>
+          </div>
+        </article>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+
+  {%- if section.settings.cta_label != blank -%}
+    <div class="pdp-reviews__actions">
+      <a href="{{ section.settings.cta_url }}" class="btn btn--ghost link-arrow">{{ section.settings.cta_label }}</a>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "PDP reviews",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The Ritual Verdict" },
+    { "type": "checkbox", "id": "show_filters", "label": "Show sort pills", "default": true },
+    { "type": "range", "id": "reviews_to_show", "label": "Reviews to show", "min": 2, "max": 20, "step": 1, "default": 6 },
+    { "type": "text", "id": "cta_label", "label": "Action label", "default": "Share Your Ritual" },
+    { "type": "url", "id": "cta_url", "label": "Action link" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Fallback review",
+      "settings": [
+        { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "textarea", "id": "body", "label": "Body" },
+        { "type": "text", "id": "author", "label": "Author" },
+        { "type": "text", "id": "date", "label": "Date label" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "PDP reviews" }]
+}
+{% endschema %}

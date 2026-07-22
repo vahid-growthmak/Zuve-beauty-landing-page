@@ -1,0 +1,200 @@
+{
+  "general": {
+    "accessibility": {
+      "skip_to_content": "Skip to content",
+      "announcement": "Promotional announcement",
+      "open_menu": "Open navigation menu",
+      "close_menu": "Close menu",
+      "primary_nav": "Primary",
+      "mobile_nav": "Mobile primary",
+      "social": "Social media"
+    },
+    "breadcrumbs": {
+      "title": "Breadcrumb",
+      "home": "Home"
+    },
+    "meta": {
+      "tags": "Tagged {{ tags }}",
+      "page": "Page {{ page }}"
+    },
+    "pagination": {
+      "label": "Pagination"
+    },
+    "search": {
+      "search": "Search",
+      "placeholder": "Search shades, rituals, journal…",
+      "results_count": {
+        "one": "{{ count }} result for “{{ terms }}”",
+        "other": "{{ count }} results for “{{ terms }}”"
+      },
+      "no_results": "Nothing matched “{{ terms }}”. Try a shade name."
+    },
+    "password": {
+      "heading": "Opening soon.",
+      "message": "The ritual is being prepared. Enter the password to look inside.",
+      "label": "Password",
+      "enter": "Enter"
+    }
+  },
+
+  "products": {
+    "product": {
+      "quick_add": "Reserve Your Set",
+      "add_to_bag": "Reserve Your Set",
+      "add_to_bag_named": "Add {{ name }} to bag",
+      "added_to_bag": "Reserved — In Your Bag",
+      "waitlist": "Join the Waitlist",
+      "sold_out": "Sold out",
+      "out_of_stock": "Currently out of stock — join the waitlist",
+      "in_stock": "In stock — ships in 24 hours",
+      "more": "more",
+      "from": "From",
+      "finish": "Finish",
+      "undertone": "Undertone",
+      "wear": "Wear",
+      "quantity": "Quantity",
+      "quantity_decrease": "Decrease quantity",
+      "quantity_increase": "Increase quantity",
+      "media_views": "Product views",
+      "select_shade": "Select a shade",
+      "shades_in_collection": {
+        "one": "{{ count }} Shade in this Collection",
+        "other": "{{ count }} Shades in this Collection"
+      },
+      "currently_selected": "Currently selected:",
+      "reviews": "reviews",
+      "rating_aria": "{{ rating }} out of 5 stars, {{ count }} reviews",
+      "trust": "Trust signals"
+    },
+    "reviews": {
+      "recent": "Most Recent",
+      "helpful": "Most Helpful",
+      "verified_only": "Verified",
+      "verified": "Verified"
+    }
+  },
+
+  "sections": {
+    "cart": {
+      "title": "Your Bag",
+      "bag_count": {
+        "one": "Bag, {{ count }} item",
+        "other": "Bag, {{ count }} items"
+      },
+      "empty": "Your bag is empty.",
+      "continue": "Continue Shopping",
+      "subtotal": "Subtotal",
+      "tax_note": "Taxes and delivery calculated at checkout.",
+      "note": "Order note",
+      "remove": "Remove",
+      "checkout": "Checkout",
+      "view_bag": "View Bag"
+    },
+    "collection": {
+      "all": "All",
+      "empty": "No shades in this edit yet.",
+      "filter": "Filter {{ title }}",
+      "sort_by": "Sort by",
+      "apply": "Apply",
+      "price_from": "Price from",
+      "price_to": "Price to",
+      "shades": "shades"
+    },
+    "drop": {
+      "palette": "The Palette",
+      "featured_shades": "Featured shades",
+      "closes_in": "Closes in"
+    },
+    "ugc": {
+      "all": "All",
+      "shop_shade": "Shop This Shade"
+    },
+    "club": {
+      "email_label": "Your email address"
+    }
+  },
+
+  "contact": {
+    "form": {
+      "name": "Your name",
+      "email": "Email",
+      "order": "Order number (optional)",
+      "message": "Your message",
+      "send": "Send Message"
+    }
+  },
+
+  "blogs": {
+    "article": {
+      "none": "No entries yet."
+    },
+    "comments": {
+      "title": {
+        "one": "{{ count }} comment",
+        "other": "{{ count }} comments"
+      },
+      "success": "Thank you — your comment is awaiting moderation.",
+      "submit": "Post Comment"
+    }
+  },
+
+  "customer": {
+    "account": {
+      "title": "Account",
+      "log_out": "Log out"
+    },
+    "login": {
+      "password": "Password",
+      "sign_in": "Sign In",
+      "forgot": "Forgot your password?",
+      "create": "Create an account"
+    },
+    "register": {
+      "first_name": "First name",
+      "last_name": "Last name",
+      "submit": "Create Account"
+    },
+    "recover": {
+      "submit": "Send Reset Link",
+      "success": "We've sent you an email with a link to update your password."
+    },
+    "reset": {
+      "confirm": "Confirm password",
+      "submit": "Reset Password"
+    },
+    "activate": {
+      "submit": "Activate Account",
+      "decline": "Decline invitation"
+    },
+    "orders": {
+      "title": "Order History",
+      "order_number": "Order",
+      "date": "Date",
+      "fulfillment_status": "Status",
+      "total": "Total",
+      "none": "You haven't placed an order yet."
+    },
+    "order": {
+      "product": "Product"
+    },
+    "addresses": {
+      "title": "Address",
+      "manage": "Manage addresses",
+      "edit": "Edit",
+      "add": "Add Address",
+      "address1": "Address",
+      "city": "City",
+      "zip": "Postal code",
+      "country": "Country"
+    }
+  },
+
+  "gift_cards": {
+    "issued": {
+      "title": "Here's your {{ value }} gift card.",
+      "subtext": "A gift card for {{ shop }}.",
+      "remaining": "Remaining balance: {{ balance }}",
+      "shop_link": "Start Shopping"
+    }
+  }
+}

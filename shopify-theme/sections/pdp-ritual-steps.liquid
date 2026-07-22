@@ -1,0 +1,64 @@
+<section class="pdp-ritual" aria-labelledby="applyLabel-{{ section.id }}">
+  <header class="pdp-ritual__head">
+    <h2 id="applyLabel-{{ section.id }}" class="display-2">{{ section.settings.heading }}</h2>
+  </header>
+
+  <div class="pdp-ritual__content">
+    <ol class="pdp-ritual__stepper">
+      {%- for block in section.blocks -%}
+        <li class="pdp-ritual__step" {{ block.shopify_attributes }}>
+          <span class="pdp-ritual__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+          <div class="pdp-ritual__step-icon">{% render 'icon', name: block.settings.icon %}</div>
+          <h3 class="pdp-ritual__title">{{ block.settings.title }}</h3>
+          <p class="pdp-ritual__copy">{{ block.settings.copy }}</p>
+        </li>
+      {%- endfor -%}
+    </ol>
+
+    {%- if section.settings.tip != blank -%}
+      <div class="pdp-ritual__tip">
+        <blockquote><em>{{ section.settings.tip }}</em></blockquote>
+        {%- if section.settings.cta_label != blank -%}
+          <a href="{{ section.settings.cta_url }}" class="btn btn--ghost link-arrow">{{ section.settings.cta_label }}</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PDP application ritual",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The Application Ritual" },
+    { "type": "textarea", "id": "tip", "label": "Tip quote", "default": "“Two thin coats outlast one thick one. Every time.”" },
+    { "type": "text", "id": "cta_label", "label": "Link label", "default": "Watch the Full Ritual" },
+    { "type": "url", "id": "cta_url", "label": "Link" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "options": [
+          { "value": "file", "label": "Nail file" },
+          { "value": "brush", "label": "Brush" },
+          { "value": "sparkle", "label": "Sparkle" }
+        ], "default": "file" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Prepare the Canvas" },
+        { "type": "text", "id": "copy", "label": "Copy", "default": "clean, buff, base coat." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP application ritual",
+      "blocks": [
+        { "type": "step", "settings": { "icon": "file", "title": "Prepare the Canvas", "copy": "clean, buff, base coat." } },
+        { "type": "step", "settings": { "icon": "brush", "title": "Lay the First Coat", "copy": "thin stroke, 60 seconds." } },
+        { "type": "step", "settings": { "icon": "sparkle", "title": "Set the Ritual", "copy": "second coat + top coat, 90 seconds." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

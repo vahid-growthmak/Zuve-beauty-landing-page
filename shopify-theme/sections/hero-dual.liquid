@@ -1,0 +1,93 @@
+{%- comment -%}
+  Dual-world hero. Two panels (Soft Muse / Dark Siren) split by the monogram divider.
+  Each panel is a block so a merchant can retitle or relink either world.
+{%- endcomment -%}
+<section class="hero" aria-labelledby="heroLabel">
+  <h1 id="heroLabel" class="sr-only">{{ section.settings.seo_heading | default: shop.name }}</h1>
+
+  {%- for block in section.blocks -%}
+    {%- assign mode = block.settings.mode -%}
+    <div class="hero__panel hero__panel--{{ mode }}" aria-label="{{ block.settings.title | strip_html | escape }}" {{ block.shopify_attributes }}>
+      <div class="hero__grain{% if mode == 'dark' %} hero__grain--dark{% endif %}" aria-hidden="true"></div>
+      <div class="hero__visual hero__visual--{{ mode }}" aria-hidden="true">
+        {%- if block.settings.image != blank -%}
+          {{ block.settings.image | image_url: width: 1600 | image_tag: class: 'hero__img', alt: '', loading: 'eager', widths: '600,900,1200,1600', sizes: '(min-width: 900px) 50vw, 100vw' }}
+        {%- elsif mode == 'dark' -%}
+          <img src="{{ 'hero_dark.png' | asset_url }}" alt="" class="hero__img" width="1600" height="2000">
+        {%- else -%}
+          <img src="{{ 'hero_soft.png' | asset_url }}" alt="" class="hero__img" width="1600" height="2000">
+        {%- endif -%}
+        <span class="orb orb--{{ mode }}"></span>
+        <span class="orb orb--{{ mode }}-2"></span>
+      </div>
+
+      <div class="hero__content hero__content--{{ mode }}">
+        {%- if block.settings.eyebrow != blank -%}
+          <span class="eyebrow{% if mode == 'dark' %} eyebrow--dark{% endif %}">{{ block.settings.eyebrow }}</span>
+        {%- endif -%}
+        <h2 class="hero__title">{{ block.settings.title }}</h2>
+        {%- if block.settings.subtitle != blank -%}
+          <p class="hero__sub">{{ block.settings.subtitle }}</p>
+        {%- endif -%}
+        {%- if block.settings.cta_label != blank -%}
+          <a href="{{ block.settings.cta_url | default: routes.all_products_collection_url }}"
+             class="btn {% if mode == 'dark' %}btn--filled btn--red{% else %}btn--ghost btn--soft{% endif %}">
+            <span>{{ block.settings.cta_label }}</span>
+            {% render 'icon', name: 'arrow-right', size: 14 %}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- unless forloop.last -%}
+      <div class="hero__divider" aria-hidden="true">
+        <span class="hero__divider-line"></span>
+        <span class="hero__divider-mark">{% render 'icon', name: 'monogram', size: 24 %}</span>
+        <span class="hero__divider-line"></span>
+      </div>
+    {%- endunless -%}
+  {%- endfor -%}
+</section>
+
+{% schema %}
+{
+  "name": "Dual hero",
+  "settings": [
+    { "type": "text", "id": "seo_heading", "label": "Screen-reader H1", "default": "ZUVE Beauty — the Soft Muse and the Dark Siren" }
+  ],
+  "blocks": [
+    {
+      "type": "panel",
+      "name": "World panel",
+      "settings": [
+        { "type": "select", "id": "mode", "label": "Palette", "options": [
+          { "value": "soft", "label": "Soft Muse" },
+          { "value": "dark", "label": "Dark Siren" }
+        ], "default": "soft" },
+        { "type": "image_picker", "id": "image", "label": "Background image" },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "I — The Edit" },
+        { "type": "html", "id": "title", "label": "Title", "default": "The<br /><em>Soft Muse</em>" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Nudes, nourishment & quiet elegance." },
+        { "type": "text", "id": "cta_label", "label": "Button label", "default": "Discover the Edit" },
+        { "type": "url", "id": "cta_url", "label": "Button link" }
+      ]
+    }
+  ],
+  "max_blocks": 2,
+  "presets": [
+    {
+      "name": "Dual hero",
+      "blocks": [
+        { "type": "panel", "settings": { "mode": "soft" } },
+        { "type": "panel", "settings": {
+            "mode": "dark",
+            "eyebrow": "II — The Ritual",
+            "title": "The<br /><em>Dark Siren</em>",
+            "subtitle": "Power, ritual & the art of dark femininity.",
+            "cta_label": "Enter the Ritual"
+        } }
+      ]
+    }
+  ]
+}
+{% endschema %}

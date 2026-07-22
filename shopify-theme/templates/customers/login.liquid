@@ -1,0 +1,28 @@
+{% render 'page-hero', title: 'Account', crumb: 'Login' %}
+<section class="account">
+  {%- form 'customer_login', class: 'contact__form' -%}
+    {%- if form.errors -%}<p role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}
+    <div class="contact__field">
+      <label for="customer-email">{{ 'contact.form.email' | t }}</label>
+      <input id="customer-email" type="email" name="customer[email]" autocomplete="email" required>
+    </div>
+    <div class="contact__field">
+      <label for="customer-password">{{ 'customer.login.password' | t }}</label>
+      <input id="customer-password" type="password" name="customer[password]" autocomplete="current-password" required>
+    </div>
+    <button type="submit" class="btn btn--filled btn--brown"><span>{{ 'customer.login.sign_in' | t }}</span></button>
+    <a href="#recover" class="link-arrow">{{ 'customer.login.forgot' | t }}</a>
+    <a href="{{ routes.account_register_url }}" class="link-arrow">{{ 'customer.login.create' | t }}</a>
+  {%- endform -%}
+
+  <div id="recover" class="account__recover">
+    {%- form 'recover_customer_password', class: 'contact__form' -%}
+      {%- if form.posted_successfully? -%}<p role="status">{{ 'customer.recover.success' | t }}</p>{%- endif -%}
+      <div class="contact__field">
+        <label for="recover-email">{{ 'contact.form.email' | t }}</label>
+        <input id="recover-email" type="email" name="email" autocomplete="email" required>
+      </div>
+      <button type="submit" class="btn btn--ghost"><span>{{ 'customer.recover.submit' | t }}</span></button>
+    {%- endform -%}
+  </div>
+</section>

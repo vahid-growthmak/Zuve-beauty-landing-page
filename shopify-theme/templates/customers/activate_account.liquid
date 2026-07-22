@@ -1,0 +1,10 @@
+{% render 'page-hero', title: 'Activate Account', crumb: 'Activate' %}
+<section class="account">
+  {%- form 'activate_customer_password', class: 'contact__form' -%}
+    {%- if form.errors -%}<p role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}
+    <div class="contact__field"><label for="activate-password">{{ 'customer.login.password' | t }}</label><input id="activate-password" type="password" name="customer[password]" autocomplete="new-password" required></div>
+    <div class="contact__field"><label for="activate-confirm">{{ 'customer.reset.confirm' | t }}</label><input id="activate-confirm" type="password" name="customer[password_confirmation]" autocomplete="new-password" required></div>
+    <button type="submit" class="btn btn--filled btn--brown"><span>{{ 'customer.activate.submit' | t }}</span></button>
+    <button type="submit" name="decline" class="link-arrow">{{ 'customer.activate.decline' | t }}</button>
+  {%- endform -%}
+</section>

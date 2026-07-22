@@ -1,0 +1,8 @@
+{%- comment -%}
+  Renders five star glyphs for a 0–5 rating.
+  Usage: {% render 'star-rating', rating: 4.8 %}
+{%- endcomment -%}
+{%- assign filled = rating | round -%}
+{%- for i in (1..5) -%}
+  {%- if i <= filled -%}&#9733;{%- else -%}&#9734;{%- endif -%}
+{%- endfor -%}

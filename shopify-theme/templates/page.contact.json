@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "main": { "type": "main-page", "settings": {} },
+    "form": {
+      "type": "contact-form",
+      "blocks": {
+        "d1": { "type": "detail", "settings": { "label": "Customer Care", "value": "<a href=\"mailto:support@zuvebeauty.com\">support@zuvebeauty.com</a>" } },
+        "d2": { "type": "detail", "settings": { "label": "Phone & WhatsApp", "value": "<a href=\"tel:+919995362285\">+91 99953 62285</a>" } },
+        "d3": { "type": "detail", "settings": { "label": "Studio", "value": "TARA 128, Santhosh Bhavan,<br />Bosco Nagar, Vellanikkara KAU P.O,<br />Thrissur, Kerala — 680656" } },
+        "d4": { "type": "detail", "settings": { "label": "Hours", "value": "Monday – Saturday<br />10:00 – 19:00 IST" } },
+        "d5": { "type": "detail", "settings": { "label": "Press & Partnerships", "value": "<a href=\"mailto:press@zuvebeauty.com\">press@zuvebeauty.com</a>" } }
+      },
+      "block_order": ["d1", "d2", "d3", "d4", "d5"],
+      "settings": { "info_title": "Reach the studio." }
+    }
+  },
+  "order": ["main", "form"]
+}

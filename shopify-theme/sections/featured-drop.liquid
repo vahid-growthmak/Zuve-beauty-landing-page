@@ -1,0 +1,113 @@
+{%- comment -%}
+  Editorial spread for the current drop. The shade rail and named palette are
+  derived from the linked collection's products, so adding a shade in Admin
+  updates the artwork here with no theme edit.
+{%- endcomment -%}
+{%- comment -%} A `collection` setting resolves to a collection object, not a handle. {%- endcomment -%}
+{%- assign drop = section.settings.collection -%}
+{%- assign drop_alt = section.settings.heading | strip_html -%}
+<div class="transition-wrap" id="gradientWrap">
+  <section class="drop drop--editorial" aria-labelledby="dropLabel">
+    <div class="drop__media">
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 1400 | image_tag: class: 'drop__img', alt: drop_alt, loading: 'lazy', widths: '500,800,1100,1400', sizes: '(min-width: 900px) 50vw, 100vw' }}
+      {%- else -%}
+        <img src="{{ 'drop_evening.jpg' | asset_url }}" alt="{{ drop_alt | escape }}" class="drop__img" width="1400" height="1750" loading="lazy">
+      {%- endif -%}
+
+      {%- if drop.products.size > 0 -%}
+        <div class="drop__swatch" aria-hidden="true">
+          {%- for p in drop.products limit: 7 -%}
+            <span class="drop__shade drop__shade--{{ forloop.index }}" style="background:{{ p.metafields.custom.shade_hex | default: '#8A0E17' }}"></span>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.show_countdown -%}
+        <span class="drop__badge">
+          <span class="drop__badge-dot"></span>
+          {{ section.settings.badge_label }} <span data-countdown>48:00:00</span>
+        </span>
+      {%- endif -%}
+
+      {%- if section.settings.caption != blank -%}
+        <span class="drop__caption" aria-hidden="true">{{ section.settings.caption }}</span>
+      {%- endif -%}
+    </div>
+
+    <div class="drop__content">
+      <aside class="drop__rail" aria-hidden="true">
+        <span class="drop__rail-num">{{ section.settings.rail_number }}</span>
+        <span class="drop__rail-text">{{ section.settings.rail_text }}</span>
+      </aside>
+
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2 id="dropLabel" class="display-2">{{ section.settings.heading }}</h2>
+      {%- if section.settings.lede != blank -%}
+        <p class="lede">{{ section.settings.lede }}</p>
+      {%- endif -%}
+
+      {%- if drop.products.size > 0 -%}
+        <div class="drop__palette">
+          <span class="drop__palette-label">{{ 'sections.drop.palette' | t }}</span>
+          <ul class="drop__shades" aria-label="{{ 'sections.drop.featured_shades' | t }}">
+            {%- for p in drop.products limit: 5 -%}
+              <li>
+                <a href="{{ p.url }}">
+                  <span style="background:{{ p.metafields.custom.shade_hex | default: '#8A0E17' }}"></span>
+                  <em>{{ p.title }}</em>
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+
+      <div class="drop__cta">
+        {%- if section.settings.show_countdown -%}
+          <div class="drop__cta-meta">
+            <span class="drop__cta-tag">{{ 'sections.drop.closes_in' | t }}</span>
+            <span class="drop__cta-timer" data-countdown>48:00:00</span>
+          </div>
+        {%- endif -%}
+        <div class="drop__actions">
+          <a href="{{ drop.url | default: routes.all_products_collection_url }}" class="btn btn--filled btn--brown drop__btn">
+            <span>{{ section.settings.cta_label }}</span>
+          </a>
+          <a href="{{ drop.url | default: routes.all_products_collection_url }}" class="link-arrow">
+            {{ section.settings.secondary_label | replace: '[count]', drop.all_products_count }}
+          </a>
+        </div>
+      </div>
+
+      {%- if section.settings.proof != blank -%}
+        <p class="drop__proof">
+          {% render 'icon', name: 'check', size: 14 %}
+          {{ section.settings.proof }}
+        </p>
+      {%- endif -%}
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Featured drop",
+  "settings": [
+    { "type": "collection", "id": "collection", "label": "Drop collection" },
+    { "type": "image_picker", "id": "image", "label": "Editorial image" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Latest Drop" },
+    { "type": "html", "id": "heading", "label": "Heading", "default": "The Evening<br /><em>Collection</em>" },
+    { "type": "textarea", "id": "lede", "label": "Lede", "default": "Seven shades, one story. From the moment the sun dips — to the ritual that begins." },
+    { "type": "text", "id": "rail_number", "label": "Rail numeral", "default": "II" },
+    { "type": "text", "id": "rail_text", "label": "Rail text", "default": "Edition Two · Evening" },
+    { "type": "text", "id": "caption", "label": "Image caption", "default": "Shot No. 07 — <em>Velvet, on velvet.</em>" },
+    { "type": "checkbox", "id": "show_countdown", "label": "Show drop countdown", "default": true },
+    { "type": "text", "id": "badge_label", "label": "Badge label", "default": "Limited Drop · Closes in" },
+    { "type": "text", "id": "cta_label", "label": "Primary button", "default": "Reserve Your Set" },
+    { "type": "text", "id": "secondary_label", "label": "Secondary link ([count] = product count)", "default": "View All [count] Shades" },
+    { "type": "text", "id": "proof", "label": "Social proof line", "default": "240+ sets reserved in the last 24 hours" }
+  ],
+  "presets": [{ "name": "Featured drop" }]
+}
+{% endschema %}

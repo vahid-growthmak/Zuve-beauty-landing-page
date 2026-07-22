@@ -1,0 +1,117 @@
+{%- comment -%}
+  Homepage collection grid — one instance per world (Soft Muse / Dark Siren).
+  Products, prices and badges all come from the linked collection.
+{%- endcomment -%}
+{%- liquid
+  # A `collection` setting resolves to a collection object, not a handle.
+  assign coll = section.settings.collection
+  assign mode = section.settings.mode
+  assign is_dark = false
+  if mode == 'dark'
+    assign is_dark = true
+  endif
+
+  # Collect every shade hex in this collection once, for the hover strip on cards.
+  assign shade_list = ''
+  for p in coll.products
+    assign hex = p.metafields.custom.shade_hex
+    if hex != blank
+      assign shade_list = shade_list | append: hex | append: ','
+    endif
+  endfor
+  assign shades = shade_list | split: ','
+-%}
+
+<section
+  class="collection collection--{{ mode }}"
+  id="{{ section.settings.anchor | default: coll.handle | default: section.id }}"
+  aria-labelledby="collLabel-{{ section.id }}">
+  <header class="collection__head{% if is_dark %} collection__head--dark{% endif %}">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="eyebrow{% if is_dark %} eyebrow--dark{% endif %}">{{ section.settings.eyebrow }}</span>
+    {%- endif -%}
+    <h2 id="collLabel-{{ section.id }}" class="display-2{% if is_dark %} display-2--light{% endif %}">
+      {{ section.settings.heading | default: coll.title }}
+    </h2>
+    {%- if section.settings.lede != blank -%}
+      <p class="collection__lede{% if is_dark %} collection__lede--dark{% endif %}">{{ section.settings.lede }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.show_filters and section.blocks.size > 0 -%}
+      <div class="filter-bar" role="tablist" aria-label="{{ 'sections.collection.filter' | t: title: coll.title }}">
+        <button class="pill is-active" role="tab" aria-selected="true" data-tag-filter="all">{{ 'sections.collection.all' | t }}</button>
+        {%- for block in section.blocks -%}
+          <button class="pill" role="tab" aria-selected="false" data-tag-filter="{{ block.settings.tag | downcase }}" {{ block.shopify_attributes }}>
+            {{- block.settings.label | default: block.settings.tag -}}
+          </button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </header>
+
+  <div class="grid grid--{{ mode }}" data-product-grid>
+    {%- for product in coll.products limit: section.settings.products_to_show -%}
+      {%- liquid
+        assign featured = false
+        assign hero = false
+        if section.settings.feature_first and forloop.first
+          if is_dark
+            assign hero = true
+          else
+            assign featured = true
+          endif
+        endif
+      -%}
+      {% render 'product-card',
+        product: product,
+        mode: mode,
+        featured: featured,
+        hero: hero,
+        shades: shades,
+        quick_label: section.settings.quick_add_label %}
+    {%- else -%}
+      <p class="collection__lede">{{ 'sections.collection.empty' | t }}</p>
+    {%- endfor -%}
+  </div>
+
+  {%- if section.settings.footer_label != blank -%}
+    <div class="collection__foot">
+      <a href="{{ coll.url | default: routes.all_products_collection_url }}" class="link-arrow link-arrow--italic">
+        {{ section.settings.footer_label }}
+      </a>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Collection grid",
+  "settings": [
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "select", "id": "mode", "label": "Palette", "options": [
+      { "value": "soft", "label": "Soft Muse" },
+      { "value": "dark", "label": "Dark Siren" }
+    ], "default": "soft" },
+    { "type": "text", "id": "anchor", "label": "Anchor id (for in-page links)" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Edition I" },
+    { "type": "html", "id": "heading", "label": "Heading", "default": "The Soft Muse <em>Edit</em>" },
+    { "type": "textarea", "id": "lede", "label": "Lede", "default": "Nudes that breathe. Glazed sheers. The quiet luxury of skin, perfected." },
+    { "type": "range", "id": "products_to_show", "label": "Products to show", "min": 3, "max": 16, "step": 1, "default": 6 },
+    { "type": "checkbox", "id": "feature_first", "label": "Give the first card the feature treatment", "default": true },
+    { "type": "checkbox", "id": "show_filters", "label": "Show tag filter pills", "default": true },
+    { "type": "text", "id": "quick_add_label", "label": "Quick-add label", "default": "Reserve Your Set" },
+    { "type": "text", "id": "footer_label", "label": "Footer link label", "default": "View the Full Edit" }
+  ],
+  "blocks": [
+    {
+      "type": "filter",
+      "name": "Filter pill",
+      "settings": [
+        { "type": "text", "id": "tag", "label": "Product tag" },
+        { "type": "text", "id": "label", "label": "Pill label" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Collection grid" }]
+}
+{% endschema %}

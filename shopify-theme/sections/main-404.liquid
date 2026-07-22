@@ -1,0 +1,22 @@
+{% render 'page-hero', title: section.settings.heading, lede: section.settings.lede, crumb: '404' %}
+
+<section class="error-page">
+  <a href="{{ routes.all_products_collection_url }}" class="btn btn--filled btn--brown"><span>{{ section.settings.cta_label }}</span></a>
+  <form action="{{ routes.search_url }}" method="get" role="search" class="search-page__form">
+    <input type="hidden" name="type" value="product">
+    <label for="notFoundSearch" class="sr-only">{{ 'general.search.search' | t }}</label>
+    <input id="notFoundSearch" type="search" name="q" placeholder="{{ 'general.search.placeholder' | t }}">
+    <button type="submit" class="btn btn--ghost"><span>{{ 'general.search.search' | t }}</span></button>
+  </form>
+</section>
+
+{% schema %}
+{
+  "name": "404",
+  "settings": [
+    { "type": "html", "id": "heading", "label": "Heading", "default": "This page went <em>quiet.</em>" },
+    { "type": "textarea", "id": "lede", "label": "Lede", "default": "The link you followed no longer exists. The shades, however, are still here." },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Shop All Shades" }
+  ]
+}
+{% endschema %}

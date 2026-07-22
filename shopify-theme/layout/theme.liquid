@@ -1,0 +1,116 @@
+{%- liquid
+  # Palette mode drives the whole design system: 'soft' (Soft Muse) or 'dark' (Dark Siren).
+  # Products and collections carry it as a metafield; everything else falls back to soft.
+  assign palette = 'soft'
+  if request.page_type == 'product'
+    assign palette = product.metafields.custom.palette.value | default: 'soft'
+  elsif request.page_type == 'collection'
+    assign palette = collection.metafields.custom.palette.value | default: 'soft'
+  endif
+-%}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}" data-theme="{{ palette }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="{{ settings.color_canvas_beige | default: '#E8D6C9' }}">
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  {%- if settings.favicon != blank -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+  {%- endif -%}
+
+  <title>
+    {{- page_title -}}
+    {%- if current_tags %} &mdash; {{ 'general.meta.tags' | t: tags: current_tags | join: ', ' }}{% endif -%}
+    {%- if current_page != 1 %} &mdash; {{ 'general.meta.page' | t: page: current_page }}{% endif -%}
+    {%- unless page_title contains shop.name %} &mdash; {{ shop.name }}{% endunless -%}
+  </title>
+
+  {%- if page_description -%}
+    <meta name="description" content="{{ page_description | escape }}">
+  {%- endif -%}
+
+  {% render 'meta-tags' %}
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+
+  {%- comment -%}
+    Design tokens: theme settings feed the same CSS custom properties the ported
+    stylesheet already consumes, so merchants can recolour without touching CSS.
+  {%- endcomment -%}
+  <style>
+    :root {
+      --color-canvas-soft: {{ settings.color_canvas_soft | default: '#fbf7f3' }};
+      --color-canvas-beige: {{ settings.color_canvas_beige | default: '#e8d6c9' }};
+      --color-accent-tan: {{ settings.color_accent_tan | default: '#d9b8a3' }};
+      --color-accent-pink: {{ settings.color_accent_pink | default: '#c9a5a2' }};
+      --color-text-primary: {{ settings.color_text_primary | default: '#4a2d23' }};
+      --color-text-muted: {{ settings.color_text_muted | default: '#7a564a' }};
+      --color-canvas-black: {{ settings.color_canvas_black | default: '#0a0408' }};
+      --color-canvas-plum: {{ settings.color_canvas_plum | default: '#3a0f1a' }};
+      --color-accent-red: {{ settings.color_accent_red | default: '#8a0e17' }};
+      --color-accent-wine: {{ settings.color_accent_wine | default: '#5b1421' }};
+      --color-text-contrast: {{ settings.color_text_contrast | default: '#e8d6c9' }};
+      --container: {{ settings.container_width | default: 1440 }}px;
+    }
+    {%- if request.page_type == 'product' -%}
+      {%- assign shade = product.metafields.custom.shade_hex | default: '#E8D6C9' -%}
+      {%- assign shade_deep = product.metafields.custom.shade_deep_hex | default: '#C9A5A2' -%}
+      :root {
+        --shade: {{ shade }};
+        --shade-deep: {{ shade_deep }};
+        --product-shade: {{ shade }};
+        --product-shade-deep: {{ shade_deep }};
+      }
+    {%- endif -%}
+  </style>
+
+  {{ 'base.css' | asset_url | stylesheet_tag }}
+  {%- if request.page_type == 'product' -%}
+    {{ 'pdp.css' | asset_url | stylesheet_tag }}
+  {%- endif -%}
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+
+  <script>
+    window.ZUVE = {
+      routes: {
+        cart_add_url: '{{ routes.cart_add_url }}',
+        cart_change_url: '{{ routes.cart_change_url }}',
+        cart_update_url: '{{ routes.cart_update_url }}',
+        cart_url: '{{ routes.cart_url }}',
+        search_url: '{{ routes.search_url }}'
+      },
+      moneyFormat: {{ shop.money_format | json }},
+      strings: {
+        addedToBag: {{ 'products.product.added_to_bag' | t | json }},
+        soldOut: {{ 'products.product.sold_out' | t | json }}
+      }
+    };
+  </script>
+
+  {{ content_for_header }}
+</head>
+<body class="template-{{ request.page_type | handle }}{% if template.suffix %} template-suffix-{{ template.suffix | handle }}{% endif %}{% if palette == 'dark' %} is-dark-pdp{% endif %}">
+  <a class="skip-link" href="#main">{{ 'general.accessibility.skip_to_content' | t }}</a>
+
+  {% sections 'header-group' %}
+
+  <main id="main" role="main">
+    {{ content_for_layout }}
+  </main>
+
+  {% sections 'footer-group' %}
+
+  {% render 'cart-drawer' %}
+
+  <script src="{{ 'theme.js' | asset_url }}" defer></script>
+  {%- if request.page_type == 'product' -%}
+    <script src="{{ 'product.js' | asset_url }}" defer></script>
+  {%- endif -%}
+</body>
+</html>

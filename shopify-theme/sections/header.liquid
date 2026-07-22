@@ -1,0 +1,69 @@
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <button class="nav__menu" id="navToggle" aria-label="{{ 'general.accessibility.open_menu' | t }}" aria-expanded="false" aria-controls="mobileMenu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav__links" aria-label="{{ 'general.accessibility.primary_nav' | t }}">
+      {%- for link in section.settings.menu.links -%}
+        <a href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+      {%- endfor -%}
+    </nav>
+
+    <a href="{{ routes.root_url }}" class="nav__logo" aria-label="{{ shop.name }}">
+      {%- if section.settings.logo != blank -%}
+        {{
+          section.settings.logo
+          | image_url: width: 400
+          | image_tag:
+            class: 'logo-img',
+            alt: shop.name,
+            style: 'width:auto;height:56px;',
+            loading: 'eager',
+            widths: '200,400'
+        }}
+      {%- else -%}
+        <img class="logo-img" src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name | escape }}" style="width:auto;height:56px;" width="240" height="56">
+      {%- endif -%}
+    </a>
+
+    <div class="nav__icons">
+      <a href="{{ routes.search_url }}" class="icon-btn" aria-label="{{ 'general.search.search' | t }}">
+        {% render 'icon', name: 'search' %}
+      </a>
+      <a href="{{ routes.account_url }}" class="icon-btn" aria-label="{{ 'customer.account.title' | t }}">
+        {% render 'icon', name: 'account' %}
+      </a>
+      <a href="{{ routes.cart_url }}" class="icon-btn icon-btn--bag" data-cart-toggle aria-label="{{ 'sections.cart.bag_count' | t: count: cart.item_count }}">
+        {% render 'icon', name: 'bag' %}
+        <span class="icon-btn__count" data-cart-count aria-hidden="true">{{ cart.item_count }}</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <div class="mobile-menu__bg" aria-hidden="true"></div>
+  <button class="mobile-menu__close" id="navClose" aria-label="{{ 'general.accessibility.close_menu' | t }}">
+    {% render 'icon', name: 'close' %}
+  </button>
+  <nav class="mobile-menu__nav" aria-label="{{ 'general.accessibility.mobile_nav' | t }}">
+    {%- for link in section.settings.menu.links -%}
+      <a href="{{ link.url }}">{{ link.title }}</a>
+    {%- endfor -%}
+  </nav>
+  {%- if section.settings.tagline != blank -%}
+    <p class="mobile-menu__tag">{{ section.settings.tagline }}</p>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo" },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "text", "id": "tagline", "label": "Mobile menu tagline", "default": "Beauty is a ritual, not a routine." }
+  ]
+}
+{% endschema %}

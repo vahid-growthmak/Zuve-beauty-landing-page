@@ -1,0 +1,26 @@
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "shop": { "type": "menu", "settings": { "heading": "Shop", "menu": "footer-shop" } },
+        "rituals": { "type": "menu", "settings": { "heading": "Rituals", "menu": "footer-rituals" } },
+        "company": { "type": "menu", "settings": { "heading": "Company", "menu": "footer-company" } },
+        "support": { "type": "menu", "settings": { "heading": "Support", "menu": "footer-support" } }
+      },
+      "block_order": ["shop", "rituals", "company", "support"],
+      "settings": {
+        "statement": "Your nails. Your ritual. Your story.",
+        "legal_note": "Crafted in India.",
+        "legal_menu": "footer",
+        "social_instagram": "https://instagram.com/zuvebeauty",
+        "social_pinterest": "",
+        "social_youtube": "",
+        "social_tiktok": ""
+      }
+    }
+  },
+  "order": ["footer"]
+}

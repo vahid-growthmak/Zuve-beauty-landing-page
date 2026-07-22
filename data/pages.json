@@ -1,0 +1,104 @@
+[
+  {
+    "file": "about.html",
+    "handle": "about",
+    "title": "About",
+    "lede": "ZUVE was built for women who understand the difference &mdash; between getting ready and becoming themselves.",
+    "displayTitle": "A ritual, not a <em>routine.</em>",
+    "body": "about.html"
+  },
+  {
+    "file": "faq.html",
+    "handle": "faq",
+    "title": "FAQ",
+    "lede": "The questions our community asks most. If yours isn&rsquo;t here, write to us at <a href=\"mailto:support@zuvebeauty.com\" style=\"color: var(--color-accent-red);\">support@zuvebeauty.com</a>.",
+    "displayTitle": "Everything, <em>answered.</em>",
+    "body": "faq.html"
+  },
+  {
+    "file": "contact.html",
+    "handle": "contact",
+    "title": "Contact",
+    "strip": [
+      "section class=\"contact\""
+    ],
+    "lede": "We answer every message in person &mdash; usually within one working day. For order help, partnerships, press, or just to share your ritual.",
+    "displayTitle": "Say <em>hello.</em>",
+    "body": "contact.html"
+  },
+  {
+    "file": "shipping.html",
+    "handle": "shipping",
+    "title": "Shipping Policy",
+    "lede": "Where, how long, how much. Everything you&rsquo;d ask the studio before placing the order.",
+    "displayTitle": "Shipping <em>Policy</em>",
+    "body": "shipping.html"
+  },
+  {
+    "file": "refund.html",
+    "handle": "refund",
+    "title": "Refund & Returns",
+    "lede": "Hygiene matters. So does fairness. Here&rsquo;s exactly how we handle returns.",
+    "displayTitle": "Refund &amp; <em>Returns</em>",
+    "body": "refund.html"
+  },
+  {
+    "file": "privacy.html",
+    "handle": "privacy",
+    "title": "Privacy Policy",
+    "lede": "Plain language. What we collect, how we use it, and the rights you keep.",
+    "displayTitle": "Privacy <em>Policy</em>",
+    "body": "privacy.html"
+  },
+  {
+    "file": "terms.html",
+    "handle": "terms",
+    "title": "Terms of Service",
+    "lede": "By using this site or shopping with us, you agree to the terms below.",
+    "displayTitle": "Terms of <em>Service</em>",
+    "body": "terms.html"
+  },
+  {
+    "file": "sitemap.html",
+    "handle": "sitemap",
+    "title": "Sitemap",
+    "lede": "The full ZUVE site, organized by the journey we hope you take &mdash; from first glance to last ritual.",
+    "displayTitle": "Every page, <em>mapped.</em>",
+    "body": "sitemap.html"
+  },
+  {
+    "file": "size-guide.html",
+    "handle": "size-guide",
+    "title": "Size Guide",
+    "lede": "Every ZUVE set ships with 24 nails across 12 sizes &mdash; calibrated for Indian nail beds. Measure once, fit for life.",
+    "displayTitle": "Size <em>Guide</em>",
+    "body": "size-guide.html"
+  },
+  {
+    "file": "how-to-apply.html",
+    "handle": "how-to-apply",
+    "title": "How to Apply",
+    "lede": "Four steps to a 14-day set. No drying time. No appointment. No damage.",
+    "displayTitle": "Ten minutes. <em>One ritual.</em>",
+    "body": "how-to-apply.html"
+  },
+  {
+    "file": "comparison.html",
+    "handle": "comparison",
+    "title": "Press-on vs Extensions",
+    "lede": "Cost, time, damage, design. We did the math so you don&rsquo;t have to &mdash; and we kept it honest.",
+    "displayTitle": "Press-on vs <em>Extensions.</em>",
+    "body": "comparison.html"
+  },
+  {
+    "file": "track-order.html",
+    "handle": "track-order",
+    "title": "Track Your Order",
+    "strip": [
+      "section class=\"track\""
+    ],
+    "lede": "Drop your order number and email below to see where your set is.",
+    "displayTitle": "Track your <em>order.</em>",
+    "body": "track-order.html"
+  }
+]

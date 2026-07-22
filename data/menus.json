@@ -1,0 +1,68 @@
+[
+  {
+    "handle": "main-menu",
+    "title": "Main menu",
+    "items": [
+      { "title": "Collections", "type": "HTTP", "url": "/collections", "items": [
+        { "title": "The Soft Muse", "type": "COLLECTION", "handle": "soft-muse" },
+        { "title": "The Dark Siren", "type": "COLLECTION", "handle": "dark-siren" },
+        { "title": "The Evening Collection", "type": "COLLECTION", "handle": "the-evening-collection" },
+        { "title": "Cult Favourites", "type": "COLLECTION", "handle": "bestsellers" }
+      ]},
+      { "title": "Rituals", "type": "PAGE", "handle": "how-to-apply" },
+      { "title": "About", "type": "PAGE", "handle": "about" },
+      { "title": "Journal", "type": "BLOG", "handle": "journal" }
+    ]
+  },
+  {
+    "handle": "footer-shop",
+    "title": "Shop",
+    "items": [
+      { "title": "The Soft Muse", "type": "COLLECTION", "handle": "soft-muse" },
+      { "title": "The Dark Siren", "type": "COLLECTION", "handle": "dark-siren" },
+      { "title": "New Drops", "type": "COLLECTION", "handle": "the-evening-collection" },
+      { "title": "Cult Favourites", "type": "COLLECTION", "handle": "bestsellers" }
+    ]
+  },
+  {
+    "handle": "footer-rituals",
+    "title": "Rituals",
+    "items": [
+      { "title": "Nail Size Guide", "type": "PAGE", "handle": "size-guide" },
+      { "title": "How to Apply", "type": "PAGE", "handle": "how-to-apply" },
+      { "title": "Press-on vs Extensions", "type": "PAGE", "handle": "comparison" },
+      { "title": "The Journal", "type": "BLOG", "handle": "journal" }
+    ]
+  },
+  {
+    "handle": "footer-company",
+    "title": "Company",
+    "items": [
+      { "title": "Our Story", "type": "PAGE", "handle": "about" },
+      { "title": "Journal", "type": "BLOG", "handle": "journal" },
+      { "title": "Contact", "type": "PAGE", "handle": "contact" },
+      { "title": "FAQ", "type": "PAGE", "handle": "faq" }
+    ]
+  },
+  {
+    "handle": "footer-support",
+    "title": "Support",
+    "items": [
+      { "title": "Track Order", "type": "PAGE", "handle": "track-order" },
+      { "title": "Shipping", "type": "PAGE", "handle": "shipping" },
+      { "title": "Returns", "type": "PAGE", "handle": "refund" },
+      { "title": "Contact", "type": "PAGE", "handle": "contact" }
+    ]
+  },
+  {
+    "handle": "footer",
+    "title": "Legal",
+    "items": [
+      { "title": "Privacy", "type": "PAGE", "handle": "privacy" },
+      { "title": "Terms", "type": "PAGE", "handle": "terms" },
+      { "title": "Refund Policy", "type": "PAGE", "handle": "refund" },
+      { "title": "Shipping", "type": "PAGE", "handle": "shipping" },
+      { "title": "Sitemap", "type": "PAGE", "handle": "sitemap" }
+    ]
+  }
+]

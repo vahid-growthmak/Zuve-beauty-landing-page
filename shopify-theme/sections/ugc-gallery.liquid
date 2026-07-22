@@ -1,0 +1,87 @@
+<section class="ugc" aria-labelledby="ugcLabel-{{ section.id }}">
+  <header class="ugc__head">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+    {%- endif -%}
+    <h2 id="ugcLabel-{{ section.id }}" class="display-2">{{ section.settings.heading }}</h2>
+  </header>
+
+  {%- if section.settings.show_filters -%}
+    <div class="ugc__filters" data-ugc-filter-bar>
+      <button class="pill is-active" data-filter="all" aria-pressed="true">{{ 'sections.ugc.all' | t }}</button>
+      <button class="pill" data-filter="soft" aria-pressed="false">{{ section.settings.soft_label }}</button>
+      <button class="pill" data-filter="dark" aria-pressed="false">{{ section.settings.dark_label }}</button>
+    </div>
+  {%- endif -%}
+
+  <div class="ugc__grid">
+    {%- for block in section.blocks -%}
+      {%- comment -%} A `product` setting resolves to a product object, not a handle. {%- endcomment -%}
+      {%- assign linked = block.settings.product -%}
+      <figure
+        class="ugc__tile{% if block.settings.size == 'tall' %} ugc__tile--tall{% elsif block.settings.size == 'wide' %} ugc__tile--wide{% endif %}"
+        data-collection="{{ block.settings.mode }}"
+        {{ block.shopify_attributes }}>
+        {%- if block.settings.image != blank -%}
+          {{ block.settings.image | image_url: width: 900 | image_tag: class: 'ugc__img', alt: '', loading: 'lazy', widths: '300,500,700,900', sizes: '(min-width: 900px) 25vw, 50vw' }}
+        {%- endif -%}
+        <span class="ugc__media" style="--g1:{{ block.settings.gradient_from }};--g2:{{ block.settings.gradient_to }}"></span>
+        <figcaption class="ugc__cap{% if block.settings.mode == 'soft' %} ugc__cap--light{% endif %}">
+          <span class="ugc__tag">{{ block.settings.handle | default: section.settings.handle }}</span>
+          {%- if linked != blank -%}
+            <a href="{{ linked.url }}" class="ugc__shop">{{ 'sections.ugc.shop_shade' | t }}</a>
+          {%- endif -%}
+        </figcaption>
+      </figure>
+    {%- endfor -%}
+  </div>
+
+  {%- if section.settings.quote != blank -%}
+    <figure class="ugc__quote">
+      <blockquote>{{ section.settings.quote }}</blockquote>
+      {%- if section.settings.quote_author != blank -%}
+        <figcaption>&mdash; {{ section.settings.quote_author }}{% if section.settings.quote_note != blank %} &middot; <span>{{ section.settings.quote_note }}</span>{% endif %}</figcaption>
+      {%- endif -%}
+    </figure>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "UGC gallery",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "@ZuveBeauty · The Diary" },
+    { "type": "html", "id": "heading", "label": "Heading", "default": "Worn by the <em>women</em><br />who write their own myth." },
+    { "type": "text", "id": "handle", "label": "Default social handle", "default": "@zuvebeauty" },
+    { "type": "checkbox", "id": "show_filters", "label": "Show filter pills", "default": true },
+    { "type": "text", "id": "soft_label", "label": "Soft filter label", "default": "#ZuveSoftMuse" },
+    { "type": "text", "id": "dark_label", "label": "Dark filter label", "default": "#ZuveDarkSiren" },
+    { "type": "textarea", "id": "quote", "label": "Pull quote", "default": "“ZUVE is what happens when a brand listens to women who don’t need permission.”" },
+    { "type": "text", "id": "quote_author", "label": "Quote author", "default": "Tara M., Mumbai" },
+    { "type": "text", "id": "quote_note", "label": "Quote note", "default": "verified reservation" }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Tile",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "product", "id": "product", "label": "Shop this shade" },
+        { "type": "select", "id": "mode", "label": "Palette", "options": [
+          { "value": "soft", "label": "Soft Muse" },
+          { "value": "dark", "label": "Dark Siren" }
+        ], "default": "soft" },
+        { "type": "select", "id": "size", "label": "Tile size", "options": [
+          { "value": "default", "label": "Default" },
+          { "value": "tall", "label": "Tall" },
+          { "value": "wide", "label": "Wide" }
+        ], "default": "default" },
+        { "type": "color", "id": "gradient_from", "label": "Gradient from", "default": "#E8D6C9" },
+        { "type": "color", "id": "gradient_to", "label": "Gradient to", "default": "#D9B8A3" },
+        { "type": "text", "id": "handle", "label": "Handle override" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "UGC gallery" }]
+}
+{% endschema %}

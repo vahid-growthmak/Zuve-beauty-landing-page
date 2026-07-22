@@ -1,0 +1,32 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "eyebrow": "The Edit",
+        "products_per_page": 12,
+        "show_filters": true,
+        "feature_first": true,
+        "quick_add_label": "Reserve Your Set"
+      }
+    },
+    "trust": {
+      "type": "trust-grid",
+      "blocks": {
+        "t1": { "type": "pillar", "settings": { "icon": "leaf", "title": "10-Free Formula", "copy": "No harsh chemicals. Just pure pigment, refined." } },
+        "t2": { "type": "pillar", "settings": { "icon": "shield", "title": "Nail-Safe", "copy": "Formulated with cuticle-care in mind." } },
+        "t3": { "type": "pillar", "settings": { "icon": "cruelty-free", "title": "Cruelty Free", "copy": "Never tested. Never compromised. Never apologised." } },
+        "t4": { "type": "pillar", "settings": { "icon": "clock", "title": "72-Hour Wear", "copy": "Sets that survive the ritual and the real world." } }
+      },
+      "block_order": ["t1", "t2", "t3", "t4"],
+      "settings": {
+        "anchor": "formula",
+        "eyebrow": "The Formula",
+        "heading": "Clean. <em>Considered.</em> Compromise free.",
+        "footer_label": "Read Our Formula Story",
+        "footer_url": "shopify://pages/about"
+      }
+    }
+  },
+  "order": ["main", "trust"]
+}

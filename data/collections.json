@@ -1,0 +1,34 @@
+[
+  {
+    "handle": "soft-muse",
+    "title": "The Soft Muse",
+    "palette": "soft",
+    "type": "manual",
+    "description": "<p>Nudes that breathe. Glazed sheers. The quiet luxury of skin, perfected.</p>",
+    "products": ["veil", "whisper", "linen", "bare", "petal", "sand"]
+  },
+  {
+    "handle": "dark-siren",
+    "title": "The Dark Siren",
+    "palette": "dark",
+    "type": "manual",
+    "description": "<p>For the woman who commands every room before she speaks.</p>",
+    "products": ["reign", "vampire", "midnight", "velvet", "obsession"]
+  },
+  {
+    "handle": "the-evening-collection",
+    "title": "The Evening Collection",
+    "palette": "dark",
+    "type": "manual",
+    "description": "<p>Seven shades, one story. From the moment the sun dips — to the ritual that begins.</p>",
+    "products": ["reign", "vampire", "midnight", "velvet", "obsession"]
+  },
+  {
+    "handle": "bestsellers",
+    "title": "Cult Favourites",
+    "palette": "soft",
+    "type": "smart",
+    "description": "<p>The shades our community keeps coming back to.</p>",
+    "rule": { "column": "TAG", "relation": "EQUALS", "condition": "bestseller" }
+  }
+]

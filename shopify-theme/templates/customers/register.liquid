@@ -1,0 +1,11 @@
+{% render 'page-hero', title: 'Create Account', crumb: 'Register' %}
+<section class="account">
+  {%- form 'create_customer', class: 'contact__form' -%}
+    {%- if form.errors -%}<p role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}
+    <div class="contact__field"><label for="reg-first">{{ 'customer.register.first_name' | t }}</label><input id="reg-first" type="text" name="customer[first_name]" autocomplete="given-name"></div>
+    <div class="contact__field"><label for="reg-last">{{ 'customer.register.last_name' | t }}</label><input id="reg-last" type="text" name="customer[last_name]" autocomplete="family-name"></div>
+    <div class="contact__field"><label for="reg-email">{{ 'contact.form.email' | t }}</label><input id="reg-email" type="email" name="customer[email]" autocomplete="email" required></div>
+    <div class="contact__field"><label for="reg-password">{{ 'customer.login.password' | t }}</label><input id="reg-password" type="password" name="customer[password]" autocomplete="new-password" required></div>
+    <button type="submit" class="btn btn--filled btn--brown"><span>{{ 'customer.register.submit' | t }}</span></button>
+  {%- endform -%}
+</section>

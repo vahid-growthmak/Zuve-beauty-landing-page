@@ -1,0 +1,49 @@
+<section class="pdp-ugc" aria-labelledby="pdpUgcLabel-{{ section.id }}">
+  <header class="pdp-ugc__head">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+    {%- endif -%}
+    <h2 id="pdpUgcLabel-{{ section.id }}" class="display-2 pdp-ugc__title">{{ section.settings.heading }}</h2>
+  </header>
+
+  <div class="pdp-ugc__grid">
+    {%- for block in section.blocks -%}
+      <div class="pdp-ugc__item" {{ block.shopify_attributes }}>
+        {%- if block.settings.image != blank -%}
+          {{ block.settings.image | image_url: width: 700 | image_tag: class: 'pdp-ugc__img', alt: '', loading: 'lazy', widths: '250,450,700', sizes: '(min-width: 900px) 20vw, 45vw' }}
+        {%- endif -%}
+        <div class="pdp-ugc__hover">
+          <span class="pdp-ugc__handle">{{ block.settings.handle | default: section.settings.handle }}</span>
+          <a href="{{ product.url }}" class="btn btn--ghost-light">{{ 'sections.ugc.shop_shade' | t }}</a>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+
+  {%- if section.settings.cta != blank -%}
+    <p class="pdp-ugc__cta">{{ section.settings.cta }}</p>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "PDP UGC",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THIS SHADE IN THE WILD" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Real Nails. Real Rituals." },
+    { "type": "text", "id": "handle", "label": "Social handle", "default": "@zuvebeauty" },
+    { "type": "text", "id": "cta", "label": "Footer line", "default": "Tag us @zuvebeauty for a chance to be featured" }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Tile",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "handle", "label": "Handle override" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "PDP UGC" }]
+}
+{% endschema %}

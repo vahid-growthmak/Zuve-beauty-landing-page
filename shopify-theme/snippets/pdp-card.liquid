@@ -1,0 +1,41 @@
+{%- comment -%}
+  Cross-sell card used on the PDP.
+  Params: product (required), variant ('pair' | 'more')
+{%- endcomment -%}
+{%- liquid
+  assign card_mode = product.metafields.custom.palette.value | default: 'soft'
+  assign shade = product.metafields.custom.shade_hex.value | default: '#E8D6C9'
+  assign badge = product.metafields.custom.badge.value
+  assign tagline = product.metafields.custom.tagline.value
+  assign tag_class = 'card__tag--featured'
+  if card_mode == 'dark'
+    assign tag_class = 'card__tag--power'
+  endif
+-%}
+<a class="pdp-card pdp-card--{{ variant | default: 'more' }}" href="{{ product.url }}">
+  <div class="pdp-card__media">
+    {%- if product.featured_media -%}
+      <img
+        class="pdp-card__img"
+        src="{{ product.featured_media | image_url: width: 600 }}"
+        srcset="{{ product.featured_media | image_url: width: 300 }} 300w,
+                {{ product.featured_media | image_url: width: 600 }} 600w"
+        sizes="(min-width: 900px) 25vw, 45vw"
+        width="{{ product.featured_media.width }}"
+        height="{{ product.featured_media.height }}"
+        alt="{{ product.featured_media.alt | default: product.title | escape }}"
+        loading="lazy">
+    {%- endif -%}
+    <span class="pdp-card__shade{% unless product.featured_media %} pdp-card__shade--full{% endunless %}" style="background:{{ shade }}"></span>
+    {%- if badge != blank -%}
+      <span class="pdp-card__tag {{ tag_class }}">{{ badge }}</span>
+    {%- endif -%}
+  </div>
+  <div class="pdp-card__meta">
+    <h3 class="pdp-card__name">{{ product.title }}</h3>
+    <span class="pdp-card__price">{{ product.price | money }}</span>
+  </div>
+  {%- if tagline != blank -%}
+    <p class="pdp-card__note">{{ tagline }}</p>
+  {%- endif -%}
+</a>

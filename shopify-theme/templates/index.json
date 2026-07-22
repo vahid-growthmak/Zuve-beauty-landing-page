@@ -1,0 +1,174 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-dual",
+      "blocks": {
+        "soft": {
+          "type": "panel",
+          "settings": {
+            "mode": "soft",
+            "eyebrow": "I — The Edit",
+            "title": "The<br /><em>Soft Muse</em>",
+            "subtitle": "Nudes, nourishment & quiet elegance.",
+            "cta_label": "Discover the Edit",
+            "cta_url": "shopify://collections/soft-muse"
+          }
+        },
+        "dark": {
+          "type": "panel",
+          "settings": {
+            "mode": "dark",
+            "eyebrow": "II — The Ritual",
+            "title": "The<br /><em>Dark Siren</em>",
+            "subtitle": "Power, ritual & the art of dark femininity.",
+            "cta_label": "Enter the Ritual",
+            "cta_url": "shopify://collections/dark-siren"
+          }
+        }
+      },
+      "block_order": ["soft", "dark"],
+      "settings": {
+        "seo_heading": "ZUVE Beauty — the Soft Muse and the Dark Siren"
+      }
+    },
+
+    "drop": {
+      "type": "featured-drop",
+      "settings": {
+        "collection": "the-evening-collection",
+        "eyebrow": "The Latest Drop",
+        "heading": "The Evening<br /><em>Collection</em>",
+        "lede": "Seven shades, one story. From the moment the sun dips — to the ritual that begins.",
+        "rail_number": "II",
+        "rail_text": "Edition Two · Evening",
+        "caption": "Shot No. 07 — <em>Velvet, on velvet.</em>",
+        "show_countdown": true,
+        "badge_label": "Limited Drop · Closes in",
+        "cta_label": "Reserve Your Set",
+        "secondary_label": "View All [count] Shades",
+        "proof": "240+ sets reserved in the last 24 hours"
+      }
+    },
+
+    "soft_grid": {
+      "type": "collection-grid",
+      "blocks": {
+        "f1": { "type": "filter", "settings": { "tag": "nudes", "label": "Nudes" } },
+        "f2": { "type": "filter", "settings": { "tag": "blush", "label": "Blush" } },
+        "f3": { "type": "filter", "settings": { "tag": "glazed", "label": "Glazed" } },
+        "f4": { "type": "filter", "settings": { "tag": "rosy", "label": "Rosy" } },
+        "f5": { "type": "filter", "settings": { "tag": "limited", "label": "Limited" } }
+      },
+      "block_order": ["f1", "f2", "f3", "f4", "f5"],
+      "settings": {
+        "collection": "soft-muse",
+        "mode": "soft",
+        "anchor": "soft-muse",
+        "eyebrow": "Edition I",
+        "heading": "The Soft Muse <em>Edit</em>",
+        "lede": "Nudes that breathe. Glazed sheers. The quiet luxury of skin, perfected.",
+        "products_to_show": 6,
+        "feature_first": true,
+        "show_filters": true,
+        "quick_add_label": "Reserve Your Set",
+        "footer_label": "View the Full Edit"
+      }
+    },
+
+    "dark_grid": {
+      "type": "collection-grid",
+      "settings": {
+        "collection": "dark-siren",
+        "mode": "dark",
+        "anchor": "dark-siren",
+        "eyebrow": "THE DARK SIREN EDIT",
+        "heading": "Blood, Wine,<br /><em>and Power</em>",
+        "lede": "For the woman who commands every room before she speaks.",
+        "products_to_show": 5,
+        "feature_first": true,
+        "show_filters": false,
+        "quick_add_label": "Add to Ritual",
+        "footer_label": ""
+      }
+    },
+
+    "ritual": {
+      "type": "ritual-story",
+      "blocks": {
+        "s1": { "type": "stat", "settings": { "value": "18", "label": "Shades, every undertone" } },
+        "s2": { "type": "stat", "settings": { "value": "0", "label": "Toxic chemicals, ever" } },
+        "s3": { "type": "stat", "settings": { "value": "72", "unit": "hr", "label": "Wear that survives the real world" } }
+      },
+      "block_order": ["s1", "s2", "s3"],
+      "settings": {
+        "anchor": "ritual",
+        "eyebrow": "The ZUVE Story",
+        "heading": "Beauty is a <em>ritual,</em><br />not a routine.",
+        "copy": "ZUVE was built for women who understand the difference.<br />Every shade, a ceremony. Every set, a story.",
+        "cta_label": "Discover Our Story",
+        "cta_url": "shopify://pages/about"
+      }
+    },
+
+    "trust": {
+      "type": "trust-grid",
+      "blocks": {
+        "t1": { "type": "pillar", "settings": { "icon": "leaf", "title": "10-Free Formula", "copy": "No harsh chemicals. Just pure pigment, refined." } },
+        "t2": { "type": "pillar", "settings": { "icon": "shield", "title": "Nail-Safe", "copy": "Formulated with cuticle-care in mind." } },
+        "t3": { "type": "pillar", "settings": { "icon": "cruelty-free", "title": "Cruelty Free", "copy": "Never tested. Never compromised. Never apologised." } },
+        "t4": { "type": "pillar", "settings": { "icon": "clock", "title": "72-Hour Wear", "copy": "Sets that survive the ritual and the real world." } }
+      },
+      "block_order": ["t1", "t2", "t3", "t4"],
+      "settings": {
+        "anchor": "story",
+        "eyebrow": "The Formula",
+        "heading": "Clean. <em>Considered.</em> Compromise free.",
+        "footer_label": "Read Our Formula Story",
+        "footer_url": "shopify://pages/about"
+      }
+    },
+
+    "ugc": {
+      "type": "ugc-gallery",
+      "blocks": {
+        "u1": { "type": "tile", "settings": { "mode": "dark", "size": "tall", "gradient_from": "#3A0F1A", "gradient_to": "#8A0E17", "product": "reign" } },
+        "u2": { "type": "tile", "settings": { "mode": "soft", "size": "default", "gradient_from": "#E8D6C9", "gradient_to": "#D9B8A3", "product": "veil" } },
+        "u3": { "type": "tile", "settings": { "mode": "soft", "size": "default", "gradient_from": "#C9A5A2", "gradient_to": "#EAD0CB", "product": "bare" } },
+        "u4": { "type": "tile", "settings": { "mode": "dark", "size": "wide", "gradient_from": "#2A0810", "gradient_to": "#5B1421", "product": "vampire" } },
+        "u5": { "type": "tile", "settings": { "mode": "soft", "size": "default", "gradient_from": "#D4A89F", "gradient_to": "#E0CCB8", "product": "petal" } },
+        "u6": { "type": "tile", "settings": { "mode": "dark", "size": "tall", "gradient_from": "#6B0F1F", "gradient_to": "#3A0F1A", "product": "velvet" } },
+        "u7": { "type": "tile", "settings": { "mode": "soft", "size": "default", "gradient_from": "#D9B8A3", "gradient_to": "#C9A5A2", "product": "sand" } },
+        "u8": { "type": "tile", "settings": { "mode": "dark", "size": "default", "gradient_from": "#9E1A24", "gradient_to": "#5B1421", "product": "obsession" } }
+      },
+      "block_order": ["u1", "u2", "u3", "u4", "u5", "u6", "u7", "u8"],
+      "settings": {
+        "eyebrow": "@ZuveBeauty · The Diary",
+        "heading": "Worn by the <em>women</em><br />who write their own myth.",
+        "handle": "@zuvebeauty",
+        "show_filters": true,
+        "quote": "“ZUVE is what happens when a brand listens to women who don’t need permission.”",
+        "quote_author": "Tara M., Mumbai",
+        "quote_note": "verified reservation"
+      }
+    },
+
+    "club": {
+      "type": "ritual-club",
+      "blocks": {
+        "b1": { "type": "benefit", "settings": { "title": "Early Drop Access", "copy": "48 hours before public release." } },
+        "b2": { "type": "benefit", "settings": { "title": "Complimentary Samples", "copy": "Two shades with every order." } },
+        "b3": { "type": "benefit", "settings": { "title": "Ritual Rewards", "copy": "Earn toward a complimentary set." } }
+      },
+      "block_order": ["b1", "b2", "b3"],
+      "settings": {
+        "anchor": "journal",
+        "eyebrow": "The Inner Circle",
+        "heading": "Join the<br /><em>Ritual Club.</em>",
+        "lede": "Early access to drops. Exclusive rituals. First to know, last to leave.",
+        "cta_label": "Begin the Ritual",
+        "legal": "By joining, you agree to our <a href=\"/policies/privacy-policy\">privacy promise</a>. Unsubscribe in one tap."
+      }
+    }
+  },
+  "order": ["hero", "drop", "soft_grid", "dark_grid", "ritual", "trust", "ugc", "club"]
+}

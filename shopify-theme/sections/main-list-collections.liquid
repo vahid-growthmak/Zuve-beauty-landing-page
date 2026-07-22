@@ -1,0 +1,38 @@
+{% render 'page-hero', title: section.settings.heading, lede: section.settings.lede, crumb: 'Collections' %}
+
+<section class="collection collection--soft">
+  <div class="grid grid--soft">
+    {%- for coll in collections -%}
+      {%- if coll.handle != 'frontpage' -%}
+        <a href="{{ coll.url }}" class="card">
+          <div class="card__media">
+            {%- if coll.featured_image -%}
+              <img
+                class="card__img"
+                src="{{ coll.featured_image | image_url: width: 900 }}"
+                alt="{{ coll.featured_image.alt | default: coll.title | escape }}"
+                width="900" height="1125" loading="lazy">
+            {%- endif -%}
+            <span class="card__tag">{{ coll.all_products_count }} {{ 'sections.collection.shades' | t }}</span>
+          </div>
+          <div class="card__meta">
+            <h2 class="card__name">{{ coll.title }}</h2>
+          </div>
+          {%- if coll.description != blank -%}
+            <p class="card__note">{{ coll.description | strip_html | truncatewords: 16 }}</p>
+          {%- endif -%}
+        </a>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collections list",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Every edit, mapped." },
+    { "type": "textarea", "id": "lede", "label": "Lede", "default": "Two worlds, one ritual. Choose where the evening takes you." }
+  ]
+}
+{% endschema %}

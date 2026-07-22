@@ -1,0 +1,64 @@
+<section class="trust" id="{{ section.settings.anchor | default: 'story' }}" aria-labelledby="trustLabel-{{ section.id }}">
+  <header class="trust__head">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+    {%- endif -%}
+    <h2 id="trustLabel-{{ section.id }}" class="display-2">{{ section.settings.heading }}</h2>
+  </header>
+
+  <ul class="trust__grid">
+    {%- for block in section.blocks -%}
+      <li class="trust__item" {{ block.shopify_attributes }}>
+        <span class="trust__icon" aria-hidden="true">{% render 'icon', name: block.settings.icon %}</span>
+        <h3 class="trust__title">{{ block.settings.title }}</h3>
+        <p class="trust__copy">{{ block.settings.copy }}</p>
+      </li>
+    {%- endfor -%}
+  </ul>
+
+  {%- if section.settings.footer_label != blank -%}
+    <div class="trust__foot">
+      <a href="{{ section.settings.footer_url }}" class="link-arrow link-arrow--italic">{{ section.settings.footer_label }}</a>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Trust grid",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Anchor id", "default": "story" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Formula" },
+    { "type": "html", "id": "heading", "label": "Heading", "default": "Clean. <em>Considered.</em> Compromise free." },
+    { "type": "text", "id": "footer_label", "label": "Footer link label", "default": "Read Our Formula Story" },
+    { "type": "url", "id": "footer_url", "label": "Footer link" }
+  ],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Pillar",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "options": [
+          { "value": "leaf", "label": "Leaf" },
+          { "value": "shield", "label": "Shield" },
+          { "value": "cruelty-free", "label": "Cruelty free" },
+          { "value": "clock", "label": "Clock" }
+        ], "default": "leaf" },
+        { "type": "text", "id": "title", "label": "Title", "default": "10-Free Formula" },
+        { "type": "textarea", "id": "copy", "label": "Copy", "default": "No harsh chemicals. Just pure pigment, refined." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust grid",
+      "blocks": [
+        { "type": "pillar", "settings": { "icon": "leaf", "title": "10-Free Formula", "copy": "No harsh chemicals. Just pure pigment, refined." } },
+        { "type": "pillar", "settings": { "icon": "shield", "title": "Nail-Safe", "copy": "Formulated with cuticle-care in mind." } },
+        { "type": "pillar", "settings": { "icon": "cruelty-free", "title": "Cruelty Free", "copy": "Never tested. Never compromised. Never apologised." } },
+        { "type": "pillar", "settings": { "icon": "clock", "title": "72-Hour Wear", "copy": "Sets that survive the ritual and the real world." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

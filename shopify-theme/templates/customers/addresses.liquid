@@ -1,0 +1,21 @@
+{% render 'page-hero', title: 'Addresses', crumb: 'Addresses', parent_title: 'Account', parent_url: routes.account_url %}
+<section class="account">
+  {%- for address in customer.addresses -%}
+    <div class="account__address">
+      <p>{{ address | format_address }}</p>
+      {%- form 'customer_address', address -%}
+        <button type="submit" class="link-arrow">{{ 'customer.addresses.edit' | t }}</button>
+      {%- endform -%}
+    </div>
+  {%- endfor -%}
+
+  {%- form 'customer_address', customer.new_address, class: 'contact__form' -%}
+    <div class="contact__field"><label for="addr-first">{{ 'customer.register.first_name' | t }}</label><input id="addr-first" type="text" name="address[first_name]"></div>
+    <div class="contact__field"><label for="addr-last">{{ 'customer.register.last_name' | t }}</label><input id="addr-last" type="text" name="address[last_name]"></div>
+    <div class="contact__field"><label for="addr-1">{{ 'customer.addresses.address1' | t }}</label><input id="addr-1" type="text" name="address[address1]"></div>
+    <div class="contact__field"><label for="addr-city">{{ 'customer.addresses.city' | t }}</label><input id="addr-city" type="text" name="address[city]"></div>
+    <div class="contact__field"><label for="addr-zip">{{ 'customer.addresses.zip' | t }}</label><input id="addr-zip" type="text" name="address[zip]"></div>
+    <div class="contact__field"><label for="addr-country">{{ 'customer.addresses.country' | t }}</label><select id="addr-country" name="address[country]">{{ country_option_tags }}</select></div>
+    <button type="submit" class="btn btn--filled btn--brown"><span>{{ 'customer.addresses.add' | t }}</span></button>
+  {%- endform -%}
+</section>

@@ -1,0 +1,100 @@
+<section class="club" id="{{ section.settings.anchor | default: 'club' }}" aria-labelledby="clubLabel-{{ section.id }}">
+  <div class="club__bg" aria-hidden="true">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 2400 | image_tag: class: 'club__img', alt: '', loading: 'lazy', widths: '800,1200,1800,2400', sizes: '100vw' }}
+    {%- else -%}
+      <img src="{{ 'club_bg.png' | asset_url }}" alt="" class="club__img" width="2400" height="1400" loading="lazy">
+    {%- endif -%}
+  </div>
+
+  <div class="club__inner">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="eyebrow eyebrow--dark">{{ section.settings.eyebrow }}</span>
+    {%- endif -%}
+    <h2 id="clubLabel-{{ section.id }}" class="display-1">{{ section.settings.heading }}</h2>
+    {%- if section.settings.lede != blank -%}
+      <p class="club__lede">{{ section.settings.lede }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="club__benefits">
+        {%- for block in section.blocks -%}
+          <li {{ block.shopify_attributes }}>
+            <span class="club__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.copy }}</p>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    {%- form 'customer', id: 'ritualForm', class: 'club__form' -%}
+      <input type="hidden" name="contact[tags]" value="{{ section.settings.tag | default: 'ritual-club' }}">
+      <input type="hidden" name="contact[accepts_marketing]" value="true">
+      <label for="ritualEmail-{{ section.id }}" class="sr-only">{{ 'sections.club.email_label' | t }}</label>
+      <input
+        id="ritualEmail-{{ section.id }}"
+        name="contact[email]"
+        type="email"
+        required
+        autocomplete="email"
+        placeholder="{{ section.settings.placeholder }}"
+        value="{{ form.email }}"
+        aria-describedby="ritualMessage-{{ section.id }}">
+      <button type="submit" class="btn btn--filled btn--red">
+        <span>{{ section.settings.cta_label }}</span>
+      </button>
+
+      <p class="club__message" id="ritualMessage-{{ section.id }}" role="status" aria-live="polite">
+        {%- if form.errors -%}
+          {{ form.errors.messages['email'] }}
+        {%- elsif form.posted_successfully? -%}
+          {{ section.settings.success_message }}
+        {%- endif -%}
+      </p>
+    {%- endform -%}
+
+    {%- if section.settings.legal != blank -%}
+      <p class="club__legal">{{ section.settings.legal }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Ritual club",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Anchor id", "default": "club" },
+    { "type": "image_picker", "id": "image", "label": "Background image" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Inner Circle" },
+    { "type": "html", "id": "heading", "label": "Heading", "default": "Join the<br /><em>Ritual Club.</em>" },
+    { "type": "textarea", "id": "lede", "label": "Lede", "default": "Early access to drops. Exclusive rituals. First to know, last to leave." },
+    { "type": "text", "id": "placeholder", "label": "Input placeholder", "default": "your@ritual.com" },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Begin the Ritual" },
+    { "type": "text", "id": "tag", "label": "Customer tag", "default": "ritual-club" },
+    { "type": "text", "id": "success_message", "label": "Success message", "default": "The ritual has begun. Check your inbox for a welcome." },
+    { "type": "html", "id": "legal", "label": "Legal note", "default": "By joining, you agree to our privacy promise. Unsubscribe in one tap." }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Early Drop Access" },
+        { "type": "text", "id": "copy", "label": "Copy", "default": "48 hours before public release." }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Ritual club",
+      "blocks": [
+        { "type": "benefit", "settings": { "title": "Early Drop Access", "copy": "48 hours before public release." } },
+        { "type": "benefit", "settings": { "title": "Complimentary Samples", "copy": "Two shades with every order." } },
+        { "type": "benefit", "settings": { "title": "Ritual Rewards", "copy": "Earn toward a complimentary set." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

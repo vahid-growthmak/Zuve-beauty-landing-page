@@ -1,0 +1,21 @@
+{%- liquid
+  assign heading = page.metafields.custom.display_title.value | default: page.title
+  assign lede = page.metafields.custom.lede.value | default: section.settings.lede
+-%}
+
+{% render 'page-hero', title: heading, lede: lede, crumb: page.title %}
+
+{%- if page.content != blank -%}
+  <div class="page-body rte">
+    {{ page.content }}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Page",
+  "settings": [
+    { "type": "textarea", "id": "lede", "label": "Lede (used when the page has no lede metafield)" }
+  ]
+}
+{% endschema %}

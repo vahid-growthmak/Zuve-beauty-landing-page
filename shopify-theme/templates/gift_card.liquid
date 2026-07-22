@@ -1,0 +1,8 @@
+<section class="page-body rte" style="max-width:640px;margin:0 auto;padding:var(--space-2xl) var(--gutter);text-align:center;">
+  <h1 class="display-1">{{ 'gift_cards.issued.title' | t: value: gift_card.initial_value | money }}</h1>
+  <p class="lede">{{ 'gift_cards.issued.subtext' | t: shop: shop.name }}</p>
+  <img src="{{ gift_card.qr_identifier }}" alt="{{ gift_card.code }}" width="200" height="200">
+  <p class="pdp__price">{{ gift_card.code | format_code }}</p>
+  <p>{{ 'gift_cards.issued.remaining' | t: balance: gift_card.balance | money }}</p>
+  <a href="{{ shop.url }}" class="btn btn--filled btn--brown"><span>{{ 'gift_cards.issued.shop_link' | t }}</span></a>
+</section>
